@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace iTechArt.iTechQuiz.WebApp
 {
@@ -13,6 +14,10 @@ namespace iTechArt.iTechQuiz.WebApp
     {
         public static void Main(string[] args)
         {
+            string outputTemplate = "{Timestamp:yyyy-MM-ddHH: mm: ss.fff}[{Level}] {Message}{NewLine}{Exception}";
+            Log.Logger = new LoggerConfiguration().WriteTo.File("log.txt",
+            rollingInterval: RollingInterval.Day, 
+            outputTemplate: outputTemplate).CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -21,6 +26,6 @@ namespace iTechArt.iTechQuiz.WebApp
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseSerilog();
     }
 }
