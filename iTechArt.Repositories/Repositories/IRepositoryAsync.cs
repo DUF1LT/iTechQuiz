@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace iTechArt.Repositories
 {
-    interface IRepositoryAsync<T> : IDisposable where T : class
+    public interface IRepositoryAsync<T> : IDisposable where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetAsync(int id);

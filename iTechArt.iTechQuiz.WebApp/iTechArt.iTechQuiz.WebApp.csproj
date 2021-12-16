@@ -9,8 +9,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
+    <ProjectReference Include="..\iTechArt.iTechQuiz.Domain\iTechArt.iTechQuiz.Domain.csproj" />
+    <ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
+    <ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
+    <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
