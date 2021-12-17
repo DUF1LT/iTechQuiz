@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Domain;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.Repositories;
+using iTechArt.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Repositories
 {
-    public class UserRepository : IRepositoryAsync<User>
+    public class UserRepository : IRepository<User>
     {
         private iTechQuizContext _context;
+
+
         public UserRepository(iTechQuizContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
+
 
         public async Task<User> GetAsync(int id)
         {
@@ -37,8 +36,10 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
         public async void DeleteAsync(int id)
         {
             User user = await _context.Users.FindAsync(id);
-            if(user != null)
+            if (user != null)
+            {
                 _context.Users.Remove(user);
+            }
         }
 
         public void SaveAsync()
@@ -48,7 +49,7 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
 
         public void Dispose()
         {
-            _context.DisposeAsync();
+            _context.Dispose();
         }
     }
 }

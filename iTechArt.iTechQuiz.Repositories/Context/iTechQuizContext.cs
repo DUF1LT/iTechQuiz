@@ -1,4 +1,4 @@
-﻿using iTechArt.iTechQuiz.Domain;
+﻿using iTechArt.iTechQuiz.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Context
@@ -7,10 +7,8 @@ namespace iTechArt.iTechQuiz.Repositories.Context
     {
         public DbSet<User> Users;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            Database.EnsureCreated();
-        }
+        public iTechQuizContext(DbContextOptions options)
+        : base(options)
+        { }
     }
 }

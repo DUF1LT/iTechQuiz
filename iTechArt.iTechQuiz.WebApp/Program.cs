@@ -9,9 +9,11 @@ namespace iTechArt.iTechQuiz.WebApp
         public static void Main(string[] args)
         {
             string outputTemplate = "{Timestamp:yyyy-MM-ddHH: mm: ss.fff}[{Level}]{Message}{NewLine}{Exception}";
-            Log.Logger = new LoggerConfiguration().WriteTo.File("log.txt",
-            rollingInterval: RollingInterval.Day, 
-            outputTemplate: outputTemplate).CreateLogger();
+            Log.Logger = new LoggerConfiguration().WriteTo.File(
+                "Logs/log.txt",
+                    rollingInterval: RollingInterval.Day,
+                    outputTemplate: outputTemplate
+                ).CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 

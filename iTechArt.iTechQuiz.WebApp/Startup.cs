@@ -21,7 +21,9 @@ namespace iTechArt.iTechQuiz.WebApp
         {
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllersWithViews();
+
             services.AddTransient<IAppVersionService, AppVersionService>();
         }
 
@@ -33,6 +35,7 @@ namespace iTechArt.iTechQuiz.WebApp
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

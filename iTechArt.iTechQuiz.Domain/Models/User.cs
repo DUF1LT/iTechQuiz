@@ -1,4 +1,4 @@
-﻿namespace iTechArt.iTechQuiz.Domain
+﻿namespace iTechArt.iTechQuiz.Domain.Models
 {
     public class User
     {

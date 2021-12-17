@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace iTechArt.Repositories
+namespace iTechArt.Repositories.Repositories
 {
-    public interface IRepositoryAsync<T> : IDisposable where T : class
+    public interface IRepository<T> : IDisposable where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetAsync(int id);
+
         void CreateAsync(T item);
+
         void UpdateAsync(T item);
+
         void DeleteAsync(int id);
+
         void SaveAsync();
     }
 }
