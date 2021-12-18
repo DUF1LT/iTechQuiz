@@ -1,8 +1,10 @@
-﻿namespace iTechArt.iTechQuiz.Domain.Models
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+
+namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class User
+    public class User : IdentityUser<Guid>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Mail { get; set; }
         public string Password { get; set; }

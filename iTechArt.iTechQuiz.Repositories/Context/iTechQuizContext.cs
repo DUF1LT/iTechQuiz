@@ -1,9 +1,12 @@
-﻿using iTechArt.iTechQuiz.Domain.Models;
+﻿using System;
+using iTechArt.iTechQuiz.Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Context
 {
-    public class iTechQuizContext : DbContext
+    public class iTechQuizContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<User> Users;
 
