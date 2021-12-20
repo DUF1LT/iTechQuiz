@@ -8,8 +8,6 @@ namespace iTechArt.iTechQuiz.Repositories.Context
 {
     public class iTechQuizContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public DbSet<User> Users;
-
         public iTechQuizContext(DbContextOptions options)
         : base(options)
         { }

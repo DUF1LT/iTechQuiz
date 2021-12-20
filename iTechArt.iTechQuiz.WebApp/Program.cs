@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -8,12 +11,15 @@ namespace iTechArt.iTechQuiz.WebApp
     {
         public static void Main(string[] args)
         {
-            string outputTemplate = "{Timestamp:yyyy-MM-ddHH: mm: ss.fff}[{Level}]{Message}{NewLine}{Exception}";
-            Log.Logger = new LoggerConfiguration().WriteTo.File(
-                "Logs/log.txt",
-                    rollingInterval: RollingInterval.Day,
-                    outputTemplate: outputTemplate
-                ).CreateLogger();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
             CreateHostBuilder(args).Build().Run();
         }
 

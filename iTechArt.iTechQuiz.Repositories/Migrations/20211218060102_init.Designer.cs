@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iTechArt.iTechQuiz.Repositories.Context;
 
 namespace iTechArt.iTechQuiz.Repositories.Migrations

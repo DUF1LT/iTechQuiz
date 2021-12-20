@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.Repositories.Repositories;
@@ -17,8 +16,8 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
             _context = context;
         }
 
-
-        public async Task<User> GetAsync(int id)
+        
+        public async Task<User> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
@@ -40,11 +39,6 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
             {
                 _context.Users.Remove(user);
             }
-        }
-
-        public void SaveAsync()
-        {
-            _context.SaveChangesAsync();
         }
 
         public void Dispose()
