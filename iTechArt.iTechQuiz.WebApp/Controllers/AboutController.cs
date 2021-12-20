@@ -14,7 +14,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         //GET: Index
         public IActionResult Index()
         {
-            _logger.LogInformation("Get About/Index");
             return View();
         }
     }
