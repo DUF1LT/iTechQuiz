@@ -10,7 +10,7 @@ namespace iTechArt.iTechQuiz.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private static Dictionary<Type, object> _repositories;
+        private Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
         private readonly iTechQuizContext _context;
 
@@ -28,7 +28,7 @@ namespace iTechArt.iTechQuiz.Repositories.UnitOfWork
                 return _repositories[typeof(TEntity)] as IRepository<TEntity>;
             }
 
-            var repository = new GenericRepository<TEntity>(_context);
+            var repository = new Repository<TEntity>(_context);
             _repositories.Add(typeof(TEntity), repository);
 
             return repository;

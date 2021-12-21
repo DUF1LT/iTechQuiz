@@ -1,25 +1,25 @@
-﻿using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Domain.Models;
+﻿using System;
+using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Repositories
 {
-    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private iTechQuizContext _context;
-        private DbSet<TEntity> _dbSet;
+        private readonly iTechQuizContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
 
-        public GenericRepository(iTechQuizContext context)
+        public Repository(iTechQuizContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
 
         
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }

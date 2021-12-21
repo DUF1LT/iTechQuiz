@@ -1,5 +1,7 @@
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
+using iTechArt.iTechQuiz.Repositories.UnitOfWork;
+using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,8 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddControllersWithViews();
 
             services.AddTransient<IAppVersionService, AppVersionService>();
+
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -5,7 +5,7 @@ namespace iTechArt.Repositories.Repositories
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(Guid id);
 
         void CreateAsync(TEntity entity);
 
