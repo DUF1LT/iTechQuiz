@@ -1,4 +1,5 @@
-﻿using iTechArt.Repositories.Repositories;
+﻿using System.Threading.Tasks;
+using iTechArt.Repositories.Repositories;
 
 namespace iTechArt.Repositories.UnitOfWork
 {
@@ -6,6 +7,6 @@ namespace iTechArt.Repositories.UnitOfWork
     {
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
 
-        void SaveAsync();
+        Task SaveAsync();
     }
 }

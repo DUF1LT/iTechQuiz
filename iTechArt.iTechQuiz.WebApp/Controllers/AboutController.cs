@@ -1,19 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Threading.Tasks;
+using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AboutController : Controller
     {
-        private readonly ILogger<AboutController> _logger;
-        public AboutController(ILogger<AboutController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+
+
+        public AboutController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
+
         //GET: Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            User user = new User();
+            user.Id = Guid.NewGuid();
+            user.UserName = "admin";
+            user.Email = "admin@itechart.com";
+            user.PasswordHash = "admin".GetHashCode().ToString();
+
+            await _unitOfWork.GetRepository<User>().CreateAsync(user);
+            await _unitOfWork.SaveAsync();
+
             return View();
         }
     }

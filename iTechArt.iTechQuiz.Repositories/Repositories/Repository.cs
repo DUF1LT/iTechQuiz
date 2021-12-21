@@ -24,7 +24,7 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async void CreateAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
         }
@@ -34,18 +34,13 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             TEntity entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
             }
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddTransient<IAppVersionService, AppVersionService>();
 
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
