@@ -1,9 +1,14 @@
+using System;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
 using iTechArt.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +32,17 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddControllersWithViews();
 
+            services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<iTechQuizContext>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
+
             services.AddTransient<IAppVersionService, AppVersionService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -45,7 +61,13 @@ namespace iTechArt.iTechQuiz.WebApp
 
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
+
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
