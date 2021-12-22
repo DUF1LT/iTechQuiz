@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using iTechArt.Repositories.Entity;
 
 namespace iTechArt.Repositories.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : BaseEntity
     {
         Task<TEntity> GetByIdAsync(Guid id);
 
@@ -11,6 +12,6 @@ namespace iTechArt.Repositories.Repositories
 
         void Update(TEntity item);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
     }
 }
