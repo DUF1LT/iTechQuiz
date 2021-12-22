@@ -18,17 +18,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         //GET: Index
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            User user = new User();
-            user.Id = Guid.NewGuid();
-            user.UserName = "admin";
-            user.Email = "admin@itechart.com";
-            user.PasswordHash = "admin".GetHashCode().ToString();
-
-            await _unitOfWork.GetRepository<User>().CreateAsync(user);
-            await _unitOfWork.SaveAsync();
-
             return View();
         }
     }
