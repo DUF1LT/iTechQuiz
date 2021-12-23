@@ -1,5 +1,4 @@
 using System;
-using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
@@ -32,9 +31,11 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddControllersWithViews();
 
-            services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
             {
                 options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<iTechQuizContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

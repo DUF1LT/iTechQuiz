@@ -5,8 +5,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        //GET: Index
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();

@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Domain.Models;
-using iTechArt.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AboutController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<IdentityUser<Guid>> _userManager;
+        private readonly SignInManager<IdentityUser<Guid>> _signInManager;
 
 
-        public AboutController(IUnitOfWork unitOfWork)
+        public AboutController(UserManager<IdentityUser<Guid>> userManager, SignInManager<IdentityUser<Guid>> signInManager)
         {
-            _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
-        //GET: Index
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
