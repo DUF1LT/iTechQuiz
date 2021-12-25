@@ -5,7 +5,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Login")]
+        [Display(Name = "Login (email)")]
         public string Login { get; set; }
 
         [Required]
