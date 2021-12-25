@@ -36,10 +36,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Wrong login and (or) password");
+
+                ModelState.AddModelError("WrongLoginOrPassword", "Wrong login and (or) password");
             }
 
             return View(model);

@@ -13,7 +13,12 @@ namespace iTechArt.Common.Extensions
             bool shouldLockout)
         {
             var user = await signInManager.UserManager.FindByEmailAsync(email);
-            return await signInManager.PasswordSignInAsync(user.UserName, password, isPersistent, shouldLockout);
+            if (user != null)
+            {
+                return await signInManager.PasswordSignInAsync(user.UserName, password, isPersistent, shouldLockout);
+            }
+
+            return SignInResult.Failed;
         }
     }
 }
