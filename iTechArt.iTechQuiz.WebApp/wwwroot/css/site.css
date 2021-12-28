@@ -63,6 +63,7 @@ body {
 
 .footer {
     text-align: center;
+    display: block;
     position: absolute;
     bottom: 0;
     width: 100%;

@@ -1,0 +1,19 @@
+﻿@using iTechArt.iTechQuiz.Repositories.Constants
+
+<aside class="aside-wrapper">
+    <a href="#">
+        New Survey
+    </a>
+    <a href="#">
+        My Surveys
+    </a>
+    <a href="#">
+        Surveys Templates
+    </a>
+    @if (User.IsInRole(Roles.Admin))
+    {
+        <a asp-controller="Admin" asp-action="Users">
+            Users
+        </a>
+    }
+</aside>
