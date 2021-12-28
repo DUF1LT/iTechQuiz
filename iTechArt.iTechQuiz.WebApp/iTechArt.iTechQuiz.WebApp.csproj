@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.12">
@@ -27,6 +28,10 @@
     <ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
     <ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
     <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
 
 </Project>

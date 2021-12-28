@@ -1,37 +1,43 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using iTechArt.iTechQuiz.Repositories.Constants
+
+<!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - iTechQuiz</title>
-        <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <title>@ViewBag.Title</title>
-    </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">iTechQuiz</a>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About</a>
-                            </li>
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
-                    <a class="navbar-brand"></a>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - iTechQuiz</title>
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/img/logo.svg"/></a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
                 </div>
-            </nav>
-        </header>
-        <div>
-            @RenderBody()
-        </div>
-        <script src="lib/jquery/jquery.min.js"></script>
-        <script src="lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="js/site.js" asp-append-version="true"></script>
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
+                <a class="navbar-brand"></a>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+    <footer class="footer">
+        Copyright &copy; 2021 iTechArt
+    </footer>
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
 </html>

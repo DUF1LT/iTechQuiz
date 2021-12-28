@@ -29,7 +29,7 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
             {
