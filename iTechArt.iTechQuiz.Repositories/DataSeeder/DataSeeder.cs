@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iTechArt.iTechQuiz.Repositories.Constants;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.iTechQuiz.Repositories.DataSeeder
@@ -13,17 +14,22 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
         {
             string adminEmail = "admin@itechart.com";
             string password = "Adm!n2021";
-            if (await roleManager.FindByNameAsync("admin") == null)
+
+            if (await roleManager.FindByNameAsync(Roles.Admin) is null)
             {
-                await roleManager.CreateAsync(new IdentityRole<Guid>("admin"));
+                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.Admin));
             }
-            if (await userManager.FindByNameAsync(adminEmail) == null)
+            if (await roleManager.FindByNameAsync(Roles.User) is null)
             {
-                IdentityUser<Guid> admin = new IdentityUser<Guid> { Email = adminEmail, UserName = "admin" };
+                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.User));
+            }
+            if (await userManager.FindByNameAsync("admin") is null)
+            {
+                IdentityUser<Guid> admin = new IdentityUser<Guid> { Email = adminEmail, UserName = Roles.Admin };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
+                    await userManager.AddToRoleAsync(admin, Roles.Admin);
                 }
             }
         }

@@ -29,20 +29,18 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordEmailSignInAsync(model.Login, model.Password, false, false);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+            if (!ModelState.IsValid)
+                return View(model);
 
+            var result = await _signInManager.PasswordEmailSignInAsync(model.Login, model.Password, false, false);
+            if (!result.Succeeded)
+            {
                 ModelState.AddModelError("WrongLoginOrPassword", "Wrong login and (or) password");
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
