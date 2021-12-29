@@ -10,13 +10,13 @@
         <h2>Login to your account</h2>
         <div class="login-input-wrapper">
             <input asp-for="Login" class="form-control" placeholder="Login" />
-            <span asp-validation-for="Login" class="text-danger"></span>
+            <span asp-validation-for="Login" class="login-input-validation"></span>
         </div>
         <div class="login-input-wrapper">
             <input asp-for="Password" class="form-control" placeholder="Password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <span asp-validation-for="Password" class="login-input-validation"></span>
         </div>
-        @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "text-danger" })
+        @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
         <button type="submit">Login</button>
     </form>
 </section>
