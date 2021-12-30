@@ -23,6 +23,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(new LoginViewModel());
         }
 
