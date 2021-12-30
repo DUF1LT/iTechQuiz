@@ -7,25 +7,49 @@
     <title>@ViewData["Title"] - iTechQuiz</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="stylesheet" href="~/css/nav.css" />
+    <link rel="icon" href="~/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>@ViewBag.Title</title>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">iTechQuiz</a>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Index">About</a>
-                    </li>
-                </ul>
+    <header>
+        <nav class="navigation">
+            <a class="" asp-controller="Home" asp-action="Index">
+                <img src="~/img/logo.svg" height="32"/>
+            </a>
+            <div class="navigation-options">
+                <a asp-controller="Home" asp-action="About">About</a>
+                @if (@User.Identity.IsAuthenticated)
+                {
+                    <div class="navigation-dropdown">
+                        <div id="dropdown-button" class="navigation-dropdown-button">
+                            <img src="~/img/user.png" height="16" />
+                            <span>Hello, @User.Identity.Name!</span>
+                            <img class="navigation-dropdown-arrow" src="~/img/downward-arrow.png" height="16" />
+                        </div>
+                        <div id="dropdown" class="navigation-dropdown-menu">
+                            <form asp-controller="Account" asp-action="Logout">
+                                <button class="navigation-logout" type="submit">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Login</a>
+                }
             </div>
-        </div>
-    </nav>
-</header>
-<div>
-    @RenderBody()
-</div>
+        </nav>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="footer">Copyright &copy; 2021 iTechArt</footer>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

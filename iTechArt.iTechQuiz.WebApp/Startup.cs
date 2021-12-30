@@ -1,9 +1,14 @@
+using System;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
 using iTechArt.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +30,20 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<iTechQuizContext>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
 
             services.AddTransient<IAppVersionService, AppVersionService>();
 
@@ -45,13 +63,20 @@ namespace iTechArt.iTechQuiz.WebApp
 
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
+
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}")
+                    .RequireAuthorization();
             });
         }
     }
