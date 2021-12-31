@@ -2,31 +2,25 @@
 
 @{
     ViewData["Title"] = "Log in";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>You should log in first before accessing iTechQuiz</h1>
-
-<h4>Enter your credentials</h4>
-<hr />
-<div class="row">
-    <div class="col-md-5">
-        <form asp-controller="Account" asp-action="Login" method="post">
-            <div class="form-group">
-                <label asp-for="Login" class="control-label"></label>
-                <input asp-for="Login" class="form-control" />
-                <span asp-validation-for="Login" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            @Html.ValidationMessage("WrongLoginOrPassword", new {@class = "text-danger"} )
-            <div class="form-group p-1">
-                <input type="submit" value="Log in" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<section class="login-section">
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <h2>Login to your account</h2>
+        <div class="login-input-wrapper">
+            <input asp-for="Login" class="form-control" placeholder="Login" />
+            <span asp-validation-for="Login" class="login-input-validation"></span>
+        </div>
+        <div class="login-input-wrapper">
+            <input asp-for="Password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password" class="login-input-validation"></span>
+        </div>
+        <div class="login-section-additionals">
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="Register">Forgot password?</a>
+        </div>
+        @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
+        <button type="submit">Login</button>
+    </form>
+</section>
 

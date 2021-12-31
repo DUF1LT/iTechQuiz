@@ -17,7 +17,7 @@
   ,
 {
   "library": "jquery@3.6.0",
-  "destination": "wwwroot/jquery/"
+  "destination": "wwwroot/lib/jquery/"
 }
 ]
 }

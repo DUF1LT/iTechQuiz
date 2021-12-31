@@ -4,6 +4,7 @@ using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
 using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -76,7 +77,8 @@ namespace iTechArt.iTechQuiz.WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}")
+                    .RequireAuthorization();
             });
         }
     }

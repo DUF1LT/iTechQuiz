@@ -7,11 +7,6 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-    color: #0366d6;
-}
-
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -63,13 +58,11 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    overflow-x: hidden;
-    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
 }
 
 .footer {
     text-align: center;
-    display: block;
     position: absolute;
     bottom: 0;
     width: 100%;
