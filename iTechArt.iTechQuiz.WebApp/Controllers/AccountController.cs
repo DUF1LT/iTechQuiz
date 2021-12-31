@@ -12,10 +12,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser<Guid>> _signInManager;
+        private readonly UserManager<IdentityUser<Guid>> _userManager;
 
 
-        public AccountController(SignInManager<IdentityUser<Guid>> signInManager)
+        public AccountController(UserManager<IdentityUser<Guid>> userManager, SignInManager<IdentityUser<Guid>> signInManager)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
         }
 
@@ -63,12 +65,19 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(new RegisterViewModel());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
