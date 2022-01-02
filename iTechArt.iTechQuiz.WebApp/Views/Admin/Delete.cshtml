@@ -1,0 +1,28 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel
+
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper-centered">
+    <div class="admin-delete">
+        <h2>Are you sure you want to <span class="text-bold">delete</span> this user?</h2>
+
+        <div>
+            <div class="admin-delete__info">
+                <span>@Html.DisplayNameFor(model => model.UserName):</span> @Model.UserName
+            </div>
+            <div class="admin-delete__info">
+                <span>@Html.DisplayNameFor(model => model.Email):</span> @Model.Email
+            </div>
+            <div class="admin-delete__info">
+                <span>@Html.DisplayNameFor(model => model.Role):</span> @Model.Role
+            </div>
+        </div>
+
+        <div class="admin-delete__buttons">
+            <a asp-action="Users" class="admin_delete__button">Back to list</a>
+            <form asp-action="ConfirmDelete" asp-route-id="@Model.Id" method="post">
+                <input type="submit" value="Delete" class="admin_delete__submit" />
+            </form>
+        </div>
+    </div>
+</div>

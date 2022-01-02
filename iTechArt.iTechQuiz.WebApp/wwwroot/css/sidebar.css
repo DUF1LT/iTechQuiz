@@ -30,6 +30,10 @@
     border-bottom: 1px solid #fff;
 }
 
+.aside-wrapper a:last-child:hover {
+    border-bottom: 1px solid #EB3D26;
+}
+
 .aside-wrapper a:hover {
     background-color: #EB3D26;
     border-top: 1px solid #EB3D26;
