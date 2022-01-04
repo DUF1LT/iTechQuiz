@@ -18,10 +18,10 @@
             </div>
         </div>
 
-        <div class="admin-delete__buttons">
-            <a asp-action="Users" class="admin_delete__button">Back to list</a>
+        <div class="admin__buttons">
+            <a asp-action="Users" class="button">Back to list</a>
             <form asp-action="ConfirmDelete" asp-route-id="@Model.Id" method="post">
-                <input type="submit" value="Delete" class="admin_delete__submit" />
+                <input type="submit" value="Delete" class="admin__submit" />
             </form>
         </div>
     </div>

@@ -3,35 +3,38 @@
 
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Role)
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </th>
-                <th>
-                    @Html.DisplayFor(modelItem => item.Role)
-                </th>
-                <th>
-                    <a asp-controller="Admin" asp-action="Edit">Edit</a> |
-                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </th>
-            </tr>
-        }
-    </table>
+    <div class="admin-users">
+        <h2>Users</h2>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Role)
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </th>
+                    <th>
+                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </th>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
