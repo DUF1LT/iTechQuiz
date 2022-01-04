@@ -1,4 +1,45 @@
-﻿.admin-delete {
+﻿/*General*/
+
+
+.admin__buttons {
+    display: flex;
+    width: 65%;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+
+
+.admin__submit {
+    width: 110px;
+    height: 40px;
+    border: 2px solid #d33722;
+    background-color: transparent;
+    font-weight: 500;
+    color: #d33722;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.admin__submit:hover {
+    background-color: #d33722;
+    color: #fff;
+    border: 2px solid #d33722;
+}
+
+/*Users*/
+
+.admin-users {
+    display: flex;
+    padding: 30px 30px;
+    width: 80%;
+    row-gap: 10px;  
+    flex-direction: column;
+}
+
+/*Delete*/
+
+.admin-delete {
     display: flex;
     width: 800px;
     flex-direction: column;
@@ -20,47 +61,144 @@
     font-weight: 800;
 }
 
-.admin_delete__submit {
-    width: 110px;
-    height: 40px;
-    border: 2px solid #d33722;
-    background-color: transparent;
-    font-weight: 500;
-    color: #d33722;
-    cursor: pointer;
-    transition: 0.25s;
-}
+/*Edit*/
 
-.admin_delete__submit:hover {
-    background-color: #d33722;
-    color: #fff;
-    border: 2px solid #d33722;
-}
-
-.admin_delete__button {
-    width: 110px;
-    padding: 6px 0;
-    text-decoration: none;
-    text-align: center;
-    display: block;
-    border: 2px solid #272727;
-    background-color: transparent;
-    font-weight: 500;
-    color: #272727;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.admin_delete__button:hover {
-    background-color: #272727;
-    color: #fff;
-    border: 2px solid #272727;
-}
-
-.admin-delete__buttons {
+.admin-edit {
     display: flex;
-    width: 65%;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    column-gap: 20px;
+    padding: 70px
 }
+
+.admin-edit__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+    width: 450px;
+}
+
+.admin-edit__input-wrapper {
+    width: 100%;
+}
+
+.admin-edit__input-validation-summary {
+    color: #d33722;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: -5px;
+}
+
+.admin-edit__password-validation {
+    color: #d33722;
+    font-size: 12px;
+    display: block;
+}
+
+.admin-edit__password-validation-summary {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1px;
+}
+
+.admin-edit__password-validation:first-child {
+    margin-top: -10px;
+}
+
+.admin-edit__input-validation {
+    margin-top: 3px;
+    height: 15px;
+    color: #d33722;
+    font-size: 12px;
+    display: block;
+}
+
+.admin-edit__additional-validation {
+    height: 10px;
+    margin-top: -15px;
+    color: #d33722;
+    font-size: 12px;
+    display: block;
+}
+
+.admin-edit__role-and-password {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-edit__role-and-password a{
+    color: #d33722;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.admin-edit__role-and-password a:hover {
+    color: #8f1b0c;
+}
+
+.admin-edit__role {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.admin-edit__switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+}
+
+.admin-edit__switch-input {
+    opacity: 0;
+    width: 30px;
+    height: 17px;
+}
+
+.admin-edit__slider {
+    position: absolute;
+    cursor: pointer;
+    z-index: -3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.admin-edit__slider:before {
+    position: absolute;
+    content: "";
+    height: 11px;
+    width: 11px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+.admin-edit__slider {
+    border-radius: 17px;
+}
+
+.admin-edit__slider:before {
+    border-radius: 50%;
+}
+
+.admin-edit__switch-input:checked + .admin-edit__slider {
+    background-color: #d33722;
+}
+
+.admin-edit__switch-input:focus + .admin-edit__slider {
+    box-shadow: 0 0 1px #d33722;
+}
+
+.admin-edit__switch-input:checked + .admin-edit__slider:before {
+    transform: translateX(12px);
+}
+

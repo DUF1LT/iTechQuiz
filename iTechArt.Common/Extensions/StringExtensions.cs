@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
-using System.Text;
 
 namespace iTechArt.Common.Extensions
 {
-    public static class CapitalizeFirstLetterExtension
+    public static class StringExtensions
     {
         public static string CapitalizeFirstLetter(this string input)
         {

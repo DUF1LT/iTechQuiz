@@ -1,0 +1,29 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper-centered">
+    <section class="admin-edit">
+        <form class="admin-edit__form" asp-action="Edit" method="post">
+            <h2>Edit existing user</h2>
+            <div class="admin-edit__input-wrapper">
+                <input asp-for="UserName" class="form-control" placeholder="Username" value="@Model.UserName" />
+                <span asp-validation-for="UserName" class="admin-edit__input-validation"></span>
+                @Html.ValidationMessage("DuplicateUserName", new { @class = "admin-edit__additional-validation" })
+                <input asp-for="Email" class="form-control" placeholder="Login (email)" value="@Model.Email" />
+                <span asp-validation-for="Email" class="admin-edit__input-validation"></span>
+                @Html.ValidationMessage("DuplicateEmail", new { @class = "admin-edit__additional-validation" })
+                <div class="admin-edit__role-and-password">
+                    <div class="admin-edit__role">
+                        <span>Admin</span>
+                        <div class="admin-edit__switch">
+                            @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "admin-edit__switch-input" })
+                            <span class="admin-edit__slider"></span>
+                        </div>
+                    </div>
+                    <a asp-action="EditPassword" asp-route-id="@Model.Id">Edit password</a>
+                </div>
+            </div>
+            <button type="submit" class="button">Edit</button>
+        </form>
+    </section>
+</div>
