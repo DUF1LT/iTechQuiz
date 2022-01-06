@@ -1,10 +1,11 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using iTechArt.iTechQuiz.Foundation.Providers;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
 using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,14 +33,15 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<iTechQuizContext>();
+            services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                }).AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<iTechQuizContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -48,7 +50,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 });
 
             services.AddTransient<IAppVersionService, AppVersionService>();
-
+            services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
