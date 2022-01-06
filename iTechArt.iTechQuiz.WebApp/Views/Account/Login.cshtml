@@ -17,7 +17,7 @@
         </div>
         <div class="login-section-additionals">
             <a asp-controller="Account" asp-action="Register">Register</a>
-            <a href="#">Forgot password?</a>
+            <a asp-controller="Account" asp-action="ForgotPassword">Forgot password?</a>
         </div>
         @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
         <button type="submit">Login</button>

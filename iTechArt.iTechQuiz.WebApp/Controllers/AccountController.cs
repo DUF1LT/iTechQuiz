@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -13,12 +14,16 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     {
         private readonly SignInManager<IdentityUser<Guid>> _signInManager;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
+        private readonly IEmailService _emailService;
+        
 
-
-        public AccountController(UserManager<IdentityUser<Guid>> userManager, SignInManager<IdentityUser<Guid>> signInManager)
+        public AccountController(UserManager<IdentityUser<Guid>> userManager,
+            SignInManager<IdentityUser<Guid>> signInManager,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
 
