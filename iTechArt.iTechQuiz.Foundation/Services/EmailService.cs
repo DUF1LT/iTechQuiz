@@ -9,7 +9,6 @@ namespace iTechArt.iTechQuiz.Foundation.Services
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-
             emailMessage.From.Add(new MailboxAddress("iTechQuiz", "itechquiz@yandex.ru"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
@@ -19,7 +18,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
             };
 
             using var client = new SmtpClient();
-            await client.ConnectAsync("smtp.yandex.ru", 25, true);
+            await client.ConnectAsync("smtp.yandex.ru", 25, false);
             await client.AuthenticateAsync("itechquiz@yandex.ru", "itechquiz2021");
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);

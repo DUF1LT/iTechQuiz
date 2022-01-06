@@ -7,6 +7,7 @@ using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -15,7 +16,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly SignInManager<IdentityUser<Guid>> _signInManager;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
         private readonly IEmailService _emailService;
-        
+
 
         public AccountController(UserManager<IdentityUser<Guid>> userManager,
             SignInManager<IdentityUser<Guid>> signInManager,
@@ -144,10 +145,46 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
-            await _userManager.AddToRoleAsync(user, Roles.User);
-            await _signInManager.SignInAsync(user, false);
+            return View(new ResetPasswordViewModel
+            {
+                Id = id,
+                Token = token
+            });
+        }
 
-            return RedirectToAction("Index", "Home");
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            if (user is null)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+
+            //if (!await _userManager.VerifyUserTokenAsync(user, "PasswordReset", "Reset password token", model.Token))
+            //{
+            //    return View("TokenExpired");
+            //}
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(model);
+            }
+
+            return View("ResetPasswordConfirmation");
         }
     }
 }
