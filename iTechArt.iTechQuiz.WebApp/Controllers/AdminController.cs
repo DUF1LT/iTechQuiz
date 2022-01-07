@@ -185,11 +185,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(new EditPasswordViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                });
+                return View(model);
             }
 
             await _userManager.RemovePasswordAsync(user);
@@ -201,11 +197,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                return View(new EditPasswordViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                });
+                return View(model);
             }
 
             await _userManager.UpdateAsync(user);
