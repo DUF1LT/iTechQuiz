@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
+using iTechArt.iTechQuiz.WebApp.Providers;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -138,7 +140,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Account",
-                new { userId = user.Id, token },
+                new { id = user.Id, token },
                 protocol: HttpContext.Request.Scheme);
 
             await _emailService.SendEmailAsync(model.Email,
@@ -181,14 +183,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View("ResetPasswordConfirmation");
             }
 
-            //if (!await _userManager.VerifyUserTokenAsync(user, "PasswordReset", "Reset password token", model.Token))
-            //{
-            //    return View("TokenExpired");
-            //}
-
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (!result.Succeeded)
             {
+                if (result.Errors.FirstOrDefault(p => p.Code == "InvalidToken") is not null)
+                {
+                    return View("TokenExpired");
+                }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

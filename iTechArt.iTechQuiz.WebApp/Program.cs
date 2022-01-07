@@ -2,11 +2,13 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.DataSeeder;
+using iTechArt.iTechQuiz.WebApp.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace iTechArt.iTechQuiz.WebApp

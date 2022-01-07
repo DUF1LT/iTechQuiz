@@ -1,9 +1,9 @@
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using iTechArt.iTechQuiz.Foundation.Providers;
+using System.Collections.Generic;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
+using iTechArt.iTechQuiz.WebApp.Providers;
 using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -36,12 +36,17 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
+                    options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProviderOptions.ProviderName;
                     options.SignIn.RequireConfirmedAccount = false;
                     options.SignIn.RequireConfirmedEmail = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
-                }).AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<iTechQuizContext>();
+                }).AddEntityFrameworkStores<iTechQuizContext>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<PasswordResetTokenProvider<IdentityUser<Guid>>>(PasswordResetTokenProviderOptions.ProviderName);
+
+            services.Configure<PasswordResetTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromMinutes(10));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
