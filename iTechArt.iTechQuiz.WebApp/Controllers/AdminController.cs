@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.View;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -37,7 +36,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
+                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+                    .CapitalizeFirstLetter()
                 });
             }
 
@@ -56,8 +56,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user))
-                .CapitalizeFirstLetter();
+            var role = (await _userManager.GetFirstUserRoleAsync(user)).CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
@@ -94,15 +93,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            bool isAdmin = await _userManager.UserIsAdminAsync(user, Roles.Admin);
-
             return View(new UserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                IsAdmin = isAdmin
-            });
+                IsAdmin = await _userManager.UserIsAdminAsync(user, Roles.Admin)
+        });
         }
 
         [HttpPost]
@@ -131,7 +128,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             var result = await _userManager.UpdateAsync(user);
-
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
