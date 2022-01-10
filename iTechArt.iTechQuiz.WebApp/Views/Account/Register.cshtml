@@ -23,6 +23,8 @@
             <div class="register-input-password-validation-summary">
                 @Html.ValidationMessage("PasswordTooShort", new { @class = "register-input-password-validation" })
                 @Html.ValidationMessage("PasswordRequiresDigit", new { @class = "register-input-password-validation" })
+                @Html.ValidationMessage("PasswordRequiresLower", new { @class = "register-input-password-validation" })
+
             </div>
         </div>
         <div class="register-input-wrapper">
