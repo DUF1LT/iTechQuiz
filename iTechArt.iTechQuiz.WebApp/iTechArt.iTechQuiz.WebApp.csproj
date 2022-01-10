@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="3.0.0" />
@@ -20,12 +20,12 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
-    <ProjectReference Include="..\iTechArt.iTechQuiz.Domain\iTechArt.iTechQuiz.Domain.csproj" />
-    <ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
-    <ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
-    <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
+		<ProjectReference Include="..\iTechArt.iTechQuiz.Domain\iTechArt.iTechQuiz.Domain.csproj" />
+		<ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
+		<ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
+		<ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-.register-section form{
+.register-section form {
    display: flex;
     background-color: #272727;
     color: #fff;
@@ -74,7 +74,7 @@
     display: block;
 }
 
-.register-input-password-validation-summary{
+.register-input-password-validation-summary {
     display: flex;
     flex-direction: column;
     row-gap: 1px;
