@@ -65,8 +65,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user))
-                .CapitalizeFirstLetter();
+            var role = (await _userManager.GetFirstUserRoleAsync(user)).CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
