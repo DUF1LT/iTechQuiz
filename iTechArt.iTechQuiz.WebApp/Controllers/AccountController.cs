@@ -107,42 +107,5 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View(new RegisterViewModel());
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            IdentityUser<Guid> user = new IdentityUser<Guid>
-            {
-                UserName = model.UserName,
-                Email = model.Email
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-
-                return View(model);
-            }
-
-            await _userManager.AddToRoleAsync(user, Roles.User);
-            await _signInManager.SignInAsync(user, false);
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }
