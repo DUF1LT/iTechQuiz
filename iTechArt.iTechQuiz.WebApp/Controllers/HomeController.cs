@@ -11,8 +11,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return View();
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult About()
         {
             return View();

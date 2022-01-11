@@ -1,0 +1,37 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="register-section">
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <h2>Register new account</h2>
+        <div class="register-input-wrapper">
+            <input asp-for="UserName" class="form-control" placeholder="Username" />
+            <span asp-validation-for="UserName" class="register-input-validation"></span>
+            @Html.ValidationMessage("DuplicateUserName", new { @class = "register-input-additional-validation" })
+        </div>
+        <div class="register-input-wrapper">
+            <input asp-for="Email" class="form-control" placeholder="Login (email)" />
+            <span asp-validation-for="Email" class="register-input-validation"></span>
+            @Html.ValidationMessage("DuplicateEmail", new { @class = "register-input-additional-validation" })
+        </div>
+        <div class="register-input-wrapper">
+            <input asp-for="Password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password" class="register-input-validation"></span>
+            <div class="register-input-password-validation-summary">
+                @Html.ValidationMessage("PasswordTooShort", new { @class = "register-input-password-validation" })
+                @Html.ValidationMessage("PasswordRequiresDigit", new { @class = "register-input-password-validation" })
+                @Html.ValidationMessage("PasswordRequiresLower", new { @class = "register-input-password-validation" })
+
+            </div>
+        </div>
+        <div class="register-input-wrapper">
+            <input asp-for="RepeatPassword" class="form-control" placeholder="Repeat password" />
+            <span asp-validation-for="RepeatPassword" class="register-input-validation"></span>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</section>
+

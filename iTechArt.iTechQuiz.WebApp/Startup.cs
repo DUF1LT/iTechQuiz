@@ -37,6 +37,8 @@ namespace iTechArt.iTechQuiz.WebApp
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<iTechQuizContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

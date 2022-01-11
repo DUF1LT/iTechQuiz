@@ -14,13 +14,30 @@
     row-gap: 15px;
     width: 500px;
     border-radius: 2px;
-    padding: 50px 60px;
+    padding: 40px 60px;
 }
 
 .login-section h2 {
     font-family: Raleway;
     font-size: 24px;
     margin-bottom: 15px;
+}
+
+.login-section-additionals {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-section-additionals a {
+    color: #fff;
+    text-decoration: underline #fff;
+}
+
+.login-section-additionals a:hover {
+    color: #d33722;
+    text-decoration: underline #d33722;
 }
 
 .login-input-validation {
@@ -36,7 +53,7 @@
     font-size: 14px;
     display: block;
     height: 20px;
-    margin-top: -20px;
+    margin-top: -5px;
     margin-bottom: 10px;
 }
 

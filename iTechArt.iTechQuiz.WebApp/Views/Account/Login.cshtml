@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Log in";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <section class="login-section">
@@ -15,6 +14,10 @@
         <div class="login-input-wrapper">
             <input asp-for="Password" class="form-control" placeholder="Password" />
             <span asp-validation-for="Password" class="login-input-validation"></span>
+        </div>
+        <div class="login-section-additionals">
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="Register">Forgot password?</a>
         </div>
         @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
         <button type="submit">Login</button>
