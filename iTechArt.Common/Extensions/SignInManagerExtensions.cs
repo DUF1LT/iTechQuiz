@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using iTechArt.iTechQuiz.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Common.Extensions
 {
     public static class SignInManagerExtensions
     {
-        public static async Task<SignInResult> PasswordEmailSignInAsync(this SignInManager<IdentityUser<Guid>> signInManager, 
+        public static async Task<SignInResult> PasswordEmailSignInAsync(this SignInManager<User<Guid>> signInManager, 
             string email, 
             string password,
             bool isPersistent,

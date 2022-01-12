@@ -1,5 +1,6 @@
 using System;
 using iTechArt.Common.Services.EmailService;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
@@ -40,7 +41,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-            services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
+            services.AddIdentity<User<Guid>, IdentityRole<Guid>>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
                     options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProviderOptions.ProviderName;
@@ -50,7 +51,7 @@ namespace iTechArt.iTechQuiz.WebApp
                     options.Password.RequireNonAlphanumeric = false;
                 }).AddEntityFrameworkStores<iTechQuizContext>()
                 .AddDefaultTokenProviders()
-                .AddTokenProvider<PasswordResetTokenProvider<IdentityUser<Guid>>>(PasswordResetTokenProviderOptions.ProviderName);
+                .AddTokenProvider<PasswordResetTokenProvider<User<Guid>>>(PasswordResetTokenProviderOptions.ProviderName);
 
             services.Configure<PasswordResetTokenProviderOptions>(o =>
                 o.TokenLifespan = TimeSpan.FromMinutes(10));
