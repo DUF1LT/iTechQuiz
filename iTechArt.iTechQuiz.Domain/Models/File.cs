@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
@@ -11,6 +9,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
         public string Name { get; set; }
 
         public byte[] Bytes { get; set; }
+
+        public Guid AnswerId { get; set; }
 
         public Answer Answer { get; set; }
     }

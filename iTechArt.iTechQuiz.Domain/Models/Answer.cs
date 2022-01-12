@@ -10,6 +10,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public User<Guid> User { get; set; }
 
+        public Guid FileId { get; set; }
+
         public File File { get; set; }
 
         public string Text { get; set; }

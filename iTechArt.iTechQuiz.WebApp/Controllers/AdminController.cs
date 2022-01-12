@@ -35,7 +35,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> Users()
         {
             List<UserViewModel> users = new List<UserViewModel>();
-            foreach (var user in _userManager.Users.ToList())
+            foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
             {
                 users.Add(new UserViewModel
                 {

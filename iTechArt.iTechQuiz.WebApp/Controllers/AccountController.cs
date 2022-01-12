@@ -96,7 +96,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             User<Guid> user = new User<Guid>()
             {
                 UserName = model.UserName,
-                Email = model.Email
+                Email = model.Email,
+                RegisteredAt = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

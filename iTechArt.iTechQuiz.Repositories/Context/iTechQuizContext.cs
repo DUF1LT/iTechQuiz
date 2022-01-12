@@ -8,11 +8,13 @@ namespace iTechArt.iTechQuiz.Repositories.Context
 {
     public class iTechQuizContext : IdentityDbContext<User<Guid>, IdentityRole<Guid>, Guid>
     {
-        public DbSet<Survey> Survey { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
 
         public DbSet<Answer> Answers { get; set; }
 
         public DbSet<Question> Questions { get; set; }
+
+        public DbSet<File> Files { get; set; }
 
         public DbSet<UsersPassSurveys> UsersPassSurveys { get; set; }
 
@@ -65,13 +67,13 @@ namespace iTechArt.iTechQuiz.Repositories.Context
                 .HasOne(e => e.Survey)
                 .WithMany(e => e.UsersPassed)
                 .HasForeignKey(e => e.SurveyId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<UsersPassSurveys>()
                 .HasOne(e => e.User)
                 .WithMany(e => e.PassedSurveys)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Question>()
                 .HasMany(e => e.Answers)
@@ -86,11 +88,12 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             builder.Entity<Answer>()
                 .HasOne(e => e.User)
                 .WithMany(e => e.Answers)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Answer>()
                 .HasOne(e => e.File)
                 .WithOne(e => e.Answer)
+                .HasForeignKey<File>(e => e.AnswerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Answer>()
@@ -101,6 +104,7 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             builder.Entity<File>()
                 .HasOne(e => e.Answer)
                 .WithOne(e => e.File)
+                .HasForeignKey<Answer>(e => e.FileId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

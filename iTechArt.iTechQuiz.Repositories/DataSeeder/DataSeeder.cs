@@ -28,7 +28,13 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 
             if (await userManager.FindByNameAsync("admin") is null)
             {
-                User<Guid> admin = new User<Guid> { Email = adminEmail, UserName = Roles.Admin };
+                User<Guid> admin = new User<Guid>
+                {
+                    Email = adminEmail, 
+                    UserName = Roles.Admin, 
+                    RegisteredAt = DateTime.Now
+                };
+
                 IdentityResult result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                 {
@@ -38,8 +44,15 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 
             if (await userManager.FindByNameAsync("anonymous") is null)
             {
-                User<Guid> admin = new User<Guid> { Email = string.Empty, UserName = "anonymous" };
-                IdentityResult result = await userManager.CreateAsync(admin, string.Empty);
+                User<Guid> anonymous = new User<Guid>
+                {
+                    Email = "anonymous@itechart.com", 
+                    UserName = "anonymous", 
+                    IsSystemUser = true, 
+                    RegisteredAt = DateTime.Now
+                };
+
+                IdentityResult result = await userManager.CreateAsync(anonymous);
             }
         }
     }
