@@ -62,7 +62,10 @@ namespace iTechArt.iTechQuiz.WebApp
                 });
 
             services.AddTransient<IAppVersionService, AppVersionService>();
+
+            services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
             services.AddTransient<IEmailService, EmailService>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
