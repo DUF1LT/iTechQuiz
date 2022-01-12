@@ -40,6 +40,75 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins");
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
+
+            builder.Entity<User<Guid>>()
+                .HasMany(e => e.PassedSurveys)
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<User<Guid>>()
+                .HasMany(e => e.Surveys)
+                .WithOne(e => e.Founder)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<User<Guid>>()
+                .HasMany(e => e.Answers)
+                .WithOne(e => e.User);
+
+            builder.Entity<Survey>()
+                .HasMany(e => e.UsersPassed)
+                .WithOne(e => e.Survey)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Survey>()
+                .HasMany(e => e.Questions)
+                .WithOne(e => e.Survey)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UsersPassSurveys>()
+                .HasKey(e => new { e.UserId, e.SurveyId });
+
+            builder.Entity<UsersPassSurveys>()
+                .HasOne(e => e.Survey)
+                .WithMany(e => e.UsersPassed)
+                .HasForeignKey(e => e.SurveyId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UsersPassSurveys>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.PassedSurveys)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Question>()
+                .HasMany(e => e.Answers)
+                .WithOne(e => e.Question)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Question>()
+                .HasOne(e => e.Survey)
+                .WithMany(e => e.Questions)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Answer>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.Answers)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Answer>()
+                .HasOne(e => e.File)
+                .WithOne(e => e.Answer)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Answer>()
+                .HasOne(e => e.Question)
+                .WithMany(e => e.Answers)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<File>()
+                .HasOne(e => e.Answer)
+                .WithOne(e => e.File)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

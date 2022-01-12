@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
+using iTechArt.iTechQuiz.Repositories.DataSeeder;
 using iTechArt.iTechQuiz.WebApp.Providers;
 using iTechArt.Repositories;
 using Microsoft.AspNetCore.Hosting;
