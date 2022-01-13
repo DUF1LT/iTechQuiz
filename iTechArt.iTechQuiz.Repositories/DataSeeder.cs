@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
-using iTechArt.iTechQuiz.Repositories.Context;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.iTechQuiz.Repositories
+namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager, iTechQuizContext context)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";
 
             if (await roleManager.FindByNameAsync(Roles.Admin) is null)
             {
-                await roleManager.CreateAsync(new Role(Roles.Admin));
+                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.Admin));
             }
 
             if (await roleManager.FindByNameAsync(Roles.User) is null)
             {
-                await roleManager.CreateAsync(new Role(Roles.User));
+                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.User));
             }
 
             if (await userManager.FindByNameAsync("admin") is null)
@@ -43,7 +40,7 @@ namespace iTechArt.iTechQuiz.Repositories
                 }
             }
 
-            if (await userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == default) is null)
+            if (await userManager.FindByNameAsync("anonymous") is null)
             {
                 User anonymous = new User
                 {
