@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.Repositories;
+using iTechArt.iTechQuiz.Repositories.Repositories;
+using iTechArt.Repositories.Entity;
+using iTechArt.Repositories.Repositories;
+using iTechArt.Repositories.UnitOfWork;
 
-namespace iTechArt.iTechQuiz.Repositories
+namespace iTechArt.iTechQuiz.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -20,16 +23,13 @@ namespace iTechArt.iTechQuiz.Repositories
         }
 
 
-        public TRepository GetRepository<TEntity, TId, TRepository>()
-            where TEntity : class, IEntity<TId>, new()
-            where TRepository : Repository<TEntity, TId>
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity, new()
         {
             if (_repositories.Keys.Contains(typeof(TEntity)))
             {
-                return _repositories[typeof(TEntity)] as TRepository;
+                return _repositories[typeof(TEntity)] as IRepository<TEntity>;
             }
-
-            var repository = (TRepository)Activator.CreateInstance(typeof(TRepository), args: _context);
+            var repository = new Repository<TEntity>(_context);
             _repositories.Add(typeof(TEntity), repository);
 
             return repository;
