@@ -36,33 +36,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Users(int pageNumber = 1)
         {
-
-            _unitOfWork.GetRepository<User<Guid>>();
-            var users = _userManager.Users
-                .Where(u => !u.IsSystemUser)
-                .Select(u => new UserViewModel
+            var users = new List<UserViewModel>();
+            
+            foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
+            {
+                users.Add(new UserViewModel
                 {
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
                     CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
                 });
+            }
 
-            var paginatedUsers = await PaginatedList<UserViewModel>.CreateAsync(users, pageNumber, PageSize);
-
-            //foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
-            //{
-            //    users.Add(new UserViewModel
-            //    {
-            //        Id = user.Id,
-            //        UserName = user.UserName,
-            //        Email = user.Email,
-            //        Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
-            //        .CapitalizeFirstLetter()
-            //    });
-            //}
-
-            return View(paginatedUsers);
+            return View(users);
         }
 
         [HttpGet]
