@@ -46,17 +46,17 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
 
-            builder.Entity<User<Guid>>()
+            builder.Entity<User>()
                 .HasMany(e => e.PassedSurveys)
                 .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<User<Guid>>()
+            builder.Entity<User>()
                 .HasMany(e => e.Surveys)
                 .WithOne(e => e.Founder)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<User<Guid>>()
+            builder.Entity<User>()
                 .HasMany(e => e.Answers)
                 .WithOne(e => e.User);
 
