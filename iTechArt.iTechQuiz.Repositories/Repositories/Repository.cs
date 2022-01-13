@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
     {
         private readonly iTechQuizContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -37,8 +37,10 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            BaseEntity entity = new BaseEntity { Id = id };
-            _dbSet.Remove((TEntity)entity);
+            _dbSet.Remove(new TEntity
+            {
+                Id = id
+            });
             await _context.SaveChangesAsync();
         }
     }

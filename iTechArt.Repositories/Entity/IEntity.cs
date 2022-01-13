@@ -2,7 +2,7 @@
 
 namespace iTechArt.Repositories.Entity
 {
-    public class BaseEntity
+    public interface IEntity
     {
         public Guid Id { get; set; }
     }

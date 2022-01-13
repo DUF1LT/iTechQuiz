@@ -1,4 +1,5 @@
 ﻿using System;
+using iTechArt.Repositories.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
@@ -6,7 +7,7 @@ namespace iTechArt.iTechQuiz.Domain.Models
     {
         public Guid UserId { get; set; }
 
-        public User<Guid> User { get; set; }
+        public User User { get; set; }
 
         public Guid SurveyId { get; set; }
 

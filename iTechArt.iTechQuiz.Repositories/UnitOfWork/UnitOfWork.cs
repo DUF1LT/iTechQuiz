@@ -23,7 +23,7 @@ namespace iTechArt.iTechQuiz.Repositories.UnitOfWork
         }
 
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity, new()
         {
             if (_repositories.Keys.Contains(typeof(TEntity)))
             {

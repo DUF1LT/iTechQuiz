@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
@@ -11,7 +8,7 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User<Guid>> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";
@@ -28,7 +25,7 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 
             if (await userManager.FindByNameAsync("admin") is null)
             {
-                User<Guid> admin = new User<Guid>
+                User admin = new User
                 {
                     Email = adminEmail, 
                     UserName = Roles.Admin, 
@@ -44,7 +41,7 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 
             if (await userManager.FindByNameAsync("anonymous") is null)
             {
-                User<Guid> anonymous = new User<Guid>
+                User anonymous = new User
                 {
                     Email = "anonymous@itechart.com", 
                     UserName = "anonymous", 

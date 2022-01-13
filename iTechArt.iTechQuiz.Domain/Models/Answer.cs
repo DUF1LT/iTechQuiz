@@ -1,14 +1,15 @@
 ﻿using System;
+using iTechArt.Repositories.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class Answer
+    public class Answer : IEntity
     {
         public Guid Id { get; set; }
 
         public Question Question { get; set; }
 
-        public User<Guid> User { get; set; }
+        public User User { get; set; }
 
         public Guid FileId { get; set; }
 

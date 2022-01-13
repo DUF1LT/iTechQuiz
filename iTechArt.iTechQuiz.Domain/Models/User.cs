@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using iTechArt.Repositories.Entity;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class User<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
+    public class User : IdentityUser<Guid>, IEntity
     {
         public DateTime RegisteredAt { get; set; }
 

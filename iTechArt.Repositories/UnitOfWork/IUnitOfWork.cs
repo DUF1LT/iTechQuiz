@@ -6,7 +6,7 @@ namespace iTechArt.Repositories.UnitOfWork
 {
     public interface IUnitOfWork
     {
-        IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
+        IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity, new();
 
         Task SaveAsync();
     }

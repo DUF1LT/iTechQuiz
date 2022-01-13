@@ -32,7 +32,7 @@ namespace iTechArt.iTechQuiz.WebApp
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var userManager = services.GetRequiredService<UserManager<User<Guid>>>();
+                var userManager = services.GetRequiredService<UserManager<User>>();
                 var rolesManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                 await DataSeeder.InitializeAsync(userManager, rolesManager);
             }

@@ -4,7 +4,7 @@ using iTechArt.Repositories.Entity;
 
 namespace iTechArt.Repositories.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : BaseEntity
+    public interface IRepository<TEntity>
     {
         Task<TEntity> GetByIdAsync(Guid id);
 

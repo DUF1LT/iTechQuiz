@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
+using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,21 +34,35 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(int pageNumber = 1)
         {
-            List<UserViewModel> users = new List<UserViewModel>();
-            foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
-            {
-                users.Add(new UserViewModel
+
+            _unitOfWork.GetRepository<User<Guid>>();
+            var users = _userManager.Users
+                .Where(u => !u.IsSystemUser)
+                .Select(u => new UserViewModel
                 {
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
                     CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
                 });
-            }
 
-            return View(users);
+            var paginatedUsers = await PaginatedList<UserViewModel>.CreateAsync(users, pageNumber, PageSize);
+
+            //foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
+            //{
+            //    users.Add(new UserViewModel
+            //    {
+            //        Id = user.Id,
+            //        UserName = user.UserName,
+            //        Email = user.Email,
+            //        Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+            //        .CapitalizeFirstLetter()
+            //    });
+            //}
+
+            return View(paginatedUsers);
         }
 
         [HttpGet]
