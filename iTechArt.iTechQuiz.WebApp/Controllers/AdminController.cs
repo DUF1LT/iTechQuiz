@@ -20,15 +20,16 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public AdminController(UserManager<User> userManager, 
+        public AdminController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole<Guid>> roleManager)
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -37,7 +38,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> Users(int pageNumber = 1)
         {
 
-            _unitOfWork.GetRepository<User<Guid>>();
+            _unitOfWork.GetRepository<User>();
             var users = _userManager.Users
                 .Where(u => !u.IsSystemUser)
                 .Select(u => new UserViewModel
