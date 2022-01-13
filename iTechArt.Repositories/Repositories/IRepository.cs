@@ -1,17 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using iTechArt.Repositories.Entity;
 
 namespace iTechArt.Repositories.Repositories
 {
-    public interface IRepository<TEntity>
+    interface IRepository
     {
-        Task<TEntity> GetByIdAsync(Guid id);
-
-        Task CreateAsync(TEntity entity);
-
-        void Update(TEntity item);
-
-        Task DeleteAsync(Guid id);
     }
 }
