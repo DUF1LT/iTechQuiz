@@ -30,8 +30,10 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public bool HasProgressBar { get; set; }
 
-        public List<Question> Questions { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
 
-        public List<UsersPassSurveys> UsersPassed { get; set; }
+        public IEnumerable<Page> Pages { get; set; }
+
+        public IEnumerable<UsersPassSurveys> UsersPassed { get; set; }
     }
 }

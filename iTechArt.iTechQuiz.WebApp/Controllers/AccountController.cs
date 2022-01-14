@@ -15,13 +15,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<User<Guid>> _signInManager;
-        private readonly UserManager<User<Guid>> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
 
 
-        public AccountController(UserManager<User<Guid>> userManager,
-            SignInManager<User<Guid>> signInManager,
+        public AccountController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IEmailService emailService)
         {
             _userManager = userManager;
@@ -93,7 +93,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
-            User<Guid> user = new User<Guid>()
+            User user = new User()
             {
                 UserName = model.UserName,
                 Email = model.Email,

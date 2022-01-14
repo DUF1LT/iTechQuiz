@@ -22,8 +22,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
 
-        public AdminController(UserManager<IdentityUser<Guid>> userManager, 
-            SignInManager<IdentityUser<Guid>> signInManager,
+        public AdminController(UserManager<User> userManager, 
+            SignInManager<User> signInManager,
             RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userManager = userManager;
@@ -34,10 +34,9 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Users(int pageNumber = 1)
+        public async Task<IActionResult> Users()
         {
             var users = new List<UserViewModel>();
-            
             foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
             {
                 users.Add(new UserViewModel
@@ -89,7 +88,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            await _userManager.DeleteAsync(new IdentityUser<Guid>
+            await _userManager.DeleteAsync(new User
             {
                 Id = id
             });

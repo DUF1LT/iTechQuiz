@@ -7,7 +7,7 @@ namespace iTechArt.Common.Extensions
 {
     public static class SignInManagerExtensions
     {
-        public static async Task<SignInResult> PasswordEmailSignInAsync(this SignInManager<User<Guid>> signInManager, 
+        public static async Task<SignInResult> PasswordEmailSignInAsync(this SignInManager<User> signInManager, 
             string email, 
             string password,
             bool isPersistent,
