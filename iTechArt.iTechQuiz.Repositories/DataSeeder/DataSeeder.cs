@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 {
@@ -39,7 +40,7 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
                 }
             }
 
-            if (await userManager.FindByNameAsync("anonymous") is null)
+            if (await userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.UserName == "anonymous") is null)
             {
                 User anonymous = new User
                 {
