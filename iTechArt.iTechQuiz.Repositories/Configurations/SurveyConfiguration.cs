@@ -9,13 +9,12 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         public void Configure(EntityTypeBuilder<Survey> builder)
         {
             builder.HasMany(e => e.UsersPassed)
-                .WithOne(e => e.Survey);
+                .WithOne(e => e.Survey)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Questions)
-                .WithOne(e => e.Survey);
-
-            builder.Property(e => e.Title)
-                .HasMaxLength(50);
+                .WithOne(e => e.Survey)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

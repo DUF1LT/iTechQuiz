@@ -12,10 +12,8 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .WithMany(e => e.Pages);
 
             builder.HasMany(e => e.Questions)
-                .WithOne(e => e.SurveyPage);
-
-            builder.Property(e => e.Name)
-                .HasMaxLength(100);
+                .WithOne(e => e.SurveyPage)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

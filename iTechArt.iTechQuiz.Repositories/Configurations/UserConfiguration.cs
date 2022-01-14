@@ -10,22 +10,21 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         {
             builder.ToTable("Users");
 
-            builder.Property(p => p.Id)
-                .ValueGeneratedNever();
-
             builder.HasQueryFilter(e => !e.IsSystemUser);
 
             builder.HasMany(e => e.PassedSurveys)
-                .WithOne(e => e.User);
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Surveys)
-                .WithOne(e => e.CreatedBy);
+                .WithOne(e => e.Founder)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Answers)
                 .WithOne(e => e.User);
 
             builder.HasMany(e => e.UserRoles)
-                .WithOne(e => e.User)
+                .WithOne()
                 .HasForeignKey(e => e.UserId)
                 .IsRequired();
         }

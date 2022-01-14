@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.Repositories;
+using iTechArt.Repositories.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class Question : IEntity<Guid>
+    public class Question : IEntity
     {
         public Guid Id { get; set; }
 
@@ -17,8 +17,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
         public string Content { get; set; }
 
         public string Options { get; set; }
-
-        public int Number { get; set; }
 
         public bool IsRequired { get; set; }
 
