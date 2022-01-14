@@ -11,6 +11,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public string Name { get; set; }
 
-        public IEnumerable<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
     }
 }

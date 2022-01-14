@@ -10,6 +10,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public Survey Survey { get; set; }
 
+        public Page SurveyPage { get; set; }
+
         public QuestionType Type { get; set; }
 
         public string Content { get; set; }
@@ -18,8 +20,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public bool IsRequired { get; set; }
 
-        public int SurveyPage { get; set; }
-
-        public List<Answer> Answers { get; set; }
+        public ICollection<Answer> Answers { get; set; }
     }
 }

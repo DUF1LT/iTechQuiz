@@ -13,10 +13,12 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public bool IsSystemUser { get; set; }
 
-        public List<Survey> Surveys;
+        public ICollection<IdentityUserRole<Guid>> UserRoles { get; set; }
 
-        public List<Answer> Answers;
+        public ICollection<Survey> Surveys{ get; set; }
 
-        public List<UsersPassSurveys> PassedSurveys;
+        public ICollection<Answer> Answers { get; set; }
+
+        public ICollection<UsersPassSurveys> PassedSurveys { get; set; }
     }
 }
