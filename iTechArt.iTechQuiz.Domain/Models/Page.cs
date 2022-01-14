@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class Page : IEntity<Guid>
+    public class Page
     {
         public Guid Id { get; set; }
 
@@ -12,6 +11,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public string Name { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }
