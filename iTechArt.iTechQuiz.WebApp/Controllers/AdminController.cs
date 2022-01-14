@@ -35,10 +35,9 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Users(int pageNumber = 1)
+        public async Task<IActionResult> Users()
         {
             var users = new List<UserViewModel>();
-            
             foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
             {
                 users.Add(new UserViewModel
@@ -46,8 +45,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
-                    .CapitalizeFirstLetter()
+                    CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
                 });
             }
 
