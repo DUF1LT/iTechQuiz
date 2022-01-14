@@ -1,4 +1,6 @@
-﻿namespace iTechArt.iTechQuiz.Repositories.Constants
+﻿using System.Collections.Generic;
+
+namespace iTechArt.iTechQuiz.Repositories.Constants
 {
     public static class Roles
     {

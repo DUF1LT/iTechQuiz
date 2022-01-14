@@ -1,5 +1,9 @@
 ﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel
 
+@section Styles{
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
 
 <partial name="_SidebarPartial" />
 <div class="main-wrapper-centered">
@@ -14,7 +18,7 @@
                 <span>@Html.DisplayNameFor(model => model.Email):</span> @Model.Email
             </div>
             <div class="admin-delete__info">
-                <span>@Html.DisplayNameFor(model => model.Role):</span> @Model.Role
+                <span>@Html.DisplayNameFor(model => model.CurrentRole):</span> @Model.CurrentRole
             </div>
         </div>
 

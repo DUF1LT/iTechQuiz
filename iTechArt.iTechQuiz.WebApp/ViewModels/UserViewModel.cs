@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace iTechArt.iTechQuiz.WebApp.ViewModels
@@ -15,9 +16,8 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public string CurrentRole { get; set; }
 
-        public string Role { get; set; }
-
+        public IEnumerable<string> Roles { get; set; }
     }
 }

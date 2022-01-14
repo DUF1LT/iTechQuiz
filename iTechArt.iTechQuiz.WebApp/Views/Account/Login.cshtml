@@ -1,7 +1,7 @@
 ﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.LoginViewModel;
 
-@{
-    ViewData["Title"] = "Log in";
+@section Styles{
+    <link rel="stylesheet" href="~/css/login.css" />
 }
 
 <section class="login-section">
@@ -17,7 +17,7 @@
         </div>
         <div class="login-section-additionals">
             <a asp-controller="Account" asp-action="Register">Register</a>
-            <a asp-controller="Account" asp-action="Register">Forgot password?</a>
+            <a href="#">Forgot password?</a>
         </div>
         @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
         <button type="submit">Login</button>

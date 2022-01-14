@@ -19,17 +19,5 @@ namespace iTechArt.Common.Extensions
 
             return role;
         }
-
-        public static async Task<bool> UserIsAdminAsync<TUser>(this UserManager<TUser> userManager, TUser user, string admin) where TUser : class
-        {
-            var role = await userManager.GetFirstUserRoleAsync(user);
-
-            if (role.Equals(admin))
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

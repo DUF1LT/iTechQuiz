@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.View;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -17,11 +16,16 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     {
         private readonly UserManager<IdentityUser<Guid>> _userManager;
         private readonly SignInManager<IdentityUser<Guid>> _signInManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public AdminController(UserManager<IdentityUser<Guid>> userManager, SignInManager<IdentityUser<Guid>> signInManager)
+
+        public AdminController(UserManager<IdentityUser<Guid>> userManager, 
+            SignInManager<IdentityUser<Guid>> signInManager,
+            RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
 
@@ -37,7 +41,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
+                    CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
                 });
             }
 
@@ -48,6 +52,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Delete(Guid id)
         {
+            if (User.GetId() == id.ToString())
+            {
+                return RedirectToAction("Users");
+            }
+
             var user = await _userManager.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -64,7 +73,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Role = role
+                CurrentRole = role
             });
         }
 
@@ -72,12 +81,15 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> ConfirmDelete(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user is null)
+            if (User.GetId() == id.ToString())
             {
-                return NotFound();
+                return RedirectToAction("Users");
             }
-            await _userManager.DeleteAsync(user);
+
+            await _userManager.DeleteAsync(new IdentityUser<Guid>
+            {
+                Id = id
+            });
 
             return RedirectToAction("Users");
         }
@@ -94,14 +106,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            bool isAdmin = await _userManager.UserIsAdminAsync(user, Roles.Admin);
-
+            var userRole = await _userManager.GetFirstUserRoleAsync(user);
             return View(new UserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                IsAdmin = isAdmin
+                CurrentRole = userRole,
+                Roles = await _roleManager.Roles.Select(p => p.Name).ToListAsync()
             });
         }
 
@@ -118,20 +130,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             user.UserName = model.UserName;
             user.Email = model.Email;
 
-            var isUserAdmin = await _userManager.UserIsAdminAsync(user, Roles.Admin);
-            if (model.IsAdmin && !isUserAdmin)
+            var userRole = await _userManager.GetFirstUserRoleAsync(user);
+            if (model.CurrentRole != userRole)
             {
-                await _userManager.RemoveFromRoleAsync(user, Roles.User);
-                await _userManager.AddToRoleAsync(user, Roles.Admin);
+                await _userManager.RemoveFromRoleAsync(user, userRole);
+                await _userManager.AddToRoleAsync(user, model.CurrentRole);
             }
-            else
-            {
-                await _userManager.RemoveFromRoleAsync(user, Roles.Admin);
-                await _userManager.AddToRoleAsync(user, Roles.User);
-            }
-
+            
             var result = await _userManager.UpdateAsync(user);
-
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -142,11 +148,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
-            if (User.Identity.Name.Equals(user.UserName))
+            if (User.GetId() == user.Id.ToString())
             {
-               await _signInManager.SignInAsync(user, false);
+                await _signInManager.SignInAsync(user, false);
 
-               return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return RedirectToAction("Users");
@@ -188,8 +194,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
-            await _userManager.RemovePasswordAsync(user);
-            var result = await _userManager.AddPasswordAsync(user, model.Password);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
