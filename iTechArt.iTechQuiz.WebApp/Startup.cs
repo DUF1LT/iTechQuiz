@@ -32,14 +32,11 @@ namespace iTechArt.iTechQuiz.WebApp
         {
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
-            if(!Environment.IsProduction())
+
+            var mvcBuilder = services.AddControllersWithViews();
+            if (!Environment.IsProduction())
             {
-                services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            }
-            else
-            {
-                services.AddControllersWithViews();
+                mvcBuilder.AddRazorRuntimeCompilation();
             }
 
             services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
