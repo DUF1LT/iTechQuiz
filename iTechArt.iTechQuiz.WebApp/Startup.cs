@@ -1,6 +1,7 @@
 using System;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Foundation.Interfaces;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
@@ -66,6 +67,8 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
             services.AddTransient<IEmailService, EmailService>();
+
+            services.AddScoped<UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

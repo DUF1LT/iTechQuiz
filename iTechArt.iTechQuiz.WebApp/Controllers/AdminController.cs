@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
-using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
-using iTechArt.Repositories.UnitOfWork;
+using iTechArt.Repositories.Lists;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,36 +20,39 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly PaginatedUserService _userService;
 
 
         public AdminController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IUnitOfWork unitOfWork)
+            RoleManager<IdentityRole<Guid>> roleManager,
+            PaginatedUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _unitOfWork = unitOfWork;
+            _roleManager = roleManager;
+            _userService = userService;
         }
 
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(int pageIndex = 1)
         {
-            var users = new List<UserViewModel>();
-            foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
+            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize);
+            var users = paginatedUsers.Select(e => new UserViewModel
             {
-                users.Add(new UserViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
-                });
-            }
+                Id = e.Id,
+                UserName = e.UserName,
+                CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name
+            });
 
-            return View(users);
+            var userViewModels = new PaginatedList<UserViewModel>(users, 
+                paginatedUsers.TotalCount, 
+                pageIndex, 
+                PageSize);
+
+            return View(userViewModels);
         }
 
         [HttpGet]
@@ -69,7 +72,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user)).CapitalizeFirstLetter();
+            var role = (await _userManager.GetFirstUserRoleAsync(user))
+                .CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
@@ -139,7 +143,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 await _userManager.RemoveFromRoleAsync(user, userRole);
                 await _userManager.AddToRoleAsync(user, model.CurrentRole);
             }
-            
+
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {

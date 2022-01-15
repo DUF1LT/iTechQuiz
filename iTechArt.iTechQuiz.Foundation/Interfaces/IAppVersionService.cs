@@ -1,4 +1,4 @@
-﻿namespace iTechArt.iTechQuiz.Foundation.Services
+﻿namespace iTechArt.iTechQuiz.Foundation.Interfaces
 {
     public interface IAppVersionService
     {
