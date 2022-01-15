@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.Repositories.Lists;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Repositories
@@ -12,11 +11,11 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
         { }
 
 
-        public override IQueryable<User> GetPaginatedQuery(int pageIndex, int pageSize)
+        public override IQueryable<User> GetQuery()
         {
             return DbSet.Include(e => e.UserRoles)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize);
+                .ThenInclude(e => e.Role)
+                .Include(e => e.Surveys);
         }
     }
 }

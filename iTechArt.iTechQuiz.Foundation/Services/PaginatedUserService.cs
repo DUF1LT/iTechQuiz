@@ -20,9 +20,12 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
         public async Task<PaginatedList<User>> GetPageAsync(int pageIndex, int pageSize)
         {
-            var paginatedQuery = _unitOfWork.UserRepository.GetPaginatedQuery(pageIndex, pageSize);
-            var items = await paginatedQuery.ToListAsync();
+            var paginatedQuery = _unitOfWork.UserRepository.GetQuery();
             var count = await paginatedQuery.CountAsync();
+
+            var items = await paginatedQuery.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return new PaginatedList<User>(items, count, pageIndex, pageSize);
         }
