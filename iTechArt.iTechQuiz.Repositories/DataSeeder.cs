@@ -10,19 +10,19 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";
 
             if (await roleManager.FindByNameAsync(Roles.Admin) is null)
             {
-                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.Admin));
+                await roleManager.CreateAsync(new Role(Roles.Admin));
             }
 
             if (await roleManager.FindByNameAsync(Roles.User) is null)
             {
-                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.User));
+                await roleManager.CreateAsync(new Role(Roles.User));
             }
 
             if (await userManager.FindByNameAsync("admin") is null)
