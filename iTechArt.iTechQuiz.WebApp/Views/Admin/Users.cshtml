@@ -13,7 +13,7 @@
         <div class="admin-users__header">
             <h2>Users</h2>
             <div>
-                <a href="#"><img width="20" src="~/img/search.svg"/></a>
+                <a href="#"><img width="20" src="~/img/search.svg" /></a>
                 <input type="text" placeholder="search" class="admin-users__header-input" />
             </div>
         </div>
@@ -69,7 +69,10 @@
                 <tr>
                     <th colspan="5">
                         <div class="admin-users__table-footer">
-                            <p>Total Users: <span class="admin-users__page-count">@Model.TotalCount</span></p>
+                            <div class="admin-users__total-users">
+                                <div>Total Users:</div>&nbsp;&nbsp;
+                                <div class="admin-users__total-users-count">@Model.TotalCount</div>
+                            </div>
                             <div class="admin-users__arrows">
                                 @if (Model.PageIndex != 1)
                                 {

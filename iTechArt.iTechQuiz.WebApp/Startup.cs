@@ -68,9 +68,9 @@ namespace iTechArt.iTechQuiz.WebApp
             services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
             services.AddTransient<IEmailService, EmailService>();
 
-            services.AddScoped<UnitOfWork>();
+            services.AddTransient<UnitOfWork>();
 
-            services.AddScoped<PaginatedUserService>();
+            services.AddTransient<PaginatedUserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
