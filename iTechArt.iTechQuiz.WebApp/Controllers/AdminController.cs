@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
-using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
