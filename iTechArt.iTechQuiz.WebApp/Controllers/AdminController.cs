@@ -99,10 +99,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            await _userManager.DeleteAsync(new User
-            {
-                Id = id
-            });
+            var user = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == id);
+            await _userManager.DeleteAsync(user);
 
             return RedirectToAction("Users");
         }
