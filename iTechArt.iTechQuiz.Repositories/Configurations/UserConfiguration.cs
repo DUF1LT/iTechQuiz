@@ -10,6 +10,8 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         {
             builder.ToTable("Users");
 
+            builder.HasKey(e => new { e.Id });
+
             builder.HasQueryFilter(e => !e.IsSystemUser);
 
             builder.HasMany(e => e.PassedSurveys)
@@ -24,8 +26,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .WithOne(e => e.User);
 
             builder.HasMany(e => e.UserRoles)
-                .WithOne()
+                .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }
     }

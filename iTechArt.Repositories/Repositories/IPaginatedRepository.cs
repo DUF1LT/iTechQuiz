@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using iTechArt.Common.Lists;
 using iTechArt.Repositories.Entity;
+using iTechArt.Repositories.Lists;
 
 namespace iTechArt.Repositories.Repositories
 {

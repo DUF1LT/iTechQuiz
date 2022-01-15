@@ -1,38 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.Repositories;
-using iTechArt.Repositories.Entity;
-using iTechArt.Repositories.Repositories;
-using iTechArt.Repositories.UnitOfWork;
 
 namespace iTechArt.iTechQuiz.Repositories.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork
     {
-        private readonly Dictionary<Type, object> _repositories;
         private readonly iTechQuizContext _context;
+
+        private UserRepository _userRepository;
+
+
+        public UserRepository UserRepository
+        {
+            get
+            {
+                if (_userRepository is null)
+                {
+                    _userRepository = new UserRepository(_context);
+                }
+
+                return _userRepository;
+            }
+        }
 
 
         public UnitOfWork(iTechQuizContext context)
         {
             _context = context;
-            _repositories = new Dictionary<Type, object>();
-        }
-
-
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IEntity, new()
-        {
-            if (_repositories.Keys.Contains(typeof(TEntity)))
-            {
-                return _repositories[typeof(TEntity)] as IRepository<TEntity>;
-            }
-            var repository = new Repository<TEntity>(_context);
-            _repositories.Add(typeof(TEntity), repository);
-
-            return repository;
         }
 
         public async Task SaveAsync()

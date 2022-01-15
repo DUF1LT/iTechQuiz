@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.Common.Lists
+namespace iTechArt.Repositories.Lists
 {
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
 
         public int TotalPages { get; set; }
+
+        public int TotalCount { get; set; }
 
         public bool PreviousPage => (PageIndex > 1);
 
@@ -19,9 +21,10 @@ namespace iTechArt.Common.Lists
 
         public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
+            AddRange(items);
+            TotalCount = Count;
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            this.AddRange(items);
         }
 
 
