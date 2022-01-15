@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace iTechArt.iTechQuiz.Repositories.Repositories
 {
-    public class Repository<TEntity, TContext> : IRepository<TEntity>
+    public abstract class Repository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : class, IEntity, new()
         where TContext : DbContext
     {
@@ -23,11 +23,7 @@ namespace iTechArt.iTechQuiz.Repositories.Repositories
             DbSet = _context.Set<TEntity>();
         }
 
-        public virtual IQueryable<TEntity> GetPaginatedQuery(int pageIndex, int pageSize)
-        {
-            return DbSet.Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize);
-        }
+        public abstract IQueryable<TEntity> GetQuery();
 
         public async Task<TEntity> GetByIdAsync(Guid id)
         {

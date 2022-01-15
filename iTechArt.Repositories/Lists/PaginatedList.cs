@@ -22,7 +22,7 @@ namespace iTechArt.Repositories.Lists
         public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
             AddRange(items);
-            TotalCount = Count;
+            TotalCount = count;
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         }

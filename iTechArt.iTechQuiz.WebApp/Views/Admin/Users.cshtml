@@ -19,9 +19,14 @@
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
     <div class="admin-users">
-        <h2>Users</h2>
-
-        <table class="table">
+        <div class="admin-users__header">
+            <h2>Users</h2>
+            <div>
+                <a href="#"><img width="20" src="~/img/search.svg"/></a>
+                <input type="text" placeholder="search" class="admin-users__header-input" />
+            </div>
+        </div>
+        <table class="admin-users__table">
             <thead>
                 <tr>
                     <th>
@@ -31,12 +36,18 @@
                         Role
                     </th>
                     <th>
+                        Registered
+                    </th>
+                    <th>
+                        Surveys
+                    </th>
+                    <th>
                         Actions
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Items)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <th>
@@ -92,6 +103,7 @@
                         </div>
                     </th>
                 </tr>
+            </tfoot>
         </table>
     </div>
 </div>
