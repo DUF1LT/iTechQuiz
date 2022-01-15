@@ -18,12 +18,12 @@ namespace iTechArt.iTechQuiz.Repositories
 
             if (await roleManager.FindByNameAsync(Roles.Admin) is null)
             {
-                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.Admin));
+                await roleManager.CreateAsync(new Role(Roles.Admin));
             }
 
             if (await roleManager.FindByNameAsync(Roles.User) is null)
             {
-                await roleManager.CreateAsync(new IdentityRole<Guid>(Roles.User));
+                await roleManager.CreateAsync(new Role(Roles.User));
             }
 
             if (await userManager.FindByNameAsync("admin") is null)

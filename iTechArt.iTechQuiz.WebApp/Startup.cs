@@ -42,7 +42,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-            services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            services.AddIdentity<User, Role>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
                     options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProviderOptions.ProviderName;
@@ -69,6 +69,8 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddScoped<UnitOfWork>();
+
+            services.AddScoped<PaginatedUserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

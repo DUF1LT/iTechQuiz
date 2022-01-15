@@ -19,13 +19,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly PaginatedUserService _userService;
 
 
         public AdminController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole<Guid>> roleManager,
+            RoleManager<Role> roleManager,
             PaginatedUserService userService)
         {
             _userManager = userManager;
@@ -39,19 +39,26 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Users(int pageIndex = 1)
         {
+            if (pageIndex <= 1)
+            {
+                pageIndex = 1;
+            }
+
             var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize);
             var users = paginatedUsers.Select(e => new UserViewModel
             {
                 Id = e.Id,
                 UserName = e.UserName,
-                CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name
+                RegisteredAt = e.RegisteredAt.ToShortDateString(),
+                CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name,
+                SurveysAmount = e.Surveys.Count
             });
 
             var userViewModels = new PaginatedList<UserViewModel>(users, 
                 paginatedUsers.TotalCount, 
                 pageIndex, 
                 PageSize);
-
+                
             return View(userViewModels);
         }
 

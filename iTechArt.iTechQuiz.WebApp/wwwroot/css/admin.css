@@ -31,14 +31,113 @@
 
 .admin-users {
     display: flex;
-    padding: 30px 30px;
-    width: 80%;
+    padding: 30px 80px;
+    width: 100%;
     row-gap: 10px;  
     flex-direction: column;
+    align-items: center;
+}
+
+.admin-users__header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.admin-users__header-input {
+    height: 30px;
+}
+
+.admin-users__table {
+    width: 100%;
+}
+
+.admin-users__table thead {
+    background-color: #d33722;
+    color: #fff;
+}
+
+.admin-users__table thead th{
+    padding: 15px 0;
+}
+
+.admin-users__table th {
+    text-align: center;
+}
+
+.admin-users__table tbody tr {
+    height: 55px;
+}
+
+.admin-users__table tbody th {
+    font-weight: 400;
+}
+
+.admin-users__table-footer {
+    display: flex;
+    padding: 15px 35px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #d33722;
+    color: #fff;
+}
+
+.admin-users__table-footer p {
+    margin: 0;
+    text-align: center;
+}
+
+.admin-users__icon {
+    text-decoration: none;
+    color: black;
+}
+
+.admin-users__icons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    column-gap: 15px;
+    align-content: center;
+}
+
+.admin-users__icon:hover {
+    color: #333333;
+}
+
+.admin-users__arrows {
+    display: flex;
+    justify-content: center;
+    column-gap: 7px;
+}
+
+.admin-users__arrows p {
+    margin: 0 7px;
+}
+
+.admin-users__single-arrows {
+    font-size: 25px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -8px 0;
+    vertical-align: center;
+}
+
+.admin-users__dbl-arrows {
+    font-size: 19px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -2px 0;
+    align-items: center;
+}
+
+.admin-users__page-count {
+    font-weight: 400;
 }
 
 /*Delete*/
-
 .admin-delete {
     display: flex;
     width: 800px;

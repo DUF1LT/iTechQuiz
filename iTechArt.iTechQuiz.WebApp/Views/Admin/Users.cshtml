@@ -10,9 +10,14 @@
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
     <div class="admin-users">
-        <h2>Users</h2>
-
-        <table class="table">   
+        <div class="admin-users__header">
+            <h2>Users</h2>
+            <div>
+                <a href="#"><img width="20" src="~/img/search.svg"/></a>
+                <input type="text" placeholder="search" class="admin-users__header-input" />
+            </div>
+        </div>
+        <table class="admin-users__table">
             <thead>
                 <tr>
                     <th>
@@ -22,28 +27,78 @@
                         Role
                     </th>
                     <th>
+                        Registered
+                    </th>
+                    <th>
+                        Surveys
+                    </th>
+                    <th>
                         Actions
                     </th>
                 </tr>
             </thead>
-            @foreach (var item in Model)
-            {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.CurrentRole)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.RegisteredAt)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.SurveysAmount)
+                        </th>
+                        <th>
+                            <div class="admin-users__icons">
+                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/edit.svg" /></a>
+                                @if (User.GetId() != item.Id.ToString())
+                                {
+                                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/delete.svg" /></a>
+                                }
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
                 <tr>
-                    <th>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </th>
-                    <th>
-                        @Html.DisplayFor(modelItem => item.CurrentRole)
-                    </th>
-                    <th>
-                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        @if (User.GetId() != item.Id.ToString())
-                        {
-                            <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        }
+                    <th colspan="5">
+                        <div class="admin-users__table-footer">
+                            <p>Total Users: <span class="admin-users__page-count">@Model.TotalCount</span></p>
+                            <div class="admin-users__arrows">
+                                @if (Model.PageIndex != 1)
+                                {
+                                    <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows">&laquo;</a>
+                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows">&lsaquo;</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows hidden">&laquo;</a>
+                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows hidden">&lsaquo;</a>
+                                }
+
+                                <p>@Model.PageIndex / @Model.TotalPages</p>
+
+                                @if (Model.PageIndex != Model.TotalPages)
+                                {
+                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows">&rsaquo;</a>
+                                    <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows">&raquo;</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows hidden">&rsaquo;</a>
+                                    <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows hidden">&raquo;</a>
+                                }
+                            </div>
+                        </div>
                     </th>
                 </tr>
-            }
+            </tfoot>
         </table>
     </div>
 </div>

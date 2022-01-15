@@ -21,7 +21,7 @@
                 <div class="admin-edit__role-and-password">
                     <div class="admin-edit__role">
                         <span>Role</span>
-                        @Html.DropDownListFor(m => m.CurrentRole, new SelectList(Model.Roles), new {@class="form-select"})
+                        @Html.DropDownListFor(m => m.CurrentRole, new SelectList(Model.Roles), new { @class = "form-select" })
                     </div>
                     <a asp-action="EditPassword" asp-route-id="@Model.Id">Edit password</a>
                 </div>

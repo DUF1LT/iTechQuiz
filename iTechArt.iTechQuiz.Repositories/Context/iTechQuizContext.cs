@@ -35,7 +35,6 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             : base(options)
         { }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
