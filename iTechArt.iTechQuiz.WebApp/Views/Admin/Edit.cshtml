@@ -26,7 +26,10 @@
                     <a asp-action="EditPassword" asp-route-id="@Model.Id">Edit password</a>
                 </div>
             </div>
-            <button type="submit" class="button">Edit</button>
+            <div class="admin__buttons">
+                <a asp-action="Users" class="button">Back to list</a>
+                <button type="submit" class="admin__submit">Edit</button>
+            </div>
         </form>
     </section>
 </div>
