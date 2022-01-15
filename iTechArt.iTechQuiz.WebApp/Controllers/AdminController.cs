@@ -107,7 +107,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             var userRole = await _userManager.GetFirstUserRoleAsync(user);
-            return View(new UserViewModel
+            return View(new EditUserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,

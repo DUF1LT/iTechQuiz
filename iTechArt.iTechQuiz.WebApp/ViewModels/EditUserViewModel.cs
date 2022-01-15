@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace iTechArt.iTechQuiz.WebApp.ViewModels
 {
-    public class UserViewModel
+    public class EditUserViewModel
     {
         public Guid Id { get; set; }
 
@@ -17,8 +18,6 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public string CurrentRole { get; set; }
 
-        public DateTime RegisteredAt { get; set; }
-
-        public int SurveysAmount { get; set; }
+        public IEnumerable<string> Roles { get; set; }
     }
 }
