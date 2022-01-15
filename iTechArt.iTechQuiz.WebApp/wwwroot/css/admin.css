@@ -31,12 +31,12 @@
     display: flex;
     padding: 30px 80px;
     width: 100%;
-    row-gap: 10px;  
+    row-gap: 10px;
     flex-direction: column;
     align-items: center;
 }
 
-.admin-users__header{
+.admin-users__header {
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -64,7 +64,7 @@
 }
 
 .admin-users__table th {
-    text-align: center;
+     text-align: center;
 }
 
 .admin-users__table tbody tr {
@@ -72,7 +72,7 @@
 }
 
 .admin-users__table tbody th {
-    font-weight: 400;
+     font-weight: 400;
 }
 
 .admin-users__table-footer {
@@ -126,6 +126,11 @@
     vertical-align: center;
 }
 
+.admin-users__single-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
 .admin-users__dbl-arrows {
     font-size: 19px;
     font-weight: 500;
@@ -135,8 +140,20 @@
     align-items: center;
 }
 
-.admin-users__page-count {
+.admin-users__dbl-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.admin-users__total-users {
+    display: flex;
+    align-items: center;
+}   
+
+.admin-users__total-users-count {
     font-weight: 400;
+    font-size: 15px;
+    line-height: 9px;
 }
 
 /*Delete*/
@@ -152,7 +169,7 @@
 
 .admin-delete__info {
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
     column-gap: 20px;
     width: 25%;
     font-size: 22px;
