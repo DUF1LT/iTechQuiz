@@ -39,13 +39,15 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Users(int pageIndex = 1)
         {
+            ViewData["NameFilter"] = filter;
+
             if (pageIndex <= 1)
             {
                 pageIndex = 1;
             }
 
-            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize);
-            var users = paginatedUsers.Items.Select(e => new UserViewModel
+            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize, filter);
+            var users = paginatedUsers.Select(e => new UserViewModel
             {
                 Id = e.Id,
                 UserName = e.UserName,

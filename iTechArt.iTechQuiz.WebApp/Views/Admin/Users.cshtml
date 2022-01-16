@@ -1,4 +1,8 @@
-﻿@using iTechArt.Common.Extensions
+﻿@using System.Linq
+@using System.Security.Claims
+@using iTechArt.Common.Extensions
+@using iTechArt.iTechQuiz.Domain.Models
+@using Microsoft.AspNetCore.Identity;
 
 @model iTechArt.Common.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
 
@@ -12,27 +16,27 @@
     <div class="admin-users">
         <div class="admin-users__header">
             <h2>Users</h2>
-            <div>
-                <a href="#"><img width="20" src="~/img/search.svg" /></a>
-                <input type="text" placeholder="search" class="admin-users__header-input" />
-            </div>
+            <form asp-action="Users" method="get" class="admin-users__search">
+                <button class="admin-users__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
+                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="admin-users__header-input" />
+            </form>
         </div>
-        <table class="admin-users__table">
+        <table class="admin-users__table sortable">
             <thead>
                 <tr>
-                    <th>
+                    <th width="30%">
                         Username
                     </th>
-                    <th>
+                    <th width="15%">
                         Role
                     </th>
-                    <th>
+                    <th width="20%">
                         Registered
                     </th>
-                    <th>
+                    <th width="15%">
                         Surveys
                     </th>
-                    <th>
+                    <th width="20%">
                         Actions
                     </th>
                 </tr>

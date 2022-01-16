@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
@@ -19,11 +20,15 @@ namespace iTechArt.iTechQuiz.Foundation.Services
         }
 
 
-        public async Task<PaginatedList<User>> GetPageAsync(int pageIndex, int pageSize)
+        public async Task<PaginatedList<User>> GetPageAsync(int pageIndex, int pageSize, string nameFilter = null)
         {
             var paginatedQuery = _unitOfWork.UserRepository.GetQuery();
-            var count = await paginatedQuery.CountAsync();
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                paginatedQuery = paginatedQuery.Where(p => p.UserName.Contains(nameFilter));
+            }
 
+            var count = await paginatedQuery.CountAsync();
             var items = await paginatedQuery.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
