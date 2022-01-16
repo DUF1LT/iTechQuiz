@@ -31,7 +31,7 @@
 
 .admin-users {
     display: flex;
-    padding: 30px 80px;
+    padding: 55px 80px;
     width: 100%;
     row-gap: 10px;
     flex-direction: column;
@@ -61,12 +61,16 @@
      padding: 15px 0;
 }
 
+.admin-users__table thead th:hover {
+    cursor: pointer;
+}
+
 .admin-users__table th {
      text-align: center;
 }
 
 .admin-users__table tbody tr {
-     height: 55px;
+     height: 60px;
 }
 
 .admin-users__table tbody th {
@@ -152,6 +156,18 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 9px;
+}
+
+.admin-users__search {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.admin-users__submit {
+    border: none;
+    padding: 0;
+    background-color: transparent;
 }
 
 /*Delete*/
