@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
-	    <ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
-</ItemGroup>
+		<ProjectReference Include="..\iTechArt.iTechQuiz.Foundation\iTechArt.iTechQuiz.Foundation.csproj" />
+	</ItemGroup>
 
 </Project>

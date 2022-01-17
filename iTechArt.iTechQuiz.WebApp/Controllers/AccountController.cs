@@ -4,12 +4,10 @@ using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
-using iTechArt.iTechQuiz.WebApp.Providers;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -117,34 +115,47 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
         {
-            return View(new RegisterViewModel());
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            IdentityUser<Guid> user = new IdentityUser<Guid>
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user is null)
             {
-                UserName = model.UserName,
-                Email = model.Email
-            };
+                return View("ForgotPasswordConfirmation");
+            }
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callback = Url.Action("ResetPassword", "Account",
+                new { id = user.Id, token },
+                protocol: HttpContext.Request.Scheme);
+
+            await _emailService.SendEmailAsync(model.Email,
+                "Reset Password",
+                $"To reset your password on iTechQuiz follow this <a href='{callback}'>link</a> ");
+
+
+            return View("ForgotPasswordConfirmation");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(Guid id, string token = null)
+        {
+            if (token is null)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-
-                return View(model);
+                return NotFound();
             }
 
             return View(new ResetPasswordViewModel
