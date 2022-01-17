@@ -1,0 +1,52 @@
+﻿@using System.Linq
+@using System.Security.Claims
+@using iTechArt.Common.Extensions
+@using Microsoft.AspNetCore.Identity;
+
+@model IEnumerable<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper">
+    <div class="admin-users">
+        <h2>Users</h2>
+
+        <table class="table">   
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CurrentRole)
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.CurrentRole)
+                    </th>
+                    <th>
+                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        @if (User.GetId() != item.Id.ToString())
+                        {
+                            <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </th>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

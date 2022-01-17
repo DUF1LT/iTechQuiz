@@ -19,6 +19,10 @@ a.navbar-brand {
     border-color: #1861ac;
 }
 
+.text-bold {
+    font-weight: 800;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -63,6 +67,7 @@ body {
 
 .footer {
     text-align: center;
+    display: block;
     position: absolute;
     bottom: 0;
     width: 100%;

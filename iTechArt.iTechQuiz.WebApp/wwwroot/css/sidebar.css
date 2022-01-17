@@ -1,0 +1,44 @@
+﻿.aside-wrapper {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    background-color: #101010;
+    overflow-x: hidden;
+    text-align: center;
+    padding-top: 25px;
+    box-sizing: border-box;
+}
+
+
+.aside-wrapper a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #fff;
+}
+
+/*#EB3D26;*/
+
+.aside-wrapper a {
+    box-sizing: border-box;
+    padding: 5%;
+    display: block;
+    border-top: 1px solid #fff;
+}
+
+.aside-wrapper a:last-child {
+    border-bottom: 1px solid #fff;
+}
+
+.aside-wrapper a:last-child:hover {
+    border-bottom: 1px solid #EB3D26;
+}
+
+.aside-wrapper a:hover {
+    background-color: #EB3D26;
+    border-top: 1px solid #EB3D26;
+}
+
+.aside-wrapper a:hover+a {
+    border-top: 1px solid #EB3D26;
+}

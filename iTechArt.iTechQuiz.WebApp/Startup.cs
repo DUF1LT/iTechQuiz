@@ -20,17 +20,25 @@ namespace iTechArt.iTechQuiz.WebApp
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            var mvcBuilder = services.AddControllersWithViews();
+            if (Environment.IsDevelopment())
+            {
+                mvcBuilder.AddRazorRuntimeCompilation();
+            }
 
             services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
             {

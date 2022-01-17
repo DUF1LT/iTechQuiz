@@ -1,0 +1,35 @@
+﻿@using iTechArt.iTechQuiz.Repositories.Constants
+@model iTechArt.iTechQuiz.WebApp.ViewModels.EditUserViewModel
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper-centered">
+    <section class="admin-edit">
+        <form class="admin-edit__form" asp-action="Edit" method="post">
+            <h2>Edit existing user</h2>
+            <div class="admin-edit__input-wrapper">
+                <input asp-for="UserName" class="form-control" placeholder="Username" value="@Model.UserName" />
+                <span asp-validation-for="UserName" class="admin-edit__input-validation"></span>
+                @Html.ValidationMessage("DuplicateUserName", new { @class = "admin-edit__additional-validation" })
+                <input asp-for="Email" class="form-control" placeholder="Login (email)" value="@Model.Email" />
+                <span asp-validation-for="Email" class="admin-edit__input-validation"></span>
+                @Html.ValidationMessage("DuplicateEmail", new { @class = "admin-edit__additional-validation" })
+                <div class="admin-edit__role-and-password">
+                    <div class="admin-edit__role">
+                        <span>Role</span>
+                        @Html.DropDownListFor(m => m.CurrentRole, new SelectList(Model.Roles), new {@class="form-select"})
+                    </div>
+                    <a asp-action="EditPassword" asp-route-id="@Model.Id">Edit password</a>
+                </div>
+            </div>
+            <div class="admin__buttons">
+                <a asp-action="Users" class="button">Back to list</a>
+                <button type="submit" class="admin__submit">Edit</button>
+            </div>
+        </form>
+    </section>
+</div>
