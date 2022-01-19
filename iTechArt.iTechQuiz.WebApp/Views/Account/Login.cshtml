@@ -4,23 +4,24 @@
     <link rel="stylesheet" href="~/css/login.css" />
 }
 
-<section class="login-section">
-    <form asp-controller="Account" asp-action="Login" method="post">
-        <h2>Login to your account</h2>
-        <div class="login-input-wrapper">
-            <input asp-for="Login" class="form-control" placeholder="Login" />
-            <span asp-validation-for="Login" class="login-input-validation"></span>
-        </div>
-        <div class="login-input-wrapper">
-            <input asp-for="Password" class="form-control" placeholder="Password" />
-            <span asp-validation-for="Password" class="login-input-validation"></span>
-        </div>
-        <div class="login-section-additionals">
-            <a asp-controller="Account" asp-action="Register">Register</a>
-            <a asp-controller="Account" asp-action="ForgotPassword">Forgot password?</a>
-        </div>
-        @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
-        <button type="submit">Login</button>
-    </form>
-</section>
-
+<div class="main-wrapper-centered">
+    <section class="login-section">
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <h2>Login to your account</h2>
+            <div class="login-input-wrapper">
+                <input asp-for="Login" class="form-control" placeholder="Login" />
+                <span asp-validation-for="Login" class="login-input-validation"></span>
+            </div>
+            <div class="login-input-wrapper">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="login-input-validation"></span>
+            </div>
+            <div class="login-section-additionals">
+                <a asp-controller="Account" asp-action="Register">Register</a>
+                <a asp-controller="Account" asp-action="ForgotPassword">Forgot password?</a>
+            </div>
+            @Html.ValidationMessage("WrongLoginOrPassword", new { @class = "login-input-validation-summary" })
+            <button type="submit">Login</button>
+        </form>
+    </section>
+</div>
