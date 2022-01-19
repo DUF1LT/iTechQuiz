@@ -9,7 +9,6 @@ using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -145,19 +144,33 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             await _emailService.SendEmailAsync(model.Email,
                 "Reset Password",
-                $"To reset your password on iTechQuiz follow this <a href='{callback}'>link</a> ");
-
+                $"To reset your password on iTechQuiz follow this <a href='{callback}'>link</a>");
 
             return View("ForgotPasswordConfirmation");
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(Guid id, string token = null)
+        public async Task<IActionResult> ResetPassword(Guid id, string token = null)
         {
             if (token is null)
             {
                 return NotFound();
+            }
+
+            var user = _userManager.Users.FirstOrDefault(p => p.Id == id);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.VerifyUserTokenAsync(user,
+                PasswordResetTokenProviderOptions.ProviderName,
+                "ResetPassword",
+                token);
+            if (!result)
+            {
+                return View("TokenExpired");
             }
 
             return View(new ResetPasswordViewModel

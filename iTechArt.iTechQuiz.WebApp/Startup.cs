@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
