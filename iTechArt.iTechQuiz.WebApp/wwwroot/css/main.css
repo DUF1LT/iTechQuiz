@@ -11,6 +11,26 @@
     margin-left: 260px;
 }
 
+.lg-button {
+    width: 170px;
+    padding: 6px 0;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    border: 2px solid #272727;
+    background-color: transparent;
+    font-weight: 500;
+    color: #272727;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.lg-button:hover {
+     background-color: #272727;
+    color: #fff;
+    border: 2px solid #272727;
+}
+
 .button {
     width: 110px;
     padding: 6px 0;
@@ -29,6 +49,23 @@
     background-color: #272727;
     color: #fff;
     border: 2px solid #272727;
+}
+
+.red-button {
+    width: 110px;
+    height: 40px;
+    border: 2px solid #d33722;
+    background-color: transparent;
+    font-weight: 500;
+    color: #d33722;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.red-button:hover {
+    background-color: #d33722;
+    color: #fff;
+    border: 2px solid #d33722;
 }
 
 .hidden {

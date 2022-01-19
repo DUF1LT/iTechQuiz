@@ -10,7 +10,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
+		<ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
 	</ItemGroup>
 
 </Project>

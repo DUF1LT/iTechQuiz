@@ -1,0 +1,115 @@
+﻿.new-survey-section {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 30px 40px;
+    width: 100%;
+}
+
+.new-survey-main {
+    display: flex;
+    width: 75%;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 15px;
+    padding-right: 50px;
+}
+
+.new-survey-main__title {
+    display: flex;
+    width: 100%;
+    column-gap: 15px;
+    align-items: center;
+}
+
+.new-survey-main__title input{
+    width: 50%;
+}
+
+.new-survey-main__title span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.new-survey-main__buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new-survey-main__buttons-left {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.new-survey-main-constructor {
+    border: 1px solid black;
+    width: 100%;
+    height: auto;
+}
+
+.new-survey-side {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.new-survey-side-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 50px 10px 0 10px;
+    width: 100%;
+}
+
+.new-survey-side-question-type {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.new-survey-side-question-type__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d33722;
+    color: #fff;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.new-survey-side-question-type__options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px 10px;
+    row-gap: 8px;
+}
+
+.new-survey-side-survey-parameters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.new-survey-side-survey-parametrs__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d33722;
+    color: #fff;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.new-survey-side-survey-parameters__options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px 10px;
+    row-gap: 8px;
+}
