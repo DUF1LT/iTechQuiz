@@ -1,14 +1,15 @@
-﻿@using System.Linq
-@using System.Security.Claims
-@using iTechArt.Common.Extensions
-@using iTechArt.iTechQuiz.Domain.Models
-@using Microsoft.AspNetCore.Identity;
+﻿@using iTechArt.Common.Extensions
 
 @model iTechArt.Common.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
 
 @section Styles {
     <link rel="stylesheet" href="~/css/sidebar.css" />
     <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+@section Scripts
+{
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 }
 
 <partial name="_SidebarPartial" />
