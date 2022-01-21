@@ -9,8 +9,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
     {
         public DateTime RegisteredAt { get; set; }
 
-        public int SurveysAmount { get; set; }
-
         public bool IsSystemUser { get; set; }
 
         public ICollection<IdentityUserRole<Guid>> UserRoles { get; set; }
