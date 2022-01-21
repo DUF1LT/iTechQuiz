@@ -1,10 +1,11 @@
 using System;
+using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.Repositories.UnitOfWork;
+using iTechArt.iTechQuiz.WebApp.Providers;
 using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,21 +34,26 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-
             var mvcBuilder = services.AddControllersWithViews();
             if (Environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-            services.AddIdentity<IdentityUser<Guid>,IdentityRole<Guid>>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<iTechQuizContext>();
+            services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProviderOptions.ProviderName;
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                }).AddEntityFrameworkStores<iTechQuizContext>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<PasswordResetTokenProvider<IdentityUser<Guid>>>(PasswordResetTokenProviderOptions.ProviderName);
+
+            services.Configure<PasswordResetTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromMinutes(10));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -56,6 +62,9 @@ namespace iTechArt.iTechQuiz.WebApp
                 });
 
             services.AddTransient<IAppVersionService, AppVersionService>();
+
+            services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
