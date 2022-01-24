@@ -16,7 +16,7 @@ namespace iTechArt.iTechQuiz.Domain.Models
         public ICollection<Survey> Surveys { get; set; }
 
         public ICollection<Answer> Answers { get; set; }
-        
+
         public ICollection<UsersPassSurveys> PassedSurveys { get; set; }
     }
 }

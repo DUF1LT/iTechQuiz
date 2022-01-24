@@ -8,7 +8,7 @@ namespace iTechArt.Common.Lists
 {
     public class PagedData<T>
     {
-        public List<T> Items { get; private set; }
+        public IEnumerable<T> Items { get; private set; }
 
         public int PageIndex { get; private set; }
 
@@ -21,7 +21,7 @@ namespace iTechArt.Common.Lists
 
         public PagedData(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
-            Items = new List<T>(items);
+            Items = items;
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         }

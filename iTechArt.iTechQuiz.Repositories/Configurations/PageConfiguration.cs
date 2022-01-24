@@ -12,8 +12,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .WithMany(e => e.Pages);
 
             builder.HasMany(e => e.Questions)
-                .WithOne(e => e.SurveyPage)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(e => e.SurveyPage);
         }
     }
 }

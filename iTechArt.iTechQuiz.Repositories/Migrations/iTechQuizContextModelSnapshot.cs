@@ -247,8 +247,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                     b.Property<Guid?>("SurveyPageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TypeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -256,16 +256,15 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
                     b.HasIndex("SurveyPageId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("Type");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.QuestionType", b =>
+            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.QuestionTypeLookup", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -471,13 +470,11 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.User", "User")
                         .WithMany("Answers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("UserId");
 
                     b.Navigation("File");
 
@@ -499,31 +496,28 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 {
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Survey", "Survey")
                         .WithMany("Questions")
-                        .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SurveyId");
 
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Page", "SurveyPage")
                         .WithMany("Questions")
-                        .HasForeignKey("SurveyPageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SurveyPageId");
 
-                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.QuestionType", "Type")
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.QuestionTypeLookup", null)
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("Type")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Survey");
 
                     b.Navigation("SurveyPage");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Survey", b =>
                 {
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.User", "CreatedBy")
                         .WithMany("Surveys")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatedById");
 
                     b.Navigation("CreatedBy");
                 });
@@ -533,13 +527,13 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Survey", "Survey")
                         .WithMany("UsersPassed")
                         .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.User", "User")
                         .WithMany("PassedSurveys")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Survey");

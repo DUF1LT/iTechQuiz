@@ -9,17 +9,14 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         public void Configure(EntityTypeBuilder<Answer> builder)
         {
             builder.HasOne(e => e.User)
-                .WithMany(e => e.Answers)
-                .OnDelete(DeleteBehavior.NoAction);
+                .WithMany(e => e.Answers);
 
             builder.HasOne(e => e.File)
                 .WithOne(e => e.Answer)
-                .HasForeignKey<File>(e => e.AnswerId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey<File>(e => e.AnswerId);
 
             builder.HasOne(e => e.Question)
-                .WithMany(e => e.Answers)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(e => e.Answers);
         }
     }
 }

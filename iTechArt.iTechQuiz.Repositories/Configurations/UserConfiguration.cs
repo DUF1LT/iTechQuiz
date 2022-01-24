@@ -16,12 +16,10 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasQueryFilter(e => !e.IsSystemUser);
 
             builder.HasMany(e => e.PassedSurveys)
-                .WithOne(e => e.User)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(e => e.User);
 
             builder.HasMany(e => e.Surveys)
-                .WithOne(e => e.CreatedBy)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(e => e.CreatedBy);
 
             builder.HasMany(e => e.Answers)
                 .WithOne(e => e.User);

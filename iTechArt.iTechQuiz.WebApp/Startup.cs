@@ -2,10 +2,9 @@ using System;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
+using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.iTechQuiz.Repositories.UnitOfWork;
 using iTechArt.iTechQuiz.WebApp.Providers;
-using iTechArt.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -66,8 +65,6 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
             services.AddTransient<IEmailService, EmailService>();
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

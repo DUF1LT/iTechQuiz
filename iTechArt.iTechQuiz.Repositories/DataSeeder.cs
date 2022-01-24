@@ -7,7 +7,7 @@ using iTechArt.iTechQuiz.Repositories.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.iTechQuiz.Repositories.DataSeeder
+namespace iTechArt.iTechQuiz.Repositories
 {
     public static class DataSeeder
     {
@@ -58,14 +58,14 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
 
             if (!await context.QuestionTypes.AnyAsync())
             {
-                var types = new List<QuestionType>
+                var types = new List<QuestionTypeLookup>
                 {
-                    new() { Name = "Single answer" },
-                    new() { Name = "Multiple answer" },
-                    new() { Name = "Text" },
-                    new() { Name = "File" },
-                    new() { Name = "Rating" },
-                    new() { Name = "Scale" }
+                    new() {Id = QuestionType.SingleAnswer, Name = "Single answer" },
+                    new() {Id = QuestionType.MultipleAnswer, Name = "Multiple answer" },
+                    new() {Id = QuestionType.Text, Name = "Text" },
+                    new() {Id = QuestionType.File, Name = "File" },
+                    new() {Id = QuestionType.Rating, Name = "Rating" },
+                    new() {Id = QuestionType.Scale, Name = "Scale" }
                 };
 
                 await context.AddRangeAsync(types);
