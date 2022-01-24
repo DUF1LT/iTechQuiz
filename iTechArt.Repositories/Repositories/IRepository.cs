@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using iTechArt.Repositories.Entity;
+using iTechArt.iTechQuiz.Domain.Entity;
 
 namespace iTechArt.Repositories.Repositories
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity : class, IEntity
     {
         Task<TEntity> GetByIdAsync(Guid id);
 

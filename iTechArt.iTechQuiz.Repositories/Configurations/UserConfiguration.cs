@@ -10,6 +10,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         {
             builder.ToTable("Users");
 
+            builder.Property(p => p.Id)
+                .ValueGeneratedNever();
+
             builder.HasQueryFilter(e => !e.IsSystemUser);
 
             builder.HasMany(e => e.PassedSurveys)
@@ -17,7 +20,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Surveys)
-                .WithOne(e => e.Founder)
+                .WithOne(e => e.CreatedBy)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Answers)

@@ -15,6 +15,8 @@ namespace iTechArt.iTechQuiz.Repositories.Context
 
         public DbSet<Question> Questions { get; set; }
 
+        public DbSet<QuestionType> QuestionTypes { get; set; }
+
         public DbSet<Page> Pages { get; set; }
 
         public DbSet<File> Files { get; set; }

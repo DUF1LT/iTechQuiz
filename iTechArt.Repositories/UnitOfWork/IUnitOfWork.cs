@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using iTechArt.Repositories.Entity;
+using iTechArt.iTechQuiz.Domain.Entity;
 using iTechArt.Repositories.Repositories;
 
 namespace iTechArt.Repositories.UnitOfWork

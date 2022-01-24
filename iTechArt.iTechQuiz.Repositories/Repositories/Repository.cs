@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using iTechArt.iTechQuiz.Domain.Entity;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.Repositories.Entity;
 using iTechArt.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.Repositories.Entity;
+using iTechArt.iTechQuiz.Domain.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
@@ -8,7 +8,7 @@ namespace iTechArt.iTechQuiz.Domain.Models
     {
         public Guid Id { get; set; }
 
-        public User Founder { get; set; }
+        public User CreatedBy { get; set; }
 
         public string Title { get; set; }
 

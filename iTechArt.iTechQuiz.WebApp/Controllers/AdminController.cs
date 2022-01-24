@@ -35,7 +35,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> Users()
         {
             var users = new List<UserViewModel>();
-            foreach (var user in _userManager.Users.Where(u => !u.IsSystemUser).ToList())
+            foreach (var user in _userManager.Users.ToList())
             {
                 users.Add(new UserViewModel
                 {
@@ -119,7 +119,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Edit(UserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
             {

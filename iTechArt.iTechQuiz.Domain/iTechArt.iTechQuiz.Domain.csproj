@@ -9,8 +9,4 @@
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
-	</ItemGroup>
-
 </Project>

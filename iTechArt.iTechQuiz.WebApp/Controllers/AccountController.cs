@@ -95,6 +95,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             User user = new User()
             {
+                Id = Guid.NewGuid(),
                 UserName = model.UserName,
                 Email = model.Email,
                 RegisteredAt = DateTime.Now

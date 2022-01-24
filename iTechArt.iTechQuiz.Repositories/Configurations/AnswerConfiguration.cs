@@ -15,7 +15,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasOne(e => e.File)
                 .WithOne(e => e.Answer)
                 .HasForeignKey<File>(e => e.AnswerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(e => e.Question)
                 .WithMany(e => e.Answers)

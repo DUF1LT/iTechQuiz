@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iTechArt.Repositories.Entity
+namespace iTechArt.iTechQuiz.Domain.Entity
 {
     public interface IEntity
     {

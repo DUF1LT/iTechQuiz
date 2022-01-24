@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.Repositories.Entity;
+using iTechArt.iTechQuiz.Domain.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {

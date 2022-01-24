@@ -1,12 +1,11 @@
-﻿namespace iTechArt.iTechQuiz.Domain.Models
+﻿using System;
+
+namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public enum QuestionType
+    public class QuestionType
     {
-        SingleAnswer,
-        MultipleAnswer,
-        Text,
-        File,
-        Rating,
-        Scale
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

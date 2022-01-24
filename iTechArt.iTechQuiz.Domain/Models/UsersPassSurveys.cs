@@ -1,5 +1,4 @@
 ﻿using System;
-using iTechArt.Repositories.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
@@ -13,6 +12,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public Survey Survey { get; set; }
 
-        public DateTime PassDate { get; set; }
+        public DateTime PassedAt { get; set; }
     }
 }
