@@ -1,26 +1,23 @@
-﻿using System;
-using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Domain.Entity;
-using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.Repositories;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.iTechQuiz.Repositories
+namespace iTechArt.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
+    public class Repository<TEntity, TId> : IRepository<TEntity, TId> 
+        where TEntity : class, IEntity<TId>, new()
     {
-        private readonly iTechQuizContext _context;
+        private readonly DbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
 
-        public Repository(iTechQuizContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
 
 
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public async Task<TEntity> GetByIdAsync(TId id)
         {
             return await _dbSet.FindAsync(id);
         }
@@ -35,7 +32,7 @@ namespace iTechArt.iTechQuiz.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(Guid id)
+        public void Delete(TId id)
         {
             _dbSet.Remove(new TEntity
             {

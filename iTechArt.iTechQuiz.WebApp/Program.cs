@@ -5,6 +5,7 @@ using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;
+using iTechArt.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 await DataSeeder.InitializeAsync(userManager, rolesManager, context);
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

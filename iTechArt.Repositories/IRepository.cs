@@ -3,14 +3,15 @@ using System.Threading.Tasks;
 
 namespace iTechArt.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity, in TId> 
+        where TEntity : class, IEntity<TId>, new()
     {
-        Task<TEntity> GetByIdAsync(Guid id);
+        Task<TEntity> GetByIdAsync(TId id);
 
         Task CreateAsync(TEntity entity);
 
         void Update(TEntity item);
 
-        void Delete(Guid id);
+        void Delete(TId id);
     }
 }

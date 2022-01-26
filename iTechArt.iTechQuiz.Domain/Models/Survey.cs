@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.iTechQuiz.Domain.Entity;
+using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class Survey : IEntity
+    public class Survey : IEntity<Guid>
     {
         public Guid Id { get; set; }
 

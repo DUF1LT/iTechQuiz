@@ -9,6 +9,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         public void Configure(EntityTypeBuilder<QuestionTypeLookup> builder)
         {
             builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Name)
+                .HasMaxLength(30);
         }
     }
 }

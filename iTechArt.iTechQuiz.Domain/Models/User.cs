@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using iTechArt.iTechQuiz.Domain.Entity;
+using iTechArt.Repositories;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class User : IdentityUser<Guid>, IEntity
+    public class User : IdentityUser<Guid>, IEntity<Guid>
     {
         public DateTime RegisteredAt { get; set; }
 

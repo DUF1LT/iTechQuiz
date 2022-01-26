@@ -5,6 +5,7 @@ using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;
+using iTechArt.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

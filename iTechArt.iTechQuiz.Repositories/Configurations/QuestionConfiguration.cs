@@ -17,6 +17,12 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasOne<QuestionTypeLookup>()
                 .WithMany()
                 .HasForeignKey(e => e.Type);
+
+            builder.Property(e => e.Content)
+                .HasMaxLength(30);
+
+            builder.Property(e => e.Options)
+                .HasMaxLength(100);
         }
     }
 }

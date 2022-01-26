@@ -1,9 +1,9 @@
 ﻿using System;
-using iTechArt.iTechQuiz.Domain.Entity;
+using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {
-    public class File : IEntity
+    public class File : IEntity<Guid>
     {
         public Guid Id { get; set; }
 

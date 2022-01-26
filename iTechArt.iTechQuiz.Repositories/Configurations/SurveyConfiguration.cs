@@ -13,6 +13,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
 
             builder.HasMany(e => e.Questions)
                 .WithOne(e => e.Survey);
+
+            builder.Property(e => e.Title)
+                .HasMaxLength(50);
         }
     }
 }
