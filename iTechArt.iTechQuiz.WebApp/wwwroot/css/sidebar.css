@@ -31,14 +31,14 @@
 }
 
 .aside-wrapper a:last-child:hover {
-    border-bottom: 1px solid #EB3D26;
+    border-bottom: 1px solid #d33722;
 }
 
 .aside-wrapper a:hover {
-    background-color: #EB3D26;
-    border-top: 1px solid #EB3D26;
+    background-color: #d33722;
+    border-top: 1px solid #d33722;
 }
 
 .aside-wrapper a:hover+a {
-    border-top: 1px solid #EB3D26;
+    border-top: 1px solid #d33722;
 }

@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="~/css/new-survey.css" />
 }
 
+@section Scripts
+{
+    <script src="~/js/draganddrop.js"></script>
+}
+
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
     <section class="new-survey-section">
@@ -21,34 +26,10 @@
                 </div>
                 <button class="button">New page</button>
             </div>
-            <div class="new-survey-main-constructor">
-                Under Construction
-                Under Construction
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-
+            <div class="new-survey-main-constructor-wrapper">
+                <div id="surveyConstructor" class="new-survey-main-constructor">
+                    <input type="text" value="Page 1" />
+                </div>
             </div>
         </div>
         <div class="new-survey-side">
@@ -58,12 +39,30 @@
                         Question type
                     </div>
                     <div class="new-survey-side-question-type__options">
-                        <span>Answer options (single)</span>
-                        <span>Answer options (multiple)</span>
-                        <span>Text</span>
-                        <span>File</span>
-                        <span>Star rating</span>
-                        <span>Scale</span>
+                        <div id="singleAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/dotlist.svg" width="20" draggable="false" />
+                            <span>Answer options (single)</span>
+                        </div>
+                        <div id="multipleAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/boxlist.svg" width="20" draggable="false" />
+                            <span>Answer options (multiple)</span>
+                        </div>
+                        <div id="textAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/text.svg" width="20" draggable="false" />
+                            <span draggable="true">Text</span>
+                        </div>
+                        <div id="fileAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/file.svg" width="20" draggable="false" />
+                            <span draggable="true">File</span>
+                        </div>
+                        <div id="starAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/star.svg" width="20" draggable="false" />
+                            <span draggable="true">Star rating</span>
+                        </div>
+                        <div id="scaleAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                            <img src="~/img/scale.svg" width="20" draggable="false" />
+                            <span draggable="true">Scale</span>
+                        </div>
                     </div>
                 </div>
                 <div class="new-survey-side-survey-parameters">
