@@ -1,12 +1,10 @@
-﻿@section Styles
+﻿@using iTechArt.iTechQuiz.Domain.Models
+@model iTechArt.iTechQuiz.Domain.Models.Survey
+
+@section Styles
 {
     <link rel="stylesheet" href="~/css/sidebar.css" />
     <link rel="stylesheet" href="~/css/new-survey.css" />
-}
-
-@section Scripts
-{
-    <script src="~/js/draganddrop.js"></script>
 }
 
 <partial name="_SidebarPartial" />
@@ -39,7 +37,8 @@
                         Question type
                     </div>
                     <div class="new-survey-side-question-type__options">
-                        <div id="singleAnswerOption" class="new-survey-side-question-type__option" draggable="true">
+                        <div id="singleAnswerOption" class="new-survey-side-question-type__option"
+                             draggable="true">
                             <img src="~/img/dotlist.svg" width="20" draggable="false" />
                             <span>Answer options (single)</span>
                         </div>
@@ -96,3 +95,48 @@
         </div>
     </section>
 </div>
+
+@section Scripts
+{
+    @*<script src="~/js/draganddrop.js"></script>*@
+    <script>
+        const singleAnswerOption = document.getElementById("singleAnswerOption");
+        const multipleAnswerOption = document.getElementById("multipleAnswerOption");
+        const textAnswerOption = document.getElementById("textAnswerOption");
+        const fileAnswerOption = document.getElementById("fileAnswerOption");
+        const starAnswerOption = document.getElementById("starAnswerOption");
+        const scaleAnswerOption = document.getElementById("scaleAnswerOption");
+
+        const insertQuestion = htmlToElement(`@{await Html.RenderPartialAsync("Shared/_InsertQuestionPartial");}`);
+        const singleAnswerHtml = `@{await Html.RenderPartialAsync("Shared/_SingleAnswerPartial");}`;
+
+        function htmlToElement(html) {
+            var template = document.createElement('template');
+            template.innerHTML = html.trim();
+            return template.content.firstChild;
+        }
+
+        const dropZone = document.getElementById("surveyConstructor");
+        dropZone.addEventListener("dragover", event => {
+            event.preventDefault();
+        });
+
+        dropZone.addEventListener("drop", event => {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text/html");
+            dropZone.appendChild(htmlToElement(data));
+        });
+
+        singleAnswerOption.addEventListener("dragstart", event => {
+            event.dataTransfer.setData("text/html", singleAnswerHtml);
+            console.log(event);
+            dropZone.appendChild(insertQuestion);
+        });
+
+        singleAnswerOption.addEventListener("dragend", event => {
+            dropZone.removeChild(insertQuestion);
+        });
+
+
+    </script>
+}

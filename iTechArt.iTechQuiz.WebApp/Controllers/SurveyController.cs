@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iTechArt.iTechQuiz.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
@@ -6,7 +7,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     {
         public IActionResult NewSurvey()
         {
-            return View();
+            return View(new Survey());
         }
     }
 }

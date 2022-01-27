@@ -35,6 +35,12 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+function dragStart(html) {
+    event.dataTransfer.setData("text/html", singleAnswerHtml);
+    console.log(event);
+    dropZone.appendChild(insertQuestion);
+}
+
 const dropZone = document.getElementById("surveyConstructor");
 
 dropZone.addEventListener("dragover", event => {
@@ -47,6 +53,8 @@ dropZone.addEventListener("drop", event => {
     dropZone.appendChild(htmlToElement(data));
 });
 
+/*
+
 singleAnswerOption.addEventListener("dragstart", event => {
     event.dataTransfer.setData("text/html", singleAnswerHtml);
     let img = new Image();
@@ -58,6 +66,7 @@ singleAnswerOption.addEventListener("dragend", event => {
     dropZone.removeChild(insertQuestion);
 });
 
+*/
 
 
 
