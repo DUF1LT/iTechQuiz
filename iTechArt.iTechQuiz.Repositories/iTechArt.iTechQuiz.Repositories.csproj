@@ -17,4 +17,8 @@
 		<ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Repositories\" />
+	</ItemGroup>
+
 </Project>

@@ -4,15 +4,11 @@ using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.iTechQuiz.Repositories.DataSeeder;
-using iTechArt.iTechQuiz.WebApp.Providers;
-using iTechArt.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace iTechArt.iTechQuiz.WebApp
@@ -36,7 +32,7 @@ namespace iTechArt.iTechQuiz.WebApp
             {
                 var services = scope.ServiceProvider;
                 var userManager = services.GetRequiredService<UserManager<User>>();
-                var rolesManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                var rolesManager = services.GetRequiredService<RoleManager<Role>>();
                 var context = services.GetRequiredService<iTechQuizContext>();
                 await DataSeeder.InitializeAsync(userManager, rolesManager, context);
             }

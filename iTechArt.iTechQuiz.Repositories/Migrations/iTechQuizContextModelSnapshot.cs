@@ -124,7 +124,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -498,11 +499,6 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasForeignKey("Type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.Page", "SurveyPage")
-                        .WithMany("Questions")
-                        .HasForeignKey("SurveyPageId")
-                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Survey");
 

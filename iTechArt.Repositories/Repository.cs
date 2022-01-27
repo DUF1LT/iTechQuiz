@@ -6,35 +6,35 @@ namespace iTechArt.Repositories
     public class Repository<TEntity, TId> : IRepository<TEntity, TId> 
         where TEntity : class, IEntity<TId>, new()
     {
-        private readonly DbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly DbContext Context;
+        protected readonly DbSet<TEntity> DbSet;
 
 
         public Repository(DbContext context)
         {
-            _context = context;
-            _dbSet = _context.Set<TEntity>();
+            this.Context = context;
+            DbSet = this.Context.Set<TEntity>();
         }
 
 
         public async Task<TEntity> GetByIdAsync(TId id)
         {
-            return await _dbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
         }
 
         public async Task CreateAsync(TEntity entity)
         {
-            await _dbSet.AddAsync(entity);
+            await DbSet.AddAsync(entity);
         }
 
         public void Update(TEntity entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            Context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(TId id)
         {
-            _dbSet.Remove(new TEntity
+            DbSet.Remove(new TEntity
             {
                 Id = id
             });

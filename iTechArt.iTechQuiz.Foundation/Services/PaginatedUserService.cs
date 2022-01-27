@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
-using iTechArt.iTechQuiz.Repositories.UnitOfWork;
+using iTechArt.iTechQuiz.Repositories;
 using iTechArt.Repositories.Lists;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +21,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
         public async Task<PaginatedList<User>> GetPageAsync(int pageIndex, int pageSize)
         {
-            var paginatedQuery = _unitOfWork.UserRepository.GetQuery();
+            var paginatedQuery = _unitOfWork.GetRepository<User, Guid, UserRepository>().GetUsers();
             var count = await paginatedQuery.CountAsync();
 
             var items = await paginatedQuery.Skip((pageIndex - 1) * pageSize)

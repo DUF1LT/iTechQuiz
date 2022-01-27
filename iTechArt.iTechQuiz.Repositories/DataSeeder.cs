@@ -11,7 +11,7 @@ namespace iTechArt.iTechQuiz.Repositories
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager, iTechQuizContext context)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager, iTechQuizContext context)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";

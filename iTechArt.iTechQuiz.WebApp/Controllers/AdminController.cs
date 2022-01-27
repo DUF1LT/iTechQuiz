@@ -17,6 +17,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AdminController : Controller
     {
+        private const int PageSize = 5;
+
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;

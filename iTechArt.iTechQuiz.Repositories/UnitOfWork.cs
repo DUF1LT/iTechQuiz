@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.Repositories;
 
@@ -6,16 +9,22 @@ namespace iTechArt.iTechQuiz.Repositories
 {
     public class UnitOfWork
     {
+        private readonly Dictionary<Type, object> _repositories;
         private readonly iTechQuizContext _context;
 
-        private UserRepository _userRepository;
+
+        public UnitOfWork(iTechQuizContext context)
+        {
+            _context = context;
+            _repositories = new Dictionary<Type, object>();
+        }
 
 
         public TRepository GetRepository<TEntity, TId, TRepository>()
-            where TEntity : class, IEntity<TId>, new() 
+            where TEntity : class, IEntity<TId>, new()
             where TRepository : Repository<TEntity, TId>
         {
-            get
+            if (_repositories.Keys.Contains(typeof(TEntity)))
             {
                 return _repositories[typeof(TEntity)] as TRepository;
             }
@@ -23,9 +32,7 @@ namespace iTechArt.iTechQuiz.Repositories
             var repository = (TRepository)Activator.CreateInstance(typeof(TRepository), args: _context);
             _repositories.Add(typeof(TEntity), repository);
 
-        public UnitOfWork(iTechQuizContext context)
-        {
-            _context = context;
+            return repository;
         }
 
         public async Task SaveAsync()
