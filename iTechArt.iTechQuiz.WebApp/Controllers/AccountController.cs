@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.Providers;
@@ -14,13 +15,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser<Guid>> _signInManager;
-        private readonly UserManager<IdentityUser<Guid>> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
 
 
-        public AccountController(UserManager<IdentityUser<Guid>> userManager,
-            SignInManager<IdentityUser<Guid>> signInManager,
+        public AccountController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IEmailService emailService)
         {
             _userManager = userManager;
@@ -92,10 +93,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
-            IdentityUser<Guid> user = new IdentityUser<Guid>
+            User user = new User()
             {
+                Id = Guid.NewGuid(),
                 UserName = model.UserName,
-                Email = model.Email
+                Email = model.Email,
+                RegisteredAt = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

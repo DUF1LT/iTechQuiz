@@ -6,11 +6,11 @@ namespace iTechArt.Common.Extensions
 {
     public static class SignInManagerExtensions
     {
-        public static async Task<SignInResult> PasswordEmailSignInAsync(this SignInManager<IdentityUser<Guid>> signInManager, 
+        public static async Task<SignInResult> PasswordEmailSignInAsync<TUser>(this SignInManager<TUser> signInManager, 
             string email, 
             string password,
             bool isPersistent,
-            bool shouldLockout)
+            bool shouldLockout) where TUser : IdentityUser<Guid>
         {
             var user = await signInManager.UserManager.FindByEmailAsync(email);
             if (user != null)

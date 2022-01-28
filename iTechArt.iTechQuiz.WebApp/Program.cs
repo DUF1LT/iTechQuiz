@@ -1,8 +1,11 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Repositories.DataSeeder;
+using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Repositories;
+using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;
+using iTechArt.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -31,12 +34,13 @@ namespace iTechArt.iTechQuiz.WebApp
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var userManager = services.GetRequiredService<UserManager<IdentityUser<Guid>>>();
+                var userManager = services.GetRequiredService<UserManager<User>>();
                 var rolesManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                await DataSeeder.InitializeAsync(userManager, rolesManager);
+                var context = services.GetRequiredService<iTechQuizContext>();
+                await DataSeeder.InitializeAsync(userManager, rolesManager, context);
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

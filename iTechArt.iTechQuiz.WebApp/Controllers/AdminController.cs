@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -14,13 +15,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser<Guid>> _userManager;
-        private readonly SignInManager<IdentityUser<Guid>> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
 
-        public AdminController(UserManager<IdentityUser<Guid>> userManager, 
-            SignInManager<IdentityUser<Guid>> signInManager,
+        public AdminController(UserManager<User> userManager, 
+            SignInManager<User> signInManager,
             RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userManager = userManager;
@@ -33,7 +34,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Users()
         {
-            List<UserViewModel> users = new List<UserViewModel>();
+            var users = new List<UserViewModel>();
             foreach (var user in _userManager.Users.ToList())
             {
                 users.Add(new UserViewModel
@@ -85,7 +86,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            await _userManager.DeleteAsync(new IdentityUser<Guid>
+            await _userManager.DeleteAsync(new User
             {
                 Id = id
             });
@@ -118,7 +119,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Edit(UserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
             {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iTechArt.iTechQuiz.Repositories.Context;
 
 namespace iTechArt.iTechQuiz.Repositories.Migrations
 {
     [DbContext(typeof(iTechQuizContext))]
-    partial class iTechQuizContextModelSnapshot : ModelSnapshot
+    [Migration("20220128110026_create models infrastructure")]
+    partial class createmodelsinfrastructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
