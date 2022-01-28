@@ -30,6 +30,7 @@ namespace iTechArt.iTechQuiz.Repositories
             {
                 User admin = new User
                 {
+                    Id = Guid.NewGuid(),
                     Email = adminEmail, 
                     UserName = Roles.Admin, 
                     RegisteredAt = DateTime.Now
