@@ -17,10 +17,4 @@
 	  <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\iTechArt.iTechQuiz.Domain\iTechArt.iTechQuiz.Domain.csproj" />
-	  <ProjectReference Include="..\iTechArt.iTechQuiz.Repositories\iTechArt.iTechQuiz.Repositories.csproj" />
-	  <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
-	</ItemGroup>
-
 </Project>

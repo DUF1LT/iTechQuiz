@@ -2,7 +2,6 @@ using System;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Interfaces;
-using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;
@@ -16,7 +15,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using IEmailService = iTechArt.Common.Services.EmailService.IEmailService;
 
 namespace iTechArt.iTechQuiz.WebApp
 {
