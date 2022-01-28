@@ -2,6 +2,7 @@ using System;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Interfaces;
+using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;

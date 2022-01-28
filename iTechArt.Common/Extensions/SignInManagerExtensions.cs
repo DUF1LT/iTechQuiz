@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Common.Extensions
