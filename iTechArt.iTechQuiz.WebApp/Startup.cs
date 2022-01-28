@@ -70,7 +70,7 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddTransient<UnitOfWork>();
 
-            services.AddTransient<PaginatedUserService>();
+            services.AddTransient<UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

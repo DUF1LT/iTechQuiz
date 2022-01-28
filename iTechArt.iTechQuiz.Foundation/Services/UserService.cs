@@ -8,27 +8,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Foundation.Services
 {
-    public class PaginatedUserService
+    public class UserService
     {
         private readonly UnitOfWork _unitOfWork;
 
 
-        public PaginatedUserService(UnitOfWork unitOfWork)
+        public UserService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
 
-        public async Task<PaginatedList<User>> GetPageAsync(int pageIndex, int pageSize)
+        public async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize)
         {
             var paginatedQuery = _unitOfWork.GetRepository<User, Guid, UserRepository>().GetUsers();
+
             var count = await paginatedQuery.CountAsync();
 
             var items = await paginatedQuery.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PaginatedList<User>(items, count, pageIndex, pageSize);
+            return new PagedData<User>(items, count, pageIndex, pageSize);
         }
     }
 }

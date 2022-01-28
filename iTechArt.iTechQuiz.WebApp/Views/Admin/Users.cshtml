@@ -1,6 +1,6 @@
 ﻿@using iTechArt.Common.Extensions
 
-@model iTechArt.Repositories.Lists.PaginatedList<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
+@model iTechArt.Repositories.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
 
 @section Styles {
     <link rel="stylesheet" href="~/css/sidebar.css" />
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Items)
                 {
                     <tr>
                         <th>

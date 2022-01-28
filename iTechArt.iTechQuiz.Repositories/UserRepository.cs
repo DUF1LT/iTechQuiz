@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Context;
@@ -16,7 +17,8 @@ namespace iTechArt.iTechQuiz.Repositories
         {
             return DbSet.Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)
-                .Include(p => p.Surveys);
+                .Include(p => p.Surveys)
+                .Where(p => p.RegisteredAt < DateTime.Now);
         }
     }
 }
