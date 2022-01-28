@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
-using iTechArt.Repositories.Lists;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Foundation.Services

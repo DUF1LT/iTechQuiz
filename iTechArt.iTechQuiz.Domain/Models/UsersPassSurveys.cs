@@ -1,5 +1,4 @@
 ﻿using System;
-using iTechArt.Repositories.Entity;
 
 namespace iTechArt.iTechQuiz.Domain.Models
 {

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
-using iTechArt.Repositories.Lists;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

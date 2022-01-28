@@ -14,6 +14,8 @@ namespace iTechArt.Common.Lists
 
         public int TotalPages { get; private set; }
 
+        public int TotalCount { get; set; }
+
         public bool HasPreviousPage => (PageIndex > 1);
 
         public bool HasNextPage => (PageIndex < TotalPages);
@@ -22,6 +24,7 @@ namespace iTechArt.Common.Lists
         public PagedData(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
             Items = items;
+            TotalCount = count;
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         }
