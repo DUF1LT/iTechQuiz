@@ -13,7 +13,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .HasForeignKey<Answer>(e => e.FileId);
 
             builder.Property(e => e.Name)
-                .HasMaxLength(40);
+                .HasMaxLength(260);
         }
     }
 }

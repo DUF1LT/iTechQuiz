@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace iTechArt.iTechQuiz.Repositories.Migrations
 {
-    public partial class createmodelinfrastructure : Migration
+    public partial class createmodelsinfrastructure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(260)", maxLength: 260, nullable: true),
                     Bytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     AnswerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -40,7 +40,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +53,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AnswerAmount = table.Column<int>(type: "int", nullable: false),
                     PagesAmount = table.Column<int>(type: "int", nullable: false),
@@ -81,7 +81,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SurveyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -127,8 +127,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                     SurveyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SurveyPageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Options = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Options = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Number = table.Column<int>(type: "int", nullable: false),
                     IsRequired = table.Column<bool>(type: "bit", nullable: false)
                 },
