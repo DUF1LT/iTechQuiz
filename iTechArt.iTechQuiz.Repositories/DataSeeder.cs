@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
+using iTechArt.iTechQuiz.Repositories.Context;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.iTechQuiz.Repositories.DataSeeder
+namespace iTechArt.iTechQuiz.Repositories
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager, iTechQuizContext context)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";
@@ -27,8 +30,8 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
             {
                 User admin = new User
                 {
-                    Email = adminEmail, 
-                    UserName = Roles.Admin, 
+                    Email = adminEmail,
+                    UserName = Roles.Admin,
                     RegisteredAt = DateTime.Now
                 };
 
@@ -39,17 +42,34 @@ namespace iTechArt.iTechQuiz.Repositories.DataSeeder
                 }
             }
 
-            if (await userManager.FindByNameAsync("anonymous") is null)
+            if (await userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == default) is null)
             {
                 User anonymous = new User
                 {
-                    Email = "anonymous@itechart.com", 
-                    UserName = "anonymous", 
-                    IsSystemUser = true, 
+                    Id = default,
+                    Email = "anonymous@itechart.com",
+                    UserName = "anonymous",
+                    IsSystemUser = true,
                     RegisteredAt = DateTime.Now
                 };
 
-                IdentityResult result = await userManager.CreateAsync(anonymous);
+                await userManager.CreateAsync(anonymous);
+            }
+
+            if (!await context.QuestionTypes.AnyAsync())
+            {
+                var types = new List<QuestionTypeLookup>
+                {
+                    new() {Id = QuestionType.SingleAnswer, Name = "Single answer" },
+                    new() {Id = QuestionType.MultipleAnswer, Name = "Multiple answer" },
+                    new() {Id = QuestionType.Text, Name = "Text" },
+                    new() {Id = QuestionType.File, Name = "File" },
+                    new() {Id = QuestionType.Rating, Name = "Rating" },
+                    new() {Id = QuestionType.Scale, Name = "Scale" }
+                };
+
+                await context.AddRangeAsync(types);
+                await context.SaveChangesAsync();
             }
         }
     }

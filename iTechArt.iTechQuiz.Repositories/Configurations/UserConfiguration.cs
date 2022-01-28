@@ -19,7 +19,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Surveys)
-                .WithOne(e => e.Founder)
+                .WithOne(e => e.CreatedBy)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(e => e.Answers)

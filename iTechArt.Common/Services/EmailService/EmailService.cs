@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using iTechArt.iTechQuiz.Foundation.Interfaces;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
