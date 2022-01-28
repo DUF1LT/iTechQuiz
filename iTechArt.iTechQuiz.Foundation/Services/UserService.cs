@@ -17,7 +17,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
         }
 
 
-        public async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize)
+        public async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize, string nameFilter = null)
         {
             return await _unitOfWork.GetRepository<User, Guid, UserRepository>()
                 .GetPageAsync(pageIndex, pageSize);

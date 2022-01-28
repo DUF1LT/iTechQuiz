@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
@@ -46,7 +47,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 pageIndex = 1;
             }
 
-            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize);
+            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize, filter);
             var users = paginatedUsers.Items.Select(e => new UserViewModel
             {
                 Id = e.Id,
