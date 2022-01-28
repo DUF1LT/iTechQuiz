@@ -58,7 +58,7 @@
 }
 
 .admin-users__table thead th {
-     padding: 15px 0;
+    padding: 15px 0;
 }
 
 .admin-users__table th {
@@ -66,11 +66,11 @@
 }
 
 .admin-users__table tbody tr {
-     height: 55px;
+    height: 55px;
 }
 
 .admin-users__table tbody th {
-     font-weight: 400;
+    font-weight: 400;
 }
 
 .admin-users__table-footer {
