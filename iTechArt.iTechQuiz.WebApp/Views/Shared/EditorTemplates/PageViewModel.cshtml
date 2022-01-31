@@ -1,0 +1,7 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.PageViewModel
+
+<div id="surveyConstructor" class="new-survey-main-constructor">
+    <input asp-for="Id" hidden/>
+    <input asp-for="Name" type="text"/>
+    @Html.EditorFor(p => p.Questions)
+</div>

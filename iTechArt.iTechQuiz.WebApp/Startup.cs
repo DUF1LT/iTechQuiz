@@ -30,6 +30,7 @@ namespace iTechArt.iTechQuiz.WebApp
             Configuration = configuration;
             Environment = environment;
         }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<iTechQuizContext>(options =>

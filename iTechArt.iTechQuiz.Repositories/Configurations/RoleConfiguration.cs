@@ -15,7 +15,6 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasMany(e => e.UserRoles)
                 .WithOne(e => e.Role)
                 .HasForeignKey(e => e.RoleId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }
     }

@@ -1,0 +1,17 @@
+﻿@using iTechArt.iTechQuiz.Domain.Models
+@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.QuestionViewModel
+
+
+@switch (Model.Type)
+{
+    case QuestionType.SingleAnswer:
+    {
+        <partial name="Survey/_SingleAnswerPartial" model="Model"/>
+        break;
+    }
+    default:
+    {
+        <partial name="Survey/_SingleAnswerPartial" model="Model"/>
+        break;
+    }
+}

@@ -1,0 +1,22 @@
+﻿@using MimeKit.Text
+@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.SurveyViewModel
+
+<form id="newSurveyMainForm" class="new-survey-main" method="post">
+    <div class="new-survey-main__title">
+        <span>New survey:</span>
+        <input asp-for="Title" type="text" />
+    </div>
+    <span>Questions: @Model.Pages.Sum(p => p.Questions.Count), pages: @Model.Pages.Count </span>
+    <div class="new-survey-main__buttons">
+        <div class="new-survey-main__buttons-left">
+            <input type="button" class="button" value="Save">
+            <input type="button" class="lg-button" value="Save as template">
+            <input type="button" class="red-button" value="Cancel">
+        </div>
+        <button class="button">New page</button>
+    </div>
+    <div class="new-survey-main-constructor-wrapper">
+        @Html.EditorFor(p => p.Pages)
+    </div>
+</form>
+

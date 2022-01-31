@@ -10,8 +10,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
         {
             builder.HasOne(e => e.Answer)
                 .WithOne(e => e.File)
-                .HasForeignKey<Answer>(e => e.FileId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey<Answer>(e => e.FileId);
         }
     }
 }

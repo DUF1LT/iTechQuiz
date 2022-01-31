@@ -1,0 +1,17 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.QuestionViewModel
+
+<div class="new-survey-main__question">
+    <div class="new-survey-main__question__header">
+        <div class="new-survey-main__question__title">
+            <input asp-for="Id" hidden="" />
+            <input asp-for="Number" hidden />
+            <input asp-for="Content" hidden />
+            <label asp-for="Number">@Model.Number.</label>
+            <label asp-for="Content">@Model.Content</label>
+        </div>
+        <a class="new-survey-main__edit-question" id="@Model.Id" onclick="EditQuestion(this)"><img src="~/img/edit.svg" width="20"></a>
+    </div>
+    <div class="new-survey-main__question__answers">
+        @Html.EditorFor(p => p.Options)
+    </div>
+</div>

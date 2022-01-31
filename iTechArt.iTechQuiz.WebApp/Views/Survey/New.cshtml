@@ -1,0 +1,114 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.SurveyViewModel
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/new-survey.css" />
+}
+
+@section Scripts
+{
+    <script src="~/js/newsurvey.js"></script>
+    <script>
+
+        $('#singleAnswerOption').click(function () {
+            console.log($("#newSurveyMainForm").serialize());
+
+            $.ajax({
+                async: true,
+                data: $("#newSurveyMainForm").serialize(),
+                type: 'POST',
+                traditional: true,
+                url: 'AddSingleAnswerQuestion',
+                success: function (partialView) {
+                    $('#newSurveyMainForm').html(partialView);
+
+                }
+            });
+        });
+
+        function EditQuestion(element) {
+            console.log(`id=${element.id}&${$("#newSurveyMainForm").serialize()}`);
+            $.ajax({
+                async: true,
+                data: `id=${element.id}&${$("#newSurveyMainForm").serialize()}`,
+                type: 'POST',
+                traditional: true,
+                url: 'EditQuestion',
+                success: function (partialView) {
+                    $('#newSurveyMainForm').html(partialView);
+                }
+            });
+        }
+
+    </script>
+}
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper">
+    <section class="new-survey-section">
+        <partial name="Survey/_NewSurveyMainPartial" model="Model" />
+        <div class="new-survey-side">
+            <div class="new-survey-side-wrapper">
+                <div class="new-survey-side-question-type">
+                    <div class="new-survey-side-question-type__title">
+                        Question type
+                    </div>
+                    <div class="new-survey-side-question-type__options">
+                        <div id="singleAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/dotlist.svg" width="20" draggable="false" />
+                            <span>Answer options (single)</span>
+                        </div>
+                        <div id="multipleAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/boxlist.svg" width="20" draggable="false" />
+                            <span>Answer options (multiple)</span>
+                        </div>
+                        <div id="textAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/text.svg" width="20" draggable="false" />
+                            <span draggable="true">Text</span>
+                        </div>
+                        <div id="fileAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/file.svg" width="20" draggable="false" />
+                            <span draggable="true">File</span>
+                        </div>
+                        <div id="starAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/star.svg" width="20" draggable="false" />
+                            <span draggable="true">Star rating</span>
+                        </div>
+                        <div id="scaleAnswerOption" class="new-survey-side-question-type__option">
+                            <img src="~/img/scale.svg" width="20" draggable="false" />
+                            <span draggable="true">Scale</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="new-survey-side-survey-parameters">
+                    <span class="new-survey-side-survey-parametrs__title">
+                        Survey Parameters
+                    </span>
+                    <div class="new-survey-side-survey-parameters__options">
+                        <div>
+                            <input type="checkbox" />
+                            <span>Anonymous</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" />
+                            <span>Question numbers</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" />
+                            <span>Questions in random sequence</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" />
+                            <span>Render start at required questions</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" />
+                            <span>Progress bar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

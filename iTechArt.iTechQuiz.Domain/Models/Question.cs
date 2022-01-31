@@ -18,6 +18,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public string Options { get; set; }
 
+        public int Number { get; set; }
+
         public bool IsRequired { get; set; }
 
         public ICollection<Answer> Answers { get; set; }

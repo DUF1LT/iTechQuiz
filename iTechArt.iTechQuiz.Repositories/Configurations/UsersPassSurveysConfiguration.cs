@@ -12,13 +12,11 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
 
             builder.HasOne(e => e.Survey)
                 .WithMany(e => e.UsersPassed)
-                .HasForeignKey(e => e.SurveyId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(e => e.SurveyId);
 
             builder.HasOne(e => e.User)
                 .WithMany(e => e.PassedSurveys)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(e => e.UserId);
         }
     }
 }
