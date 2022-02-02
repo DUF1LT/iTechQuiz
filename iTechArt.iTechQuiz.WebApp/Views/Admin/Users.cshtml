@@ -74,29 +74,14 @@
                                 <div class="admin-users__total-users-count">@Model.TotalCount</div>
                             </div>
                             <div class="admin-users__arrows">
-                                @if (Model.PageIndex != 1)
-                                {
-                                    <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows">&laquo;</a>
-                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows">&lsaquo;</a>
-                                }
-                                else
-                                {
-                                    <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows hidden">&laquo;</a>
-                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows hidden">&lsaquo;</a>
-                                }
+
+                                <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
 
                                 <p>@Model.PageIndex / @Model.TotalPages</p>
 
-                                @if (Model.PageIndex != Model.TotalPages)
-                                {
-                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows">&rsaquo;</a>
-                                    <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows">&raquo;</a>
-                                }
-                                else
-                                {
-                                    <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows hidden">&rsaquo;</a>
-                                    <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows hidden">&raquo;</a>
-                                }
+                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows @(Model.PageIndex == Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows @(Model.PageIndex == Model.TotalPages ? "hidden" : "")">&raquo;</a>
                             </div>
                         </div>
                     </th>

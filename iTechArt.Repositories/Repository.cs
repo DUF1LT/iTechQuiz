@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using iTechArt.Common.Lists;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.Repositories
@@ -16,6 +18,17 @@ namespace iTechArt.Repositories
             DbSet = this.Context.Set<TEntity>();
         }
 
+
+        public virtual async Task<PagedData<TEntity>> GetPageAsync(int pageIndex, int pageSize)
+        {
+            var count = await DbSet.CountAsync();
+
+            var items = await DbSet.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedData<TEntity>(items, count, pageIndex, pageSize);
+        }
 
         public async Task<TEntity> GetByIdAsync(TId id)
         {
