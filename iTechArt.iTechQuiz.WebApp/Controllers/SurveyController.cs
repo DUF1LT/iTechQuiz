@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.WebApp.ViewModels.Constructor;
 using Microsoft.AspNetCore.Mvc;
@@ -50,9 +51,10 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return PartialView("Survey/_NewSurveyMainPartial", surveyViewModel);
             }
 
-            if (model.Pages[model.CurrentPage].Questions is null)
+            var currentPage = model.Pages[model.CurrentPage];
+            if (currentPage.Questions is null)
             {
-                model.Pages[model.CurrentPage].Questions = new List<QuestionViewModel>();
+                currentPage.Questions = new List<QuestionViewModel>();
             }
 
             var id = Guid.NewGuid();
@@ -60,17 +62,18 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             {
                 Id = id,
                 Content = "Question with single answer",
-                Number = model.Pages[model.CurrentPage].Questions.Count + 1,
-                Options = new List<SingleOptionViewModel>
+                Number = currentPage.Questions.Count + 1,
+                Options = new List<string>
                 {
-                    new(){ Option = "Answer 1" },
-                    new(){ Option = "Answer 2" },
-                    new(){ Option = "Answer 3" }
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
                 },
                 Type = QuestionType.SingleAnswer
             };
 
-            model.Pages[model.CurrentPage].Questions.Add(question);
+            currentPage.Questions.Add(question);
+            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
 
             return PartialView("Survey/_NewSurveyMainPartial", model);
         }
@@ -84,8 +87,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return PartialView("Survey/_NewSurveyMainPartial", model);
             }
 
-            var question = model.Pages[model.CurrentPage]
-                .Questions
+            var currentPage = model.Pages[model.CurrentPage];
+            var question = currentPage.Questions
                 .FirstOrDefault(p => p.Id == id);
 
             if (question is null)
@@ -93,7 +96,107 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return PartialView("Survey/_NewSurveyMainPartial", model);
             }
 
-            question.IsEditable = true;
+            question.IsEditable = !question.IsEditable;
+            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
+
+            return PartialView("Survey/_NewSurveyMainPartial", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteQuestion(Guid id, SurveyViewModel model)
+        {
+            if (id == Guid.Empty || model is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            var currentPage = model.Pages[model.CurrentPage];
+            var question = currentPage.Questions
+                .FirstOrDefault(p => p.Id == id);
+
+            if (question is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            var index = currentPage.Questions.IndexOf(question);
+            for (int i = index + 1; i < currentPage.Questions.Count; i++)
+            {
+                currentPage.Questions[i].Number--;
+            }
+
+            currentPage.Questions.Remove(question);
+            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
+
+            return PartialView("Survey/_NewSurveyMainPartial", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MoveUp(Guid id, SurveyViewModel model)
+        {
+            if (id == Guid.Empty || model is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+            var currentPage = model.Pages[model.CurrentPage];
+
+            var question = currentPage.Questions
+                .FirstOrDefault(p => p.Id == id);
+
+            if (question is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            var number = question.Number;
+            var prevNumberQuestion = currentPage.Questions.FirstOrDefault(p => p.Number == number - 1);
+            if (prevNumberQuestion is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            question.Number = prevNumberQuestion.Number;
+            prevNumberQuestion.Number = number;
+
+            currentPage.Questions = currentPage.Questions.OrderBy(p => p.Number).ToList();
+            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
+
+            return PartialView("Survey/_NewSurveyMainPartial", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MoveDown(Guid id, SurveyViewModel model)
+        {
+            if (id == Guid.Empty || model is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            var currentPage = model.Pages[model.CurrentPage];
+            var question = currentPage.Questions
+                .FirstOrDefault(p => p.Id == id);
+
+            if (question is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+
+            var number = question.Number;
+            var nextNumberQuestion = currentPage.Questions.FirstOrDefault(p => p.Number == number + 1);
+            if (nextNumberQuestion is null)
+            {
+                return PartialView("Survey/_NewSurveyMainPartial", model);
+            }
+
+            question.Number = nextNumberQuestion.Number;
+            nextNumberQuestion.Number = number;
+
+            currentPage.Questions = currentPage.Questions.OrderBy(p => p.Number).ToList();
+            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
 
             return PartialView("Survey/_NewSurveyMainPartial", model);
         }

@@ -1,17 +1,40 @@
 ﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.QuestionViewModel
 
-<div class="new-survey-main__question">
+@if (Model.IsEditable)
+{
     <div class="new-survey-main__question__header">
         <div class="new-survey-main__question__title">
-            <input asp-for="Id" hidden="" />
-            <input asp-for="Number" hidden />
-            <input asp-for="Content" hidden />
-            <label asp-for="Number">@Model.Number.</label>
-            <label asp-for="Content">@Model.Content</label>
+            <label>@Model.Number.</label>
+            <input asp-for="@Model.Content">
         </div>
-        <a class="new-survey-main__edit-question" id="@Model.Id" onclick="EditQuestion(this)"><img src="~/img/edit.svg" width="20"></a>
     </div>
     <div class="new-survey-main__question__answers">
-        @Html.EditorFor(p => p.Options)
+        @for (int i = 0; i < Model.Options.Count; i++)
+        {
+            <div class="new-survey-main__question__option">
+                <input type="radio" name="" />
+                <input asp-for="@Model.Options[i]" class="new-survey-main__question__option__text-input">
+            </div>
+        }
     </div>
-</div>
+}
+else
+{
+    <div class="new-survey-main__question__header">
+        <div class="new-survey-main__question__title">
+            <label>@Model.Number.</label>
+            <label>@Model.Content</label>
+        </div>
+        <a class="new-survey-main__edit-question" onclick="EditQuestion('@Model.Id')"><img src="~/img/edit.svg" width="20"></a>
+    </div>
+    <div class="new-survey-main__question__answers">
+        @for (int i = 0; i < Model.Options.Count; i++)
+        {
+            <div class="new-survey-main__question__option">
+                <input asp-for="@Model.Options[i]" hidden />
+                <input type="radio" name="" />
+                <label class="new-survey-main__question__option__text-input">@Model.Options[i]</label>
+            </div>
+        }
+    </div>
+}

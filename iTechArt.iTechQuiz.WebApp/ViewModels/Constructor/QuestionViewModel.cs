@@ -10,6 +10,8 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
 
         public bool IsEditable { get; set; }
 
+        public bool IsRequired { get; set; }
+
         public string Content { get; set; }
 
         public int Number { get; set; }
@@ -18,7 +20,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
 
         public int NumericOption { get; set; }
 
-        public List<SingleOptionViewModel> Options { get; set; }
+        public List<string> Options { get; set; }
 
     }
 }

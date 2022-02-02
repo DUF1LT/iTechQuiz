@@ -117,6 +117,62 @@
 
 .new-survey-main__edit-question:hover {
     cursor: pointer;
+    filter: invert(31%) sepia(17%) saturate(4615%) hue-rotate(334deg) brightness(104%) contrast(112%);
+}
+
+.new-survey-main__editable-question {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 0 10px 10px 10px;
+}
+
+.new-survey-main__editable-question__settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.new-survey-main__editable-question__settings__move {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 5px;
+}
+
+.new-survey-main__editable-question__settings__move-arrows {
+    display: flex;
+    row-gap: -5px;
+    flex-direction: column;
+}
+
+.new-survey-main__editable-question__settings__delete-and-require {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    padding: 10px;
+}
+
+.new-survey-main__editable-question__settings__require {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.new-survey-main__editable-question__settings__delete:hover {
+    cursor: pointer;
+}
+
+.new-survey-main__editable-question__buttons {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+    padding: 10px 10px 5px 0
+}
+
+.new-survey-main__editable-question__settings__arrow:hover {
+    cursor: pointer;
 }
 
 /*Side*/
