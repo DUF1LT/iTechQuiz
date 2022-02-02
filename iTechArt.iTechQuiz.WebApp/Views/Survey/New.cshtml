@@ -9,26 +9,7 @@
 @section Scripts
 {
     <script src="~/js/newsurvey.js"></script>
-    <script>
-
-        Vue.component('survey-page',
-            {
-                props: ['page'],
-                template: "<div>I'm page {{page.name}}</div>"
-            });
-
-        Vue.component('single-answer-question',
-            {
-                template: "<div>I'm single answer question</div>"
-            });
-
-        let survey = new Vue({
-            el: '#survey-vue',
-            data: {
-                survey: @Html.Raw(Json.Serialize(Model))
-            }
-        });
-    </script>
+    <script src="~/js/new-survey.js"></script>
 }
 
 <partial name="_SidebarPartial" />

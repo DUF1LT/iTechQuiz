@@ -14,7 +14,7 @@
     flex-direction: column;
     align-items: flex-start;
     row-gap: 15px;
-    padding-right: 50px;
+    padding-right: 40px;
 }
 
 .new-survey-main__title {
@@ -67,6 +67,14 @@
     border: 2px dashed black;
     padding: 30px 10px;
     text-align: center;
+}
+
+.new-survey-main-pages-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 10px;
+    column-gap: 10px;
 }
 
 .new-survey-main__question {

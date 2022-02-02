@@ -5,17 +5,20 @@
         <span>New survey:</span>
         <input asp-for="Title" type="text" />
     </div>
-    <span>Questions: {{survey.currentPage}} @Model.Pages.Sum(p => p.Questions.Count), pages: @Model.Pages.Count </span>
+    <span>Questions: {{survey.pages.reduce((count, pages) => count + pages.questions.length, 0)}} @Model.Pages.Sum(p => p.Questions.Count), pages: {{survey.pages.length}} </span>
     <div class="new-survey-main__buttons">
         <div class="new-survey-main__buttons-left">
             <input type="button" class="button" value="Save">
             <input type="button" class="lg-button" value="Save as template">
             <input type="button" class="red-button" value="Cancel">
         </div>
-        <button class="button">New page</button>
+        <input type="button" class="button" value="New Page" v-on:click="addPage"/> 
+    </div>
+    <div class="new-survey-main-pages-wrapper">
+        <survey-page v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" :key="page.id" v-on:change-page="changePage"></survey-page>
     </div>
     <div class="new-survey-main-constructor-wrapper">
-        <survey-page v-for="page in survey.pages" v-bind:page="page" :key="page.id"></survey-page>
+
     </div>
 </form>
 

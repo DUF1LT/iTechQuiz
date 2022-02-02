@@ -64,10 +64,43 @@
     transition: 0.25s;
 }
 
+.red-solid-button {
+    width: 110px;
+    height: 40px;
+    border: 2px solid #d33722;
+    background-color: #d33722;
+    font-weight: 500;
+    color: #fff;
+    transition: 0.25s;
+}
+
+.red-solid-button:hover {
+    cursor: default;
+}
+
 .red-button:hover {
     background-color: #d33722;
     color: #fff;
     border: 2px solid #d33722;
+}
+
+.transparent-button {
+    width: 110px;
+    padding: 6px 0;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    display: block;
+    background-color: transparent;
+    font-weight: 500;
+    color: #272727;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.transparent-button :hover {
+    background-color: #272727;
+    color: #fff;
 }
 
 .hidden {
