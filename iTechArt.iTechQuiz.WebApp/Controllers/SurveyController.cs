@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.WebApp.ViewModels.Constructor;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +12,22 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class SurveyController : Controller
     {
-        [HttpGet]
-        public IActionResult New()
+        private readonly UserService _userService;
+
+
+        public SurveyController(UserService userService)
         {
-            var page = new PageViewModel()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Page 1",
-                Questions = new List<QuestionViewModel>()
-            };
+            _userService = userService;
+        }
 
-            var surveyViewModel = new SurveyViewModel
-            {
-                Pages = new List<PageViewModel> { page },
-                CurrentPage = 0
-            };
 
-            return View(surveyViewModel);
+        [HttpGet]
+        public async Task<IActionResult> New()
+        {
+            var user = await _userService.GetUser(Guid.Parse(User.GetId()));
+            var newSurveyNumber = user.Surveys.Count + 1;
+
+            return View(newSurveyNumber);
         }
 
         [HttpPost]

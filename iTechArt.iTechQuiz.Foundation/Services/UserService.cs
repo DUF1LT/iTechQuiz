@@ -16,7 +16,6 @@ namespace iTechArt.iTechQuiz.Foundation.Services
             _unitOfWork = unitOfWork;
         }
 
-
         public async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize, string nameFilter = null)
         {
             if (!string.IsNullOrEmpty(nameFilter))
@@ -27,6 +26,11 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
             return await _unitOfWork.GetRepository<User, Guid, UserRepository>()
                 .GetPageAsync(pageIndex, pageSize);
+        }
+
+        public async Task<User> GetUser(Guid id)
+        {
+            return await _unitOfWork.GetRepository<User, Guid, UserRepository>().GetByIdAsync(id);
         }
     }
 }

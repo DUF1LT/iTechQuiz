@@ -1,4 +1,4 @@
-﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.SurveyViewModel
+﻿@model int
 
 @section Styles
 {
@@ -10,12 +10,67 @@
 {
     <script src="~/js/newsurvey.js"></script>
     <script src="~/js/new-survey.js"></script>
+    <script>
+        let defaultSurvey = {
+            title: "Survey #@Model",
+            currentPage: 0,
+            pages: [
+                {
+                    name: "Page 1",
+                    questions: []
+                }],
+            isAnonymous: false,
+            hasQuestionNumeration: false,
+            hasPagesNumeration: false,
+            hasRandomSequence: false,
+            renderStarsAtRequiredFields: false,
+            hasProgressBar: false
+        }
+
+        let survey = new Vue({
+            el: '#survey-vue',
+            data: {
+                survey: {}
+            },
+            created: function() {
+                this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+            },
+            methods: {
+                resetSurvey: function (event) {
+                    this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+                },
+                addPage: function (event) {
+                    this.survey.pages.push(
+                        {
+                            name: 'Page ' + (this.survey.pages.length + 1),
+                            questions: []
+                        });
+                },
+                changePage: function (page) {
+                    this.survey.currentPage = this.survey.pages.indexOf(page);
+                },
+                removePage: function (page) {
+                    let removePage = this.survey.currentPage;
+
+                    if ((this.survey.pages.length - 1) == this.survey.currentPage) {
+                        this.survey.currentPage--;
+                    }
+
+                    if (this.survey.pages.length - 1 == 0) {
+                        this.survey.currentPage = 0;
+                    }
+
+                    this.survey.pages.splice(removePage, 1);
+                }
+            }
+        });
+    </script>
 }
 
 <partial name="_SidebarPartial" />
 <div id="survey-vue" class="main-wrapper">
     <section class="new-survey-section">
-        <partial name="Survey/_NewSurveyMainPartial" model="Model" />
+        <partial name="Survey/_NewSurveyMainPartial" />
         <partial name="Survey/_NewSurveySidePartial" />
     </section>
 </div>

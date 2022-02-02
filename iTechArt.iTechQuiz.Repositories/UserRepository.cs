@@ -35,5 +35,12 @@ namespace iTechArt.iTechQuiz.Repositories
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
 
+        public override Task<User> GetByIdAsync(Guid id)
+        {
+            return DbSet.Include(p => p.UserRoles)
+                .ThenInclude(p => p.Role)
+                .Include(p => p.Surveys)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

@@ -59,9 +59,6 @@
     row-gap: 10px;
 }
 
-.new-survey-main-constructor > input {
-    width: 50%;
-}
 
 .new-survey-main-constructor__insert {
     border: 2px dashed black;
@@ -76,6 +73,21 @@
     margin-top: 10px;
     column-gap: 10px;
 }
+
+.new-survey-main-constructor__page-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.new-survey-main-constructor__page-title > img:hover {
+    cursor: pointer;
+}
+
+.new-survey-main-constructor__page-title > input {
+    width: 70%;
+}
+
 
 .new-survey-main__question {
     display: flex;

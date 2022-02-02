@@ -65,7 +65,8 @@
 }
 
 .red-solid-button {
-    width: 110px;
+    width: auto;
+    padding: 0 28px;
     height: 40px;
     border: 2px solid #d33722;
     background-color: #d33722;
@@ -85,8 +86,8 @@
 }
 
 .transparent-button {
-    width: 110px;
-    padding: 6px 0;
+    width: auto;
+    padding: 0 28px;
     text-decoration: none;
     text-align: center;
     border: none;

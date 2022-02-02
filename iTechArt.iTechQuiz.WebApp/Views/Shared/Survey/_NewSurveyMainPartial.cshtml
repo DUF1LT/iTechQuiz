@@ -1,25 +1,21 @@
-﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.SurveyViewModel
-
-<form id="newSurveyMainForm" class="new-survey-main" method="post">
+﻿<form id="newSurveyMainForm" class="new-survey-main" method="post">
     <div class="new-survey-main__title">
         <span>New survey:</span>
-        <input asp-for="Title" type="text" />
+        <input v-model="survey.title" type="text" />
     </div>
-    <span>Questions: {{survey.pages.reduce((count, pages) => count + pages.questions.length, 0)}} @Model.Pages.Sum(p => p.Questions.Count), pages: {{survey.pages.length}} </span>
+    <span>Questions: {{survey.pages.reduce((count, pages) => count + pages.questions.length, 0)}}, pages: {{survey.pages.length}} </span>
     <div class="new-survey-main__buttons">
         <div class="new-survey-main__buttons-left">
             <input type="button" class="button" value="Save">
             <input type="button" class="lg-button" value="Save as template">
-            <input type="button" class="red-button" value="Cancel">
+            <input type="button" class="red-button" value="Cancel" v-on:click="resetSurvey">
         </div>
         <input type="button" class="button" value="New Page" v-on:click="addPage"/> 
     </div>
     <div class="new-survey-main-pages-wrapper">
-        <survey-page v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" :key="page.id" v-on:change-page="changePage"></survey-page>
+        <survey-page-tab v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
     </div>
-    <div class="new-survey-main-constructor-wrapper">
-
-    </div>
+    <survey-page v-if="survey.pages.length > 0" v-bind:page="survey.pages[survey.currentPage]" v-on:remove-page="removePage"></survey-page>
 </form>
 
 
