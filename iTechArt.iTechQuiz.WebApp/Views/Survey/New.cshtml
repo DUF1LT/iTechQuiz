@@ -8,9 +8,11 @@
 
 @section Scripts
 {
-    <script src="~/js/newsurvey.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="~/js/new-survey.js"></script>
     <script>
+        Vue.config.devtools = true;
+
         let defaultSurvey = {
             title: "Survey #@Model",
             currentPage: 0,
@@ -18,10 +20,10 @@
                 {
                     name: "Page 1",
                     questions: []
-                }],
+                }
+            ],
             isAnonymous: false,
             hasQuestionNumeration: false,
-            hasPagesNumeration: false,
             hasRandomSequence: false,
             renderStarsAtRequiredFields: false,
             hasProgressBar: false
@@ -36,20 +38,23 @@
                 this.survey = JSON.parse(JSON.stringify(defaultSurvey));
             },
             methods: {
-                resetSurvey: function (event) {
+                resetSurvey: function(event) {
                     this.survey = JSON.parse(JSON.stringify(defaultSurvey));
                 },
-                addPage: function (event) {
+
+                addPage: function(event) {
                     this.survey.pages.push(
                         {
                             name: 'Page ' + (this.survey.pages.length + 1),
                             questions: []
                         });
                 },
-                changePage: function (page) {
+
+                changePage: function(page) {
                     this.survey.currentPage = this.survey.pages.indexOf(page);
                 },
-                removePage: function (page) {
+
+                removePage: function(page) {
                     let removePage = this.survey.currentPage;
 
                     if ((this.survey.pages.length - 1) == this.survey.currentPage) {
@@ -61,9 +66,87 @@
                     }
 
                     this.survey.pages.splice(removePage, 1);
+                },
+
+                removeQuestion: function(question) {
+                    let questionIndex = this.survey.pages[this.survey.currentPage].questions.indexOf(question);
+
+                    for (let i = questionIndex; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
+                        this.survey.pages[this.survey.currentPage].questions[i].number--;
+                    }
+
+                    this.survey.pages[this.survey.currentPage].questions.splice(questionIndex, 1);
+                },
+
+                addSingleAnswerQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: ['Answer 1', 'Answer 2', 'Answer 3']
+                    });
+                },
+
+                addMultipleAnswerQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: (this.survey.pages[this.survey.currentPage].questions.length + 1),
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: []
+                    });
+                },
+                addTextQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].length + 1,
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: []
+                    });
+                },
+                addFileQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].length + 1,
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: []
+                    });
+                },
+                addStarQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].length + 1,
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: []
+                    });
+                },
+                addScaleQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].length + 1,
+                        type: "singleAnswerQuestion",
+                        numericOption: 0,
+                        options: []
+                    });
                 }
             }
-        });
+            });
     </script>
 }
 

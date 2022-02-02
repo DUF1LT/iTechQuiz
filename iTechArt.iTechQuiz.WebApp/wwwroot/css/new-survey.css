@@ -56,7 +56,7 @@
     display: flex;
     padding: 15px 20px;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 25px;
 }
 
 
@@ -74,17 +74,18 @@
     column-gap: 10px;
 }
 
-.new-survey-main-constructor__page-title {
+.new-survey-main__page-title {
     display: flex;
     justify-content: space-between;
     padding: 0 5px;
 }
 
-.new-survey-main-constructor__page-title > img:hover {
+.new-survey-main__page-title > img:hover {
     cursor: pointer;
+    filter: invert(31%) sepia(17%) saturate(4615%) hue-rotate(334deg) brightness(104%) contrast(112%);
 }
 
-.new-survey-main-constructor__page-title > input {
+.new-survey-main__page-title > input {
     width: 70%;
 }
 
@@ -92,10 +93,17 @@
 .new-survey-main__question {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     row-gap: 15px;
-    padding: 5px 10px;
+    padding: 0 10px;
     width: 100%;
+}
+
+.new-survey-main__question__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    width: 100%;
+    padding: 0 15px;
 }
 
 .new-survey-main__question__title {
@@ -109,6 +117,11 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.new-survey-main__question__header > img:hover{
+    cursor: pointer;
+    filter: invert(31%) sepia(17%) saturate(4615%) hue-rotate(334deg) brightness(104%) contrast(112%);
 }
 
 .new-survey-main__question__title input {
@@ -135,16 +148,10 @@
     width: 50%;
 }
 
-.new-survey-main__edit-question:hover {
-    cursor: pointer;
-    filter: invert(31%) sepia(17%) saturate(4615%) hue-rotate(334deg) brightness(104%) contrast(112%);
-}
-
-.new-survey-main__editable-question {
-    display: flex;
-    flex-direction: column;
+.editable-question {
     border: 2px solid black;
-    padding: 0 10px 10px 10px;
+    padding: 10px 10px;
+    margin-top: 10px;
 }
 
 .new-survey-main__editable-question__settings {
@@ -163,8 +170,8 @@
 
 .new-survey-main__editable-question__settings__move-arrows {
     display: flex;
-    row-gap: -5px;
     flex-direction: column;
+    row-gap: 10px;
 }
 
 .new-survey-main__editable-question__settings__delete-and-require {
