@@ -7,7 +7,7 @@ using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork
     {
         private readonly Dictionary<Type, object> _repositories;
         private readonly iTechQuizContext _context;
@@ -21,7 +21,7 @@ namespace iTechArt.iTechQuiz.Repositories
 
 
         public TRepository GetRepository<TEntity, TId, TRepository>()
-            where TEntity : class, IEntity<TId>, new() 
+            where TEntity : class, IEntity<TId>, new()
             where TRepository : Repository<TEntity, TId>
         {
             if (_repositories.Keys.Contains(typeof(TEntity)))

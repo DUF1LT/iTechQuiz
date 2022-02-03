@@ -1,4 +1,4 @@
-﻿namespace iTechArt.iTechQuiz.Foundation.Services
+﻿namespace iTechArt.Common.Services.EmailService
 {
     public class EmailServiceOptions
     {

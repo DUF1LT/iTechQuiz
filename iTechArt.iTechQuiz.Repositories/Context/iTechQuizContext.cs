@@ -7,7 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.Repositories.Context
 {
-    public class iTechQuizContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+    public class iTechQuizContext : IdentityDbContext<User,
+        Role,
+        Guid,
+        IdentityUserClaim<Guid>,
+        UserRole,
+        IdentityUserLogin<Guid>,
+        IdentityRoleClaim<Guid>,
+        IdentityUserToken<Guid>>
     {
         public DbSet<Survey> Surveys { get; set; }
 
@@ -28,14 +35,11 @@ namespace iTechArt.iTechQuiz.Repositories.Context
             : base(options)
         { }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            builder.Entity<IdentityRole<Guid>>().ToTable("Roles");
-            builder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
             builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens");
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins");
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");

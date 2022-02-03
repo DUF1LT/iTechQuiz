@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -13,44 +14,57 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class AdminController : Controller
     {
+        private const int PageSize = 5;
+
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserService _userService;
 
 
-        public AdminController(UserManager<User> userManager, 
+        public AdminController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole<Guid>> roleManager)
+            RoleManager<Role> roleManager,
+            UserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userService = userService;
         }
 
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(int pageIndex = 1)
         {
-            var users = new List<UserViewModel>();
-            foreach (var user in _userManager.Users.ToList())
+            if (pageIndex <= 1)
             {
-                users.Add(new UserViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    CurrentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault().CapitalizeFirstLetter()
-                });
+                pageIndex = 1;
             }
 
-            return View(users);
+            var paginatedUsers = await _userService.GetPageAsync(pageIndex, PageSize);
+            var users = paginatedUsers.Items.Select(e => new UserViewModel
+            {
+                Id = e.Id,
+                UserName = e.UserName,
+                RegisteredAt = e.RegisteredAt.ToShortDateString(),
+                CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name,
+                SurveysAmount = e.Surveys.Count
+            });
+
+            var userViewModels = new PagedData<UserViewModel>(users,
+                paginatedUsers.TotalCount,
+                pageIndex,
+                PageSize);
+
+            return View(userViewModels);
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (User.GetId() == id.ToString())
@@ -66,7 +80,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user)).CapitalizeFirstLetter();
+            var role = (await _userManager.GetFirstUserRoleAsync(user))
+                .CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
@@ -78,7 +93,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> ConfirmDelete(Guid id)
         {
             if (User.GetId() == id.ToString())
@@ -95,7 +109,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/Edit/{id}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var user = await _userManager.Users
@@ -118,7 +132,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
@@ -136,7 +149,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 await _userManager.RemoveFromRoleAsync(user, userRole);
                 await _userManager.AddToRoleAsync(user, model.CurrentRole);
             }
-            
+
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
@@ -159,7 +172,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/EditPassword/{id}")]
         public async Task<IActionResult> EditPassword(Guid id)
         {
             var user = await _userManager.Users
@@ -178,7 +191,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> EditPassword(EditPasswordViewModel model)
         {
             var user = await _userManager.Users

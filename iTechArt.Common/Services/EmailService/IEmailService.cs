@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace iTechArt.iTechQuiz.Foundation.Services
+namespace iTechArt.Common.Services.EmailService
 {
     public interface IEmailService
     {

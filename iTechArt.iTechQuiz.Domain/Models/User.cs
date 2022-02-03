@@ -11,7 +11,7 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public bool IsSystemUser { get; set; }
 
-        public ICollection<IdentityUserRole<Guid>> UserRoles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
 
         public ICollection<Survey> Surveys { get; set; }
 

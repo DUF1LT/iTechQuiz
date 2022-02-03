@@ -1,11 +1,11 @@
 using System;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
+using iTechArt.iTechQuiz.Foundation.Interfaces;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
 using iTechArt.iTechQuiz.WebApp.Providers;
-using iTechArt.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using IEmailService = iTechArt.Common.Services.EmailService.IEmailService;
 
 namespace iTechArt.iTechQuiz.WebApp
 {
@@ -41,7 +42,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-            services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            services.AddIdentity<User, Role>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
                     options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProviderOptions.ProviderName;
@@ -66,6 +67,10 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
             services.AddTransient<IEmailService, EmailService>();
+
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
