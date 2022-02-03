@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class AdminController : Controller
     {
         private const int PageSize = 5;
@@ -37,7 +38,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Users(int pageIndex = 1)
         {
             if (pageIndex <= 1)
@@ -64,7 +64,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (User.GetId() == id.ToString())
@@ -93,7 +93,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> ConfirmDelete(Guid id)
         {
             if (User.GetId() == id.ToString())
@@ -110,7 +109,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/Edit/{id}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var user = await _userManager.Users
@@ -133,7 +132,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
@@ -174,7 +172,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [Route("Admin/User/EditPassword/{id}")]
         public async Task<IActionResult> EditPassword(Guid id)
         {
             var user = await _userManager.Users
@@ -193,7 +191,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> EditPassword(EditPasswordViewModel model)
         {
             var user = await _userManager.Users
