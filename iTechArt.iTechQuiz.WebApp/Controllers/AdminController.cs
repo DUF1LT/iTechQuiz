@@ -38,7 +38,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Users(int pageIndex = 1)
+        public async Task<IActionResult> Users(int pageIndex = 1, string filter = "")
         {
             ViewData["NameFilter"] = filter;
 
