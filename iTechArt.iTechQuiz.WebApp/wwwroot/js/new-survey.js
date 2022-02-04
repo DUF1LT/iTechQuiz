@@ -270,10 +270,11 @@ Vue.component('scaleQuestion',
         },
         template:
             '<div class="new-survey-main__question-scale">' +
-                '<span>0</span>' +
+                '<span style="align-self: end;">0</span>' +
                     '<div class="new-survey-main__question-scale-input">' +
+                        '<span>{{question.numericOption}}</span>' +
                         '<input type="range" min="0" max="100" value="0" width="200px" v-model="question.numericOption"/>' +
                     '</div>' +
-                '<span>100</span>' +
+                '<span style="align-self: end;">100</span>' +
             '</div>'
     });

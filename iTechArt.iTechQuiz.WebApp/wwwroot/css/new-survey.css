@@ -261,13 +261,32 @@
     column-gap: 10px;
 }
 
-.new-survey-main__question-scale-input {
-
+.new-survey-main__question-scale-input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 5px;
+    align-items: center;
 }
 
 .new-survey-main__question-scale-input > input {
+    -webkit-appearance: none;
+    height: 2px;
+    margin: 5px 0;
     width: 250px;
-    color: #d33722;
+    background: #d33722;
+}
+
+.new-survey-main__question-scale-input > input:focus {
+    outline: 0; 
+    outline-offset: 0;
+}
+
+.new-survey-main__question-scale-input > input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 10px;
+    width: 7px;
+    background: #d33722;
 }
 
 /*Side*/
