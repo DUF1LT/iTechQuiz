@@ -4,13 +4,14 @@
 {
     <link rel="stylesheet" href="~/css/sidebar.css" />
     <link rel="stylesheet" href="~/css/new-survey.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 }
 
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="~/js/new-survey.js"></script>
     <script>
+
         Vue.config.devtools = true;
 
         let defaultSurvey = {
@@ -68,16 +69,6 @@
                     this.survey.pages.splice(removePage, 1);
                 },
 
-                removeQuestion: function(question) {
-                    let questionIndex = this.survey.pages[this.survey.currentPage].questions.indexOf(question);
-
-                    for (let i = questionIndex; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
-                        this.survey.pages[this.survey.currentPage].questions[i].number--;
-                    }
-
-                    this.survey.pages[this.survey.currentPage].questions.splice(questionIndex, 1);
-                },
-
                 addSingleAnswerQuestion: function() {
                     this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
@@ -86,67 +77,79 @@
                         number: this.survey.pages[this.survey.currentPage].questions.length + 1,
                         type: "singleAnswerQuestion",
                         numericOption: 0,
-                        options: ['Answer 1', 'Answer 2', 'Answer 3']
+                        options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                        textOption: "",
+                        copy: {}
                     });
                 },
 
                 addMultipleAnswerQuestion: function() {
-                    this.survey.pages[this.survey.currentPage].push({
+                    this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
                         isRequired: false,
-                        content: "Single answer question",
-                        number: (this.survey.pages[this.survey.currentPage].questions.length + 1),
-                        type: "singleAnswerQuestion",
+                        content: "Multiple answer question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "multipleAnswerQuestion",
                         numericOption: 0,
-                        options: []
+                        options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                        textOption: "",
+                        copy: {}
                     });
                 },
                 addTextQuestion: function() {
                     this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
                         isRequired: false,
-                        content: "Single answer question",
-                        number: this.survey.pages[this.survey.currentPage].length + 1,
-                        type: "singleAnswerQuestion",
+                        content: "Text question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "textQuestion",
                         numericOption: 0,
-                        options: []
+                        options: [],
+                        textOption: "",
+                        copy: {}
                     });
                 },
                 addFileQuestion: function() {
-                    this.survey.pages[this.survey.currentPage].push({
+                    this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
                         isRequired: false,
-                        content: "Single answer question",
-                        number: this.survey.pages[this.survey.currentPage].length + 1,
-                        type: "singleAnswerQuestion",
+                        content: "File question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "fileQuestion",
                         numericOption: 0,
-                        options: []
+                        options: [],
+                        textOption: "",
+                        copy: {}
                     });
                 },
                 addStarQuestion: function() {
-                    this.survey.pages[this.survey.currentPage].push({
+                    this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
                         isRequired: false,
-                        content: "Single answer question",
-                        number: this.survey.pages[this.survey.currentPage].length + 1,
-                        type: "singleAnswerQuestion",
+                        content: "Star rating question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "starQuestion",
                         numericOption: 0,
-                        options: []
+                        options: [],
+                        textOption: "",
+                        copy: {}
                     });
                 },
                 addScaleQuestion: function() {
-                    this.survey.pages[this.survey.currentPage].push({
+                    this.survey.pages[this.survey.currentPage].questions.push({
                         isEditable: false,
                         isRequired: false,
-                        content: "Single answer question",
-                        number: this.survey.pages[this.survey.currentPage].length + 1,
-                        type: "singleAnswerQuestion",
+                        content: "Scale question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "scaleQuestion",
                         numericOption: 0,
-                        options: []
+                        options: [],
+                        textOption: "",
+                        copy: {}
                     });
                 }
             }
-            });
+        });
     </script>
 }
 

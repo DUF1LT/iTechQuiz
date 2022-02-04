@@ -15,7 +15,7 @@
     <div class="new-survey-main-pages-wrapper">
         <survey-page-tab v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
     </div>
-    <survey-page v-if="survey.pages.length > 0" v-bind:page="survey.pages[survey.currentPage]" v-on:remove-page="removePage" v-on:remove-question="removeQuestion"></survey-page>
+    <survey-page v-if="survey.pages.length > 0" v-bind:page="survey.pages[survey.currentPage]" v-bind:survey="survey" v-on:remove-page="removePage"></survey-page>
 </form>
 
 
