@@ -154,8 +154,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(260)
-                        .HasColumnType("nvarchar(260)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -169,8 +168,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("SurveyId")
                         .HasColumnType("uniqueidentifier");
@@ -189,8 +187,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
@@ -199,8 +196,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Options")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("SurveyId")
                         .HasColumnType("uniqueidentifier");
@@ -216,8 +212,6 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                     b.HasIndex("SurveyId");
 
                     b.HasIndex("SurveyPageId");
-
-                    b.HasIndex("Type");
 
                     b.ToTable("Questions");
                 });
@@ -292,8 +286,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
