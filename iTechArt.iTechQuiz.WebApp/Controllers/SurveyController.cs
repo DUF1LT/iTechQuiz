@@ -90,6 +90,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             await _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().CreateAsync(surveyToSave);
+            await _unitOfWork.SaveAsync();
 
             return Ok();
         }

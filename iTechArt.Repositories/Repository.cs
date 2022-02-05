@@ -16,8 +16,8 @@ namespace iTechArt.Repositories
 
         public Repository(DbContext context)
         {
-            this.Context = context;
-            DbSet = this.Context.Set<TEntity>();
+            Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
 
@@ -37,7 +37,7 @@ namespace iTechArt.Repositories
             return new PagedData<TEntity>(items, count, pageIndex, pageSize);
         }
 
-        public async Task<TEntity> GetByIdAsync(TId id)
+        public virtual async Task<TEntity> GetByIdAsync(TId id)
         {
             return await DbSet.FindAsync(id);
         }

@@ -60,10 +60,10 @@
                         </th>
                         <th>
                             <div class="admin-users__icons">
-                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="admin-users__icon"><img width="21" src="~/img/edit.svg" /></a>
+                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/edit.svg" /></a>
                                 @if (User.GetId() != item.Id.ToString())
                                 {
-                                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="admin-users__icon"><img width="22" src="~/img/delete.svg" /></a>
+                                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/delete.svg" /></a>
                                 }
                             </div>
                         </th>
