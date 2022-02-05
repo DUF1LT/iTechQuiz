@@ -7,18 +7,7 @@
         <div class="new-survey-main__editable-question__settings">
             <div class="new-survey-main__editable-question__settings__move">
                 <div class="new-survey-main__editable-question__settings__move-arrows">
-                    @if (Model.Number != 1)
-                    {
-                        <a class="new-survey-main__editable-question__settings__arrow" onclick="MoveUp('@Model.Id')">
-                            <img src="~/img/up.svg" width="15"/>
-                        </a>
-                    }
-                    @if (Model.Number != Convert.ToInt32(ViewData["PageQuestionsAmount"]))
-                    {
-                        <a class="new-survey-main__editable-question__settings__arrow" onclick="MoveDown('@Model.Id')">
-                            <img src="~/img/down.svg" width="15"/>
-                        </a>
-                    }
+                    
                 </div>
                 @if (Convert.ToInt32(ViewData["PageQuestionsAmount"]) != 1)
                 {
@@ -30,13 +19,9 @@
                     @Html.CheckBoxFor(p => p.IsRequired)
                     <label asp-for="@Model.IsRequired"></label>
                 </div>
-                <a class="new-survey-main__editable-question__settings__delete" onclick="DeleteQuestion('@Model.Id')">
-                    <img src="~/img/remove.svg" width="15"/>
-                </a>
             </div>
         </div>
         <div class="new-survey-main__question">
-            <input asp-for="@Model.Id" hidden />
             <input asp-for="@Model.Number" hidden />
             <input asp-for="@Model.Content" hidden />
             <input asp-for="@Model.IsEditable" hidden />
@@ -55,15 +40,12 @@
             }
         </div>
         <div class="new-survey-main__editable-question__buttons">
-            <input type="button" class="button" value="Save" onclick="SaveQuestion('@Model.Id')"/>
-            <input type="button" class="red-button" value="Cancel" onclick="EditQuestion('@Model.Id')"/>
         </div>
     </div>
 }
 else
 {
     <div class="new-survey-main__question">
-        <input asp-for="@Model.Id" hidden />
         <input asp-for="@Model.Number" hidden />
         <input asp-for="@Model.Content" hidden />
         @switch (Model.Type)

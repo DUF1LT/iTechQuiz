@@ -67,7 +67,7 @@ Vue.component('survey-page',
                 '<div id="surveyConstructor" class="new-survey-main-constructor">' +
                     '<div class=new-survey-main__page-title>' +
                         '<input v-model="page.name" type="text" />' +
-                        '<img src="/img/remove.svg" width="20"  v-on:click="$emit(`remove-page`, page)">' +
+                        '<img src="/img/remove.svg" width="16"  v-on:click="$emit(`remove-page`, page)">' +
                     '</div>' +
                     '<page-question v-for="question in page.questions" v-bind:question="question" v-bind:questionsAmount="page.questions.length"' +
                     'v-bind:survey="survey" v-on:remove-question="removeQuestion(question)"' +
@@ -141,7 +141,7 @@ Vue.component('page-question',
             '</div>'
     });
 
-Vue.component('singleAnswerQuestion',
+Vue.component('SingleAnswer',
     {
         props: {
             question: Object
@@ -153,7 +153,7 @@ Vue.component('singleAnswerQuestion',
         },
         template:
             '<div class="new-survey-main__question__answers">' +
-                '<single-answer-option v-for="(option, index) in question.options" v-if="question.type == `singleAnswerQuestion`" v-bind:option="option" :question="question" :index="index"></single-answer-option>' +
+                '<single-answer-option v-for="(option, index) in question.options" v-bind:option="option" :question="question" :index="index"></single-answer-option>' +
                 '<input type="button" class="new-survey-main__question-add-option" value="Add option" v-if="question.isEditable" v-on:click="addOption()"/>' +
             '</div>'
     });
@@ -181,7 +181,7 @@ Vue.component('single-answer-option',
             '</div>'
     });
 
-Vue.component('multipleAnswerQuestion',
+Vue.component('MultipleAnswer',
     {
         props: {
             question: Object
@@ -221,7 +221,7 @@ Vue.component('multiple-answer-option',
             '</div>'
     });
 
-Vue.component('textQuestion',
+Vue.component('TextAnswer',
     {
         props: {
             question: Object
@@ -229,7 +229,7 @@ Vue.component('textQuestion',
         template: '<textarea v-model="question.option"/>'
     });
 
-Vue.component('fileQuestion',
+Vue.component('File',
     {
         props: {
             question: Object
@@ -237,7 +237,7 @@ Vue.component('fileQuestion',
         template: '<input width="50px" type="file"/>'
     });
 
-Vue.component('starQuestion',
+Vue.component('Rating',
     {
         props: {
             question: Object
@@ -263,7 +263,7 @@ Vue.component('star-question-option',
             '<i class="fa-star fa-lg" v-bind:class="{far: index > question.numericOption, fas: index <= question.numericOption}" v-on:click="rateStar(index)"></i>'
     });
 
-Vue.component('scaleQuestion',
+Vue.component('Scale',
     {
         props: {
             question: Object
@@ -278,3 +278,4 @@ Vue.component('scaleQuestion',
                 '<span style="align-self: end;">100</span>' +
             '</div>'
     });
+

@@ -66,6 +66,8 @@
 
 .red-solid-button {
     width: auto;
+    outline: none;
+    box-sizing: border-box;
     padding: 0 28px;
     height: 40px;
     border: 2px solid #d33722;
@@ -73,10 +75,6 @@
     font-weight: 500;
     color: #fff;
     transition: 0.25s;
-}
-
-.red-solid-button:hover {
-    cursor: default;
 }
 
 .red-button:hover {
@@ -87,22 +85,16 @@
 
 .transparent-button {
     width: auto;
+    outline: none;
     padding: 0 28px;
-    text-decoration: none;
-    text-align: center;
+    height: 40px;
     border: none;
-    display: block;
     background-color: transparent;
     font-weight: 500;
     color: #272727;
-    cursor: pointer;
     transition: 0.25s;
 }
 
-.transparent-button :hover {
-    background-color: #272727;
-    color: #fff;
-}
 
 .hidden {
     visibility: hidden;

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using iTechArt.iTechQuiz.Domain.Models;
 
 namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
 {
     public class QuestionViewModel
     {
-        public Guid Id { get; set; }
-
         public bool IsEditable { get; set; }
 
         public bool IsRequired { get; set; }
@@ -16,6 +14,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
 
         public int Number { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public QuestionType Type { get; set; }
 
         public int NumericOption { get; set; }

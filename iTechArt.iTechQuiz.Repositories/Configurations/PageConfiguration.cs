@@ -8,9 +8,6 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
     {
         public void Configure(EntityTypeBuilder<Page> builder)
         {
-            builder.Property(e => e.Id)
-                .ValueGeneratedNever();
-
             builder.HasOne(e => e.Survey)
                 .WithMany(e => e.Pages);
 

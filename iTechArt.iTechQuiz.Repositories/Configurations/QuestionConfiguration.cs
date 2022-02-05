@@ -8,9 +8,6 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
     {
         public void Configure(EntityTypeBuilder<Question> builder)
         {
-            builder.Property(e => e.Id)
-                .ValueGeneratedNever();
-
             builder.HasMany(e => e.Answers)
                 .WithOne(e => e.Question);
 

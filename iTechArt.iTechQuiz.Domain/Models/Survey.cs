@@ -14,15 +14,9 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public DateTime LastModifiedAt { get; set; }
 
-        public int AnswerAmount { get; set; }
-
-        public int PagesAmount { get; set; }
-
         public bool IsAnonymous { get; set; }
 
         public bool HasQuestionNumeration { get; set; }
-
-        public bool HasPagesNumeration { get; set; }
 
         public bool HasRandomSequence { get; set; }
 

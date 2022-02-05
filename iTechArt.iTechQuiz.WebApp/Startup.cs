@@ -36,6 +36,7 @@ namespace iTechArt.iTechQuiz.WebApp
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
             var mvcBuilder = services.AddControllersWithViews();
             if (Environment.IsDevelopment())
             {

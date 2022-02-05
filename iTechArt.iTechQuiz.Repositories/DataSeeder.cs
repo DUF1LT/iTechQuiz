@@ -62,7 +62,7 @@ namespace iTechArt.iTechQuiz.Repositories
                 {
                     new() {Id = QuestionType.SingleAnswer, Name = "Single answer" },
                     new() {Id = QuestionType.MultipleAnswer, Name = "Multiple answer" },
-                    new() {Id = QuestionType.Text, Name = "Text" },
+                    new() {Id = QuestionType.TextAnswer, Name = "TextAnswer" },
                     new() {Id = QuestionType.File, Name = "File" },
                     new() {Id = QuestionType.Rating, Name = "Rating" },
                     new() {Id = QuestionType.Scale, Name = "Scale" }

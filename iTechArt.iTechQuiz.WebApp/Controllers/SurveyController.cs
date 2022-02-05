@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
+using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.WebApp.ViewModels.Constructor;
+using iTechArt.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
@@ -13,11 +15,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     public class SurveyController : Controller
     {
         private readonly UserService _userService;
+        private readonly UnitOfWork _unitOfWork;
 
-
-        public SurveyController(UserService userService)
+        public SurveyController(UserService userService, UnitOfWork unitOfWork)
         {
             _userService = userService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -30,176 +33,65 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return View(newSurveyNumber);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddSingleAnswerQuestion(SurveyViewModel model)
+        [HttpGet]
+        public IActionResult MySurveys()
         {
-            if (model is null)
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Save([FromBody] SurveyViewModel survey)
+        {
+            var user = await _userService.GetUser(Guid.Parse(User.GetId()));
+
+            var surveyToSave = new Survey
             {
-                var page = new PageViewModel()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Page 1",
-                    Questions = new List<QuestionViewModel>()
-                };
-
-                var surveyViewModel = new SurveyViewModel
-                {
-                    Pages = new List<PageViewModel> { page },
-                    CurrentPage = 0
-                };
-
-                return PartialView("Survey/_NewSurveyMainPartial", surveyViewModel);
-            }
-
-            var currentPage = model.Pages[model.CurrentPage];
-            if (currentPage.Questions is null)
-            {
-                currentPage.Questions = new List<QuestionViewModel>();
-            }
-
-            var id = Guid.NewGuid();
-            var question = new QuestionViewModel
-            {
-                Id = id,
-                Content = "Question with single answer",
-                Number = currentPage.Questions.Count + 1,
-                Options = new List<string>
-                {
-                    "Answer 1",
-                    "Answer 2",
-                    "Answer 3"
-                },
-                Type = QuestionType.SingleAnswer
+                CreatedBy = user,
+                Title = survey.Title,
+                HasProgressBar = survey.HasProgressBar,
+                HasQuestionNumeration = survey.HasQuestionNumeration,
+                HasRandomSequence = survey.HasRandomSequence,
+                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
+                IsAnonymous = survey.IsAnonymous,
+                LastModifiedAt = DateTime.Now,
+                Pages = new List<Page>()
             };
 
-            currentPage.Questions.Add(question);
-            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
-
-            return PartialView("Survey/_NewSurveyMainPartial", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditQuestion(Guid id, SurveyViewModel model)
-        {
-            if (id == Guid.Empty || model is null)
+            foreach (var page in survey.Pages)
             {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
+                var pageToSave = new Page
+                {
+                    Name = page.Name,
+                    Survey = surveyToSave,
+                    Questions = new List<Question>()
+                };
+
+                foreach (var question in page.Questions)
+                {
+                    var questionToSave = new Question
+                    {
+                        Number = question.Number,
+                        Type = question.Type,
+                        Content = question.Content,
+                        Survey = surveyToSave,
+                        SurveyPage = pageToSave,
+                        IsRequired = question.IsRequired,
+                    };
+
+                    if (question.Options is not null)
+                    {
+                        questionToSave.Options = JsonSerializer.Serialize(question.Options);
+                    }
+
+                    pageToSave.Questions.Add(questionToSave);
+                }
+
+                surveyToSave.Pages.Add(pageToSave);
             }
 
-            var currentPage = model.Pages[model.CurrentPage];
-            var question = currentPage.Questions
-                .FirstOrDefault(p => p.Id == id);
+            await _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().CreateAsync(surveyToSave);
 
-            if (question is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            question.IsEditable = !question.IsEditable;
-            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
-
-            return PartialView("Survey/_NewSurveyMainPartial", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteQuestion(Guid id, SurveyViewModel model)
-        {
-            if (id == Guid.Empty || model is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            var currentPage = model.Pages[model.CurrentPage];
-            var question = currentPage.Questions
-                .FirstOrDefault(p => p.Id == id);
-
-            if (question is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            var index = currentPage.Questions.IndexOf(question);
-            for (int i = index + 1; i < currentPage.Questions.Count; i++)
-            {
-                currentPage.Questions[i].Number--;
-            }
-
-            currentPage.Questions.Remove(question);
-            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
-
-            return PartialView("Survey/_NewSurveyMainPartial", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult MoveUp(Guid id, SurveyViewModel model)
-        {
-            if (id == Guid.Empty || model is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-            var currentPage = model.Pages[model.CurrentPage];
-
-            var question = currentPage.Questions
-                .FirstOrDefault(p => p.Id == id);
-
-            if (question is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            var number = question.Number;
-            var prevNumberQuestion = currentPage.Questions.FirstOrDefault(p => p.Number == number - 1);
-            if (prevNumberQuestion is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            question.Number = prevNumberQuestion.Number;
-            prevNumberQuestion.Number = number;
-
-            currentPage.Questions = currentPage.Questions.OrderBy(p => p.Number).ToList();
-            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
-
-            return PartialView("Survey/_NewSurveyMainPartial", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult MoveDown(Guid id, SurveyViewModel model)
-        {
-            if (id == Guid.Empty || model is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            var currentPage = model.Pages[model.CurrentPage];
-            var question = currentPage.Questions
-                .FirstOrDefault(p => p.Id == id);
-
-            if (question is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-
-            var number = question.Number;
-            var nextNumberQuestion = currentPage.Questions.FirstOrDefault(p => p.Number == number + 1);
-            if (nextNumberQuestion is null)
-            {
-                return PartialView("Survey/_NewSurveyMainPartial", model);
-            }
-
-            question.Number = nextNumberQuestion.Number;
-            nextNumberQuestion.Number = number;
-
-            currentPage.Questions = currentPage.Questions.OrderBy(p => p.Number).ToList();
-            ViewData["PageQuestionsAmount"] = currentPage.Questions.Count;
-
-            return PartialView("Survey/_NewSurveyMainPartial", model);
+            return Ok();
         }
     }
 }

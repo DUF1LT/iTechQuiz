@@ -4,7 +4,7 @@
     {
         SingleAnswer,
         MultipleAnswer,
-        Text,
+        TextAnswer,
         File,
         Rating,
         Scale
