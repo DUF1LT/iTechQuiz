@@ -88,9 +88,11 @@
 
                                 <a asp-action="Users" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
                                 <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
-
-                                <p>@Model.PageIndex / @Model.TotalPages</p>
-
+                                
+                                @if (Model.TotalCount != 0)
+                                {
+                                    <p>@Model.PageIndex / @Model.TotalPages</p>
+                                }
                                 <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
                                 <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
                             </div>
