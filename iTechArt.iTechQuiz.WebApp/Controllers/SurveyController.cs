@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
-using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.WebApp.ViewModels.Constructor;
-using iTechArt.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
@@ -25,9 +23,10 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpGet]
+        [Route("NewSurvey")]
         public async Task<IActionResult> New()
         {
-            var user = await _userService.GetUser(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
             var newSurveyNumber = user.Surveys.Count + 1;
 
             return View(newSurveyNumber);
@@ -42,7 +41,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] SurveyViewModel survey)
         {
-            var user = await _userService.GetUser(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
 
             var surveyToSave = new Survey
             {
