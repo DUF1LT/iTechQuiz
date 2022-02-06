@@ -178,7 +178,8 @@
         $(window).bind('beforeunload',
             function() {
                 return 'Are you sure you want to leave? You have unsaved information!';
-            });
+            }
+        );
 
         function startPopup() {
             let modal = document.getElementById("new-survey-modal");
@@ -190,7 +191,8 @@
                 modal.classList.remove("animate__fadeInRightBig");
                 modal.classList.add("animate__fadeOutRightBig");
                 },
-                5000);
+                5000
+            );
 
             modal.classList.remove("animate__fadeOutRightBig");
         }

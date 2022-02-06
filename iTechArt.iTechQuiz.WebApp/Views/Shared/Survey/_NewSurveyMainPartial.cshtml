@@ -10,7 +10,7 @@
             <input type="button" class="lg-button" value="Save as template">
             <input type="button" class="red-button" value="Cancel" v-on:click="resetSurvey">
         </div>
-        <input type="button" class="button" value="New Page" v-on:click="addPage"/> 
+        <button type="button" class="button button-with-image" v-on:click="addPage"><img src="~/img/plus.svg" width="15"/>&nbsp;New page</button> 
     </div>
     <div class="new-survey-main-pages-wrapper">
         <survey-page-tab v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>

@@ -69,6 +69,7 @@ Vue.component('survey-page',
                         '<input v-model="page.name" type="text" />' +
                         '<img src="/img/remove.svg" width="16"  v-on:click="$emit(`remove-page`, page)">' +
                     '</div>' +
+                    '<span v-if="page.questions.length == 0">There are no questions at this page. You can add question at "Question type" tab.</span>' +
                     '<page-question v-for="question in page.questions" v-bind:question="question" v-bind:questionsAmount="page.questions.length"' +
                     'v-bind:survey="survey" v-on:remove-question="removeQuestion(question)"' +
                     'v-on:up-question="upQuestion(question)" v-on:down-question="downQuestion(question)">' +
