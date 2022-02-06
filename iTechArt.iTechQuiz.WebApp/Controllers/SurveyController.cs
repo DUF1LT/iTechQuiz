@@ -15,12 +15,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
     public class SurveyController : Controller
     {
         private readonly UserService _userService;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SurveyService _surveyService;
 
-        public SurveyController(UserService userService, UnitOfWork unitOfWork)
+        public SurveyController(UserService userService, SurveyService surveyService)
         {
             _userService = userService;
-            _unitOfWork = unitOfWork;
+            _surveyService = surveyService;
         }
 
 
@@ -89,8 +89,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 surveyToSave.Pages.Add(pageToSave);
             }
 
-            await _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().CreateAsync(surveyToSave);
-            await _unitOfWork.SaveAsync();
+            await _surveyService.SaveSurveyAsync(surveyToSave);
 
             return Ok();
         }
