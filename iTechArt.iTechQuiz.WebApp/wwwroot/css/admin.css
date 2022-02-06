@@ -1,6 +1,5 @@
 ﻿/*General*/
 
-
 .admin__buttons {
     display: flex;
     width: 65%;
@@ -8,7 +7,6 @@
     align-items: center;
     column-gap: 20px;
 }
-
 
 .admin__submit {
     width: 110px;

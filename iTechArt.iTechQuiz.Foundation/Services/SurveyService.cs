@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.Repositories;
@@ -16,9 +17,33 @@ namespace iTechArt.iTechQuiz.Foundation.Services
             _unitOfWork = unitOfWork;
         }
 
+
+        public async Task<PagedData<Survey>> GetPageAsync(int pageIndex, int pageSize, string nameFilter = null)
+        {
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                    .GetFilteredPageAsync(pageIndex, pageSize, survey => survey.Title.Contains(nameFilter));
+            }
+
+            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                .GetPageAsync(pageIndex, pageSize);
+        }
+
+        public async Task<Survey> GetSurveyAsync(Guid id)
+        {
+            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>().GetByIdAsync(id);
+        }
+
         public async Task SaveSurveyAsync(Survey survey)
         {
             await _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().CreateAsync(survey);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task DeleteSurveyAsync(Guid id)
+        {
+            _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().Delete(id);
             await _unitOfWork.SaveAsync();
         }
     }

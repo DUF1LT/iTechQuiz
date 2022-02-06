@@ -4,7 +4,7 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/sidebar.css" />
-    <link rel="stylesheet" href="~/css/admin.css" />
+    <link rel="stylesheet" href="~/css/my-surveys.css" />
 }
 
 @section Scripts
@@ -16,10 +16,10 @@
 <div class="main-wrapper">
     <div class="my-surveys">
         <div class="my-surveys__header">
-            <h2>Users</h2>
+            <h2>My Surveys</h2>
             <form asp-action="MySurveys" method="get" class="admin-users__search">
                 <button class="my-surveys__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
-                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="my-surveys__header-input" />
+                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="my-surveys__header-input"/>
             </form>
         </div>
         <table class="my-surveys__table sortable">
@@ -28,19 +28,19 @@
                     <th width="30%">
                         Title
                     </th>
-                    <th width="15%">
+                    <th width="12%">
                         Last update
                     </th>
-                    <th width="20%">
+                    <th width="10%">
                         Answers
                     </th>
                     <th width="15%">
                         Link
                     </th>
-                    <th width="20%">
+                    <th width="15%">
                         Results
                     </th>
-                    <th width="20%">
+                    <th width="18%">
                         Actions
                     </th>
                 </tr>
@@ -59,15 +59,15 @@
                             @Html.DisplayFor(modelItem => item.AnswersAmount)
                         </th>
                         <th>
-                            @Url.Action("Survey", new {id = item.Id})
+                            <a asp-action="Survey" asp-route-id="@item.Id">link to the survey</a>
                         </th>
                         <th>
-                            @Url.Action("Results", new {id = item.Id})
+                            <a asp-action="Results" asp-route-id="@item.Id">results</a>
                         </th>
                         <th>
                             <div class="my-surveys__icons">
-                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/edit.svg" /></a>
-                                <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/delete.svg" /></a>
+                                <a asp-controller="Survey" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/edit.svg" /></a>
+                                <a asp-controller="Survey" asp-action="Delete" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/delete.svg" /></a>
                             </div>
                         </th>
                     </tr>
@@ -75,13 +75,13 @@
                 @if (!Model.Items.Any())
                 {
                     <tr>
-                        <th colspan="5">There are no users according to your filter</th>
+                        <th colspan="6">There are no users according to your filter</th>
                     </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         <div class="my-surveys__table-footer">
                             <div class="my-surveys__total-users">
                                 <div>Total Users:</div>&nbsp;&nbsp;
@@ -89,13 +89,13 @@
                             </div>
                             <div class="my-surveys__arrows">
 
-                                <a asp-action="Users" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
 
                                 <p>@Model.PageIndex / @Model.TotalPages</p>
 
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="@Model.TotalPages" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
                             </div>
                         </div>
                     </th>

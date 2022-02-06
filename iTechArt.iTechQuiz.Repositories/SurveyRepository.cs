@@ -17,33 +17,39 @@ namespace iTechArt.iTechQuiz.Repositories
 
         public override async Task<PagedData<Survey>> GetPageAsync(int pageIndex, int pageSize)
         {
-            var includedUsers = DbSet
+            var includedSurveys = DbSet
                 .Include(p => p.UsersPassed);
 
-            var count = await includedUsers.CountAsync();
+            var count = await includedSurveys.CountAsync();
 
-            var items = await includedUsers.Skip((pageIndex - 1) * pageSize)
+            var items = await includedSurveys.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return new PagedData<Survey>(items, count, pageIndex, pageSize);
         }
 
-        public async Task<PagedData<Survey>> GetFilteredPageAsync(int pageIndex, int pageSize, Expression<Func<User, bool>> filter)
+        public async Task<PagedData<Survey>> GetFilteredPageAsync(int pageIndex, int pageSize, Expression<Func<Survey, bool>> filter)
         {
-            var includedUsers = DbSet
-                .Include(p => p.UserRoles)
-                .ThenInclude(p => p.Role)
-                .Include(p => p.Surveys)
+            var includedSurveys = DbSet.Include(p => p.UsersPassed)
                 .Where(filter);
 
-            var count = await includedUsers.CountAsync();
+            var count = await includedSurveys.CountAsync();
 
-            var items = await includedUsers.Skip((pageIndex - 1) * pageSize)
+            var items = await includedSurveys.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return new PagedData<Survey>(items, count, pageIndex, pageSize);
+        }
+
+        public override Task<Survey> GetByIdAsync(Guid id)
+        {
+            return DbSet
+                .Include(p => p.UsersPassed)
+                .Include(p => p.Pages)
+                .Include(p => p.Questions)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

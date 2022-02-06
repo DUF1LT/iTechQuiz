@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
+using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
@@ -14,6 +16,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 {
     public class SurveyController : Controller
     {
+        private const int PageSize = 5;
+
         private readonly UserService _userService;
         private readonly SurveyService _surveyService;
 
@@ -100,9 +104,61 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Route("MySurveys")]
-        public IActionResult MySurveys()
+        public async Task<IActionResult> MySurveys(int pageIndex = 1, string filter = null)
         {
-            return View();
+            ViewData["NameFilter"] = filter;
+
+            if (pageIndex <= 1)
+            {
+                pageIndex = 1;
+            }
+
+            var paginatedSurveys = await _surveyService.GetPageAsync(pageIndex, PageSize, filter);
+            var surveys = paginatedSurveys.Items.Select(e => new SurveyViewModel
+            {
+                Id = e.Id,
+                Title = e.Title,
+                LastModifiedAt = e.LastModifiedAt.ToShortDateString(),
+                AnswersAmount = e.UsersPassed.Count,
+
+            });
+
+            var userViewModels = new PagedData<SurveyViewModel>(surveys,
+                paginatedSurveys.TotalCount,
+                pageIndex,
+                PageSize);
+
+            return View(userViewModels);
+        }
+
+        [HttpGet]
+        [Route("Survey/{id}/Delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyAsync(id);
+
+            if (survey is null)
+            {
+                return NotFound();
+            }
+
+            var surveyViewModel = new SurveyViewModel
+            {
+                Id = id,
+                Title = survey.Title,
+                AnswersAmount = survey.UsersPassed.Count,
+                LastModifiedAt = survey.LastModifiedAt.ToShortDateString()
+            };
+
+            return View(surveyViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmDelete(Guid id)
+        {
+            await _surveyService.DeleteSurveyAsync(id);
+
+            return RedirectToAction("MySurveys");
         }
 
         [HttpGet]

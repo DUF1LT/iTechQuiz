@@ -81,7 +81,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-
             return View(new UserViewModel
             {
                 Id = user.Id,

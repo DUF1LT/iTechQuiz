@@ -12,7 +12,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public List<PageViewModel> Pages { get; set; }
 
-        public DateTime LastModifiedAt { get; set; }
+        public string LastModifiedAt { get; set; }
 
         public int AnswersAmount { get; set; }
 
