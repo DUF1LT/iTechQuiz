@@ -1,0 +1,140 @@
+﻿.my-surveys {
+    display: flex;
+    padding: 55px 80px;
+    width: 100%;
+    row-gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-surveys__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.my-surveys__header-input {
+    height: 30px;
+}
+
+.my-surveys__table {
+    width: 100%;
+}
+
+.my-surveys__table thead {
+    background-color: #d33722;
+    color: #fff;
+}
+
+.my-surveys__table thead th {
+     padding: 15px 0;
+}
+
+.my-surveys__table thead th:hover {
+    cursor: pointer;
+}
+
+.my-surveys__table th {
+     text-align: center;
+}
+
+.my-surveys__table tbody tr {
+     height: 60px;
+}
+
+.my-surveys__table tbody th {
+     font-weight: 400;
+}
+
+.my-surveys__table-footer {
+    display: flex;
+    padding: 15px 35px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #d33722;
+    color: #fff;
+}
+
+.my-surveys__table-footer p {
+    margin: 0;
+    text-align: center;
+}
+
+.my-surveys__icon {
+    text-decoration: none;
+    color: black;
+}
+
+.my-surveys__icons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    column-gap: 22px;
+    align-content: center;
+}
+
+.my-surveys__icon:hover {
+    color: #333333;
+}
+
+.my-surveys__arrows {
+    display: flex;
+    justify-content: center;
+    column-gap: 7px;
+}
+
+.my-surveys__arrows p {
+    margin: 0 7px;
+}
+
+.my-surveys__single-arrows {
+    font-size: 25px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -8px 0;
+    vertical-align: center;
+}
+
+.my-surveys__single-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.my-surveys__dbl-arrows {
+    font-size: 19px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -2px 0;
+    align-items: center;
+}
+
+.my-surveys__dbl-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.my-surveys__total-users {
+    display: flex;
+    align-items: center;
+}
+
+.my-surveys__total-users-count {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 9px;
+}
+
+.my-surveys__search {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.my-surveys__submit {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}

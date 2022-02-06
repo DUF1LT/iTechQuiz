@@ -97,5 +97,26 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("MySurveys")]
+        public IActionResult MySurveys()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Survey/{id}")]
+        public IActionResult Survey(Guid id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Survey/{id}/Results")]
+        public IActionResult Results(Guid id)
+        {
+            return View();
+        }
     }
 }
