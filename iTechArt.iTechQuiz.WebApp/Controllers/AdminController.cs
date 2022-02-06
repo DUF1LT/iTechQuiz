@@ -74,23 +74,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            var user = await _userManager.Users
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userService.GetUserAsync(id);
 
             if (user is null)
             {
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user))
-                .CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                CurrentRole = role
+                CurrentRole = user.UserRoles.FirstOrDefault()?.Role.Name.CapitalizeFirstLetter()
             });
         }
 

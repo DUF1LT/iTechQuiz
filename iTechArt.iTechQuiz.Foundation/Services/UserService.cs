@@ -28,7 +28,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
                 .GetPageAsync(pageIndex, pageSize);
         }
 
-        public async Task<User> GetUser(Guid id)
+        public async Task<User> GetUserAsync(Guid id)
         {
             return await _unitOfWork.GetRepository<User, Guid, UserRepository>().GetByIdAsync(id);
         }
