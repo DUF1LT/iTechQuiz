@@ -22,7 +22,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
             if (!string.IsNullOrEmpty(nameFilter))
             {
                 return await _unitOfWork.GetRepository<User, Guid, UserRepository>()
-                    .GetFilteredPageAsync(pageIndex, pageSize, user => user.UserName.Contains(nameFilter));
+                    .GetPageAsync(pageIndex, pageSize, user => user.UserName.Contains(nameFilter));
             }
 
             return await _unitOfWork.GetRepository<User, Guid, UserRepository>()

@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using iTechArt.Common.Lists;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.Repositories
 {
-    public class Repository<TEntity, TId> : IRepository<TEntity, TId> 
+    public class Repository<TEntity, TId> : IRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>, new()
     {
         protected readonly DbContext Context;
@@ -19,13 +21,18 @@ namespace iTechArt.Repositories
         }
 
 
-        public virtual async Task<PagedData<TEntity>> GetPageAsync(int pageIndex, int pageSize)
+        public virtual async Task<PagedData<TEntity>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> filter = null)
         {
+
             var count = await DbSet.CountAsync();
 
-            var items = await DbSet.Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var pagedItems =  DbSet.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            if (filter is not null)
+            {
+                pagedItems = pagedItems.Where(filter);
+            }
+
+            var items = await pagedItems.ToListAsync();
 
             return new PagedData<TEntity>(items, count, pageIndex, pageSize);
         }
