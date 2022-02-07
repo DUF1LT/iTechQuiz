@@ -23,14 +23,15 @@ namespace iTechArt.Repositories
 
         public virtual async Task<PagedData<TEntity>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> filter = null)
         {
-
             var count = await DbSet.CountAsync();
 
-            var pagedItems =  DbSet.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            IQueryable<TEntity> pagedItems = DbSet;
             if (filter is not null)
             {
                 pagedItems = pagedItems.Where(filter);
             }
+
+            pagedItems = pagedItems.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             var items = await pagedItems.ToListAsync();
 

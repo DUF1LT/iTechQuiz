@@ -17,20 +17,21 @@ namespace iTechArt.iTechQuiz.Repositories
 
         public override async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<User, bool>> filter = null)
         {
-            var includedUsers = DbSet
+            IQueryable<User> includedUsers = DbSet
                 .Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)
                 .Include(p => p.Surveys);
 
-            var count = await includedUsers.CountAsync();
-
-            var pagedItems = includedUsers.Skip((pageIndex - 1) * pageSize).Take(pageSize);
             if (filter is not null)
             {
-                pagedItems = pagedItems.Where(filter);
+                includedUsers = includedUsers.Where(filter);
             }
 
-            var items = await pagedItems.ToListAsync();
+            var count = await includedUsers.CountAsync();
+
+            var items = await includedUsers.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
