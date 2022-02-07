@@ -17,8 +17,6 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
 
             builder.HasOne(e => e.Question)
                 .WithMany(e => e.Answers);
-
-            builder.Property(p => p.Text);
         }
     }
 }

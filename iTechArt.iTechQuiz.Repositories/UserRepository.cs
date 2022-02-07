@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
@@ -14,7 +15,7 @@ namespace iTechArt.iTechQuiz.Repositories
         public UserRepository(iTechQuizContext context) : base(context)
         { }
 
-        public override async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize)
+        public override async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<User, bool>> filter = null)
         {
             var includedUsers = DbSet
                 .Include(p => p.UserRoles)
@@ -23,11 +24,16 @@ namespace iTechArt.iTechQuiz.Repositories
 
             var count = await includedUsers.CountAsync();
 
-            var items = await includedUsers.Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var pagedItems = includedUsers.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            if (filter is not null)
+            {
+                pagedItems = pagedItems.Where(filter);
+            }
+
+            var items = await pagedItems.ToListAsync();
 
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
+
     }
 }

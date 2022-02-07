@@ -7,7 +7,7 @@ using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Repositories
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly Dictionary<Type, object> _repositories;
         private readonly iTechQuizContext _context;

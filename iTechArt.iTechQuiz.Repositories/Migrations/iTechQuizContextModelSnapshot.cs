@@ -500,6 +500,11 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.Page", "SurveyPage")
+                        .WithMany("Questions")
+                        .HasForeignKey("SurveyPageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Survey");
 
                     b.Navigation("SurveyPage");
@@ -512,6 +517,25 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasForeignKey("CreatedById");
 
                     b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.UserRole", b =>
+                {
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.UserRole", b =>

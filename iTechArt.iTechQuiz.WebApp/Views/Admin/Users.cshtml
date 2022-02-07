@@ -7,32 +7,37 @@
     <link rel="stylesheet" href="~/css/admin.css" />
 }
 
+@section Scripts
+{
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+}
+
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
     <div class="admin-users">
         <div class="admin-users__header">
             <h2>Users</h2>
-            <div>
-                <a href="#"><img width="20" src="~/img/search.svg" /></a>
-                <input type="text" placeholder="search" class="admin-users__header-input" />
-            </div>
+            <form asp-action="Users" method="get" class="admin-users__search">
+                <button class="admin-users__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
+                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="admin-users__header-input" />
+            </form>
         </div>
-        <table class="admin-users__table">
+        <table class="admin-users__table sortable">
             <thead>
                 <tr>
-                    <th>
+                    <th width="30%">
                         Username
                     </th>
-                    <th>
+                    <th width="15%">
                         Role
                     </th>
-                    <th>
+                    <th width="20%">
                         Registered
                     </th>
-                    <th>
+                    <th width="15%">
                         Surveys
                     </th>
-                    <th>
+                    <th width="20%">
                         Actions
                     </th>
                 </tr>
@@ -64,6 +69,12 @@
                         </th>
                     </tr>
                 }
+                @if (!Model.Items.Any())
+                {
+                    <tr>
+                        <th colspan="5">There are no users according to your filter</th>
+                    </tr>
+                }
             </tbody>
             <tfoot>
                 <tr>
@@ -75,13 +86,15 @@
                             </div>
                             <div class="admin-users__arrows">
 
-                                <a asp-action="Users" asp-route-pageIndex="1" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
-
-                                <p>@Model.PageIndex / @Model.TotalPages</p>
-
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" class="admin-users__single-arrows @(Model.PageIndex == Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" class="admin-users__dbl-arrows @(Model.PageIndex == Model.TotalPages ? "hidden" : "")">&raquo;</a>
+                                <a asp-action="Users" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
+                                
+                                @if (Model.TotalCount != 0)
+                                {
+                                    <p>@Model.PageIndex / @Model.TotalPages</p>
+                                }
+                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
                             </div>
                         </div>
                     </th>

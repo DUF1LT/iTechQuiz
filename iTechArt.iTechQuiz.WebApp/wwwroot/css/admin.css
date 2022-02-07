@@ -31,7 +31,7 @@
 
 .admin-users {
     display: flex;
-    padding: 30px 80px;
+    padding: 55px 80px;
     width: 100%;
     row-gap: 10px;
     flex-direction: column;
@@ -61,8 +61,12 @@
     padding: 15px 0;
 }
 
+.admin-users__table thead th:hover {
+    cursor: pointer;
+}
+
 .admin-users__table th {
-     text-align: center;
+    text-align: center;
 }
 
 .admin-users__table tbody tr {
@@ -154,6 +158,18 @@
     line-height: 9px;
 }
 
+.admin-users__search {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.admin-users__submit {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
 /*Delete*/
 .admin-delete {
     display: flex;
@@ -174,7 +190,7 @@
 }
 
 .admin-delete__info span {
-     font-weight: 800;
+    font-weight: 800;
 }
 
 /*Edit*/
@@ -253,7 +269,7 @@
 }
 
 .admin-edit__role-and-password a:hover {
-     color: #8f1b0c;
+    color: #8f1b0c;
 }
 
 .admin-edit__role {

@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using IEmailService = iTechArt.Common.Services.EmailService.IEmailService;
 
 namespace iTechArt.iTechQuiz.WebApp
 {
