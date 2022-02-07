@@ -15,28 +15,20 @@ namespace iTechArt.iTechQuiz.Repositories
         public SurveyRepository(iTechQuizContext context) : base(context)
         { }
 
-        public override async Task<PagedData<Survey>> GetPageAsync(int pageIndex, int pageSize)
+
+        public override async Task<PagedData<Survey>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<Survey, bool>> filter = null)
         {
-            var includedSurveys = DbSet
+            IQueryable<Survey> surveyQuery = DbSet
                 .Include(p => p.UsersPassed);
 
-            var count = await includedSurveys.CountAsync();
+            if (filter is not null)
+            {
+                surveyQuery = surveyQuery.Where(filter);
+            }
 
-            var items = await includedSurveys.Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var count = await surveyQuery.CountAsync();
 
-            return new PagedData<Survey>(items, count, pageIndex, pageSize);
-        }
-
-        public async Task<PagedData<Survey>> GetFilteredPageAsync(int pageIndex, int pageSize, Expression<Func<Survey, bool>> filter)
-        {
-            var includedSurveys = DbSet.Include(p => p.UsersPassed)
-                .Where(filter);
-
-            var count = await includedSurveys.CountAsync();
-
-            var items = await includedSurveys.Skip((pageIndex - 1) * pageSize)
+            var items = await surveyQuery.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 

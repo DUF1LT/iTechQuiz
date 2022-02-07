@@ -23,7 +23,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
             if (!string.IsNullOrEmpty(nameFilter))
             {
                 return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
-                    .GetFilteredPageAsync(pageIndex, pageSize, survey => survey.Title.Contains(nameFilter));
+                    .GetPageAsync(pageIndex, pageSize, survey => survey.Title.Contains(nameFilter));
             }
 
             return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()

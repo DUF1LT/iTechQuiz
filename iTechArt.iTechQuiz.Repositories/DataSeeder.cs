@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories.Constants;
+using iTechArt.iTechQuiz.Repositories.Context;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace iTechArt.iTechQuiz.Repositories.DataSeeder
+namespace iTechArt.iTechQuiz.Repositories
 {
     public static class DataSeeder
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager, iTechQuizContext context)
         {
             string adminEmail = "admin@itechart.com";
             string adminPassword = "Adm!n2021";
