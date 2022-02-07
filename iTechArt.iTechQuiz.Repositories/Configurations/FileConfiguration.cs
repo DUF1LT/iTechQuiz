@@ -11,6 +11,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasOne(e => e.Answer)
                 .WithOne(e => e.File)
                 .HasForeignKey<Answer>(e => e.FileId);
+
+            builder.Property(e => e.Name)
+                .HasMaxLength(260);
         }
     }
 }
