@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
+using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.ViewModels.Constructor;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.iTechQuiz.WebApp.Controllers
@@ -24,6 +26,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Route("NewSurvey")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> New()
         {
             var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
@@ -33,12 +36,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult MySurveys()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Save([FromBody] SurveyViewModel survey)
         {
             var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
