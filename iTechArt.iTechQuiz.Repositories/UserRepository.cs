@@ -20,6 +20,7 @@ namespace iTechArt.iTechQuiz.Repositories
             IQueryable<User> includedUsers = DbSet
                 .Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)
+                .Include(p => p.PassedSurveys)
                 .Include(p => p.Surveys);
 
             if (filter is not null)
