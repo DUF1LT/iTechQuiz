@@ -63,8 +63,10 @@
                     });
                 },
 
-                resetSurvey: function(event) {
-                    this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+                cancelSurvey: function(event) {
+                    if (confirm("Are you sure you want to leave without saving?")) {
+                        history.back();
+                    }
                 },
 
                 addPage: function(event) {
@@ -174,12 +176,6 @@
                 }
             }
         });
-
-        $(window).bind('beforeunload',
-            function() {
-                return 'Are you sure you want to leave? You have unsaved information!';
-            }
-        );
 
         function startPopup() {
             let modal = document.getElementById("new-survey-modal");

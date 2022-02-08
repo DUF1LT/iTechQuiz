@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using iTechArt.iTechQuiz.Domain.Models;
 
-namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
+namespace iTechArt.iTechQuiz.WebApp.ViewModels
 {
     public class QuestionViewModel
     {

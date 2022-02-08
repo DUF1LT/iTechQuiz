@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
+namespace iTechArt.iTechQuiz.WebApp.ViewModels
 {
     public class PageViewModel
     {

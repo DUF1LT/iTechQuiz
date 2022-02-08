@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using iTechArt.iTechQuiz.Domain.Models;
 
-namespace iTechArt.iTechQuiz.WebApp.ViewModels.Constructor
+namespace iTechArt.iTechQuiz.WebApp.ViewModels
 {
     public class SurveyViewModel
     {
