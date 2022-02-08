@@ -14,6 +14,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public DateTime LastModifiedAt { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public bool IsAnonymous { get; set; }
 
         public bool HasQuestionNumeration { get; set; }

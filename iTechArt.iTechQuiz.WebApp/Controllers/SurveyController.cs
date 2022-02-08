@@ -52,50 +52,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         {
             var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
-            var surveyToSave = new Survey
-            {
-                CreatedBy = user,
-                Title = survey.Title,
-                HasProgressBar = survey.HasProgressBar,
-                HasQuestionNumeration = survey.HasQuestionNumeration,
-                HasRandomSequence = survey.HasRandomSequence,
-                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
-                IsAnonymous = survey.IsAnonymous,
-                LastModifiedAt = DateTime.Now,
-                Pages = new List<Page>()
-            };
-
-            foreach (var page in survey.Pages)
-            {
-                var pageToSave = new Page
-                {
-                    Name = page.Name,
-                    Survey = surveyToSave,
-                    Questions = new List<Question>()
-                };
-
-                foreach (var question in page.Questions)
-                {
-                    var questionToSave = new Question
-                    {
-                        Number = question.Number,
-                        Type = question.Type,
-                        Content = question.Content,
-                        Survey = surveyToSave,
-                        SurveyPage = pageToSave,
-                        IsRequired = question.IsRequired,
-                    };
-
-                    if (question.Options is not null)
-                    {
-                        questionToSave.Options = JsonSerializer.Serialize(question.Options);
-                    }
-
-                    pageToSave.Questions.Add(questionToSave);
-                }
-
-                surveyToSave.Pages.Add(pageToSave);
-            }
+            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
 
             await _surveyService.SaveSurveyAsync(surveyToSave);
 
@@ -162,6 +119,55 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [Route("Survey/{id}/Edit")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyAsync(id);
+
+            SurveyViewModel surveyViewModel = new SurveyViewModel
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                CurrentPage = 0,
+                Pages = survey.Pages.Select(p => new PageViewModel
+                {
+                    Name = p.Name,
+                    Questions = p.Questions.Select(q => new QuestionViewModel
+                    {
+                        Content = q.Content,
+                        IsRequired = q.IsRequired,
+                        Number = q.Number,
+                        Type = q.Type,
+                        Options = JsonSerializer.Deserialize<List<string>>(q.Options)
+                    }).ToList()
+                }).ToList(),
+                IsAnonymous = survey.IsAnonymous,
+                HasQuestionNumeration = survey.HasQuestionNumeration,
+                HasRandomSequence = survey.HasRandomSequence,
+                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
+                HasProgressBar = survey.HasProgressBar
+            };
+
+            return View(surveyViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        {
+            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+
+            var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
+            previousSurvey.IsDeleted = true;
+
+            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
+
+            await _surveyService.SaveSurveyAsync(surveyToSave);
+
+            return Ok();
+        }
+
+        [HttpGet]
         [Route("Survey/{id}")]
         public IActionResult Survey(Guid id)
         {
@@ -173,6 +179,58 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public IActionResult Results(Guid id)
         {
             return View();
+        }
+
+        public async Task<Survey> CreateSurveyFromViewModelAsync(SurveyViewModel model)
+        {
+            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+
+            var surveyToSave = new Survey
+            {
+                CreatedBy = user,
+                Title = model.Title,
+                HasProgressBar = model.HasProgressBar,
+                HasQuestionNumeration = model.HasQuestionNumeration,
+                HasRandomSequence = model.HasRandomSequence,
+                RenderStarsAtRequiredFields = model.RenderStarsAtRequiredFields,
+                IsAnonymous = model.IsAnonymous,
+                LastModifiedAt = DateTime.Now,
+                Pages = new List<Page>()
+            };
+
+            foreach (var page in model.Pages)
+            {
+                var pageToSave = new Page
+                {
+                    Name = page.Name,
+                    Survey = surveyToSave,
+                    Questions = new List<Question>()
+                };
+
+                foreach (var question in page.Questions)
+                {
+                    var questionToSave = new Question
+                    {
+                        Number = question.Number,
+                        Type = question.Type,
+                        Content = question.Content,
+                        Survey = surveyToSave,
+                        SurveyPage = pageToSave,
+                        IsRequired = question.IsRequired,
+                    };
+
+                    if (question.Options is not null)
+                    {
+                        questionToSave.Options = JsonSerializer.Serialize(question.Options);
+                    }
+
+                    pageToSave.Questions.Add(questionToSave);
+                }
+
+                surveyToSave.Pages.Add(pageToSave);
+            }
+
+            return surveyToSave;
         }
     }
 }

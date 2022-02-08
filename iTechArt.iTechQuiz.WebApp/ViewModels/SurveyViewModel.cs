@@ -5,7 +5,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
     public class SurveyViewModel
     {
         public Guid Id { get; set; }
-
+        
         public string Title { get; set; }
 
         public int CurrentPage { get; set; }

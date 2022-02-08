@@ -40,6 +40,7 @@ namespace iTechArt.iTechQuiz.Repositories
             return DbSet
                 .Include(p => p.UsersPassed)
                 .Include(p => p.Pages)
+                .ThenInclude(p => p.Questions)
                 .Include(p => p.Questions)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }

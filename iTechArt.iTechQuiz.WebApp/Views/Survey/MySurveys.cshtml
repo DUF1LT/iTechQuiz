@@ -66,7 +66,7 @@
                         </th>
                         <th>
                             <div class="my-surveys__icons">
-                                <a asp-controller="Survey" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/edit.svg" /></a>
+                                <a asp-controller="Survey" asp-action="Edit" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/edit.svg" /></a>
                                 <a asp-controller="Survey" asp-action="Delete" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/delete.svg" /></a>
                             </div>
                         </th>

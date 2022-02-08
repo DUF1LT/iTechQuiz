@@ -1,0 +1,219 @@
+﻿@using System.Text.Json
+@using System.Text.Json.Serialization
+@using Newtonsoft.Json
+@using JsonSerializer = System.Text.Json.JsonSerializer
+@model iTechArt.iTechQuiz.WebApp.ViewModels.Constructor.SurveyViewModel
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/new-survey.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+}
+
+@section Scripts
+{
+    <script src="~/js/new-survey.js"></script>
+    <script>
+
+        Vue.config.devtools = true;
+
+        let defaultSurvey = {
+            title: "Survey #@Model",
+            currentPage: 0,
+            pages: [
+                {
+                    name: "Page 1",
+                    questions: []
+                }
+            ],
+            isAnonymous: false,
+            hasQuestionNumeration: false,
+            hasRandomSequence: false,
+            renderStarsAtRequiredFields: false,
+            hasProgressBar: false
+        }
+
+        let sv = new Vue({
+            el: '#survey-vue',
+            data: {
+                survey: {}
+            },
+            created: function () {
+                this.survey = @Html.Raw(Json.Serialize(Model));
+                console.log(this.survey);
+            },
+            computed: {
+                questionsCount: function() {
+                    return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
+                }
+            },
+            methods: {
+                saveSurvey: function() {
+                    fetch("@Url.Action("SaveEdit")",
+                        {
+                            method: "POST",
+                            body: JSON.stringify(this.survey),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            redirect: "follow"
+                        }
+                    ).then(response => {
+                        if (response.ok) {
+                            startPopup();
+                            this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+                        }
+                    });
+                },
+
+                resetSurvey: function(event) {
+                    this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+                },
+
+                addPage: function(event) {
+                    this.survey.pages.push(
+                        {
+                            name: 'Page ' + (this.survey.pages.length + 1),
+                            questions: []
+                        });
+                },
+
+                changePage: function(page) {
+                    this.survey.currentPage = this.survey.pages.indexOf(page);
+                },
+
+                removePage: function(page) {
+                    let removePage = this.survey.currentPage;
+
+                    if ((this.survey.pages.length - 1) == this.survey.currentPage) {
+                        this.survey.currentPage--;
+                    }
+
+                    if (this.survey.pages.length - 1 == 0) {
+                        this.survey.currentPage = 0;
+                    }
+
+                    this.survey.pages.splice(removePage, 1);
+                },
+
+                addSingleAnswerQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Single answer question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "SingleAnswer",
+                        numericOption: 0,
+                        options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                        textOption: "",
+                        copy: {}
+                    });
+                },
+
+                addMultipleAnswerQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Multiple answer question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "MultipleAnswer",
+                        numericOption: 0,
+                        options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                        textOption: "",
+                        copy: {}
+                    });
+                },
+                addTextQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Text question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "TextAnswer",
+                        numericOption: 0,
+                        options: [],
+                        textOption: "",
+                        copy: {}
+                    });
+                },
+                addFileQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "File question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "File",
+                        numericOption: 0,
+                        options: [],
+                        textOption: "",
+                        copy: {}
+                    });
+                },
+                addStarQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Star rating",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "Rating",
+                        numericOption: 0,
+                        options: [],
+                        textOption: "",
+                        copy: {}
+                    });
+                },
+                addScaleQuestion: function() {
+                    this.survey.pages[this.survey.currentPage].questions.push({
+                        isEditable: false,
+                        isRequired: false,
+                        content: "Scale question",
+                        number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                        type: "Scale",
+                        numericOption: 0,
+                        options: [],
+                        textOption: "",
+                        copy: {}
+                    });
+                }
+            }
+        });
+
+        $(window).bind('beforeunload',
+            function() {
+                return 'Are you sure you want to leave? You have unsaved information!';
+            }
+        );
+
+        function startPopup() {
+            let modal = document.getElementById("new-survey-modal");
+            modal.style.visibility = "visible";
+            modal.classList.add("animate__animated");
+            modal.classList.add("animate__fadeInRightBig");
+
+            setTimeout(function() {
+                modal.classList.remove("animate__fadeInRightBig");
+                modal.classList.add("animate__fadeOutRightBig");
+                },
+                5000
+            );
+
+            modal.classList.remove("animate__fadeOutRightBig");
+        }
+
+    </script>
+}
+
+<partial name="_SidebarPartial" />
+<div id="survey-vue" class="main-wrapper">
+    <section class="new-survey-section">
+        <partial name="_EditSurveyPartial" />
+        <partial name="_SurveySidePartial" />
+    </section>
+
+    <div id="new-survey-modal">
+        <img src="~/img/tick.svg" width="30" />
+        <span>Your survey was saved!</span>
+    </div>
+</div>

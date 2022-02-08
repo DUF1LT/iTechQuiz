@@ -31,9 +31,8 @@ namespace iTechArt.Repositories
                 pagedItems = pagedItems.Where(filter);
             }
 
-            pagedItems = pagedItems.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-
-            var items = await pagedItems.ToListAsync();
+            var items = await pagedItems.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
 
             return new PagedData<TEntity>(items, count, pageIndex, pageSize);
         }

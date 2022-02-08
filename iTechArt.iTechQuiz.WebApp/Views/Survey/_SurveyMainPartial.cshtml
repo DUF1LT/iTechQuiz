@@ -1,0 +1,18 @@
+﻿<span>Questions: {{questionsCount}}, pages: {{survey.pages.length}} </span>
+<div class="new-survey-main__buttons">
+    <div class="new-survey-main__buttons-left">
+        <input type="button" class="button" value="Save" v-on:click="saveSurvey">
+        <input type="button" class="lg-button" value="Save as template">
+        <input type="button" class="red-button" value="Cancel" v-on:click="resetSurvey">
+    </div>
+    <button type="button" class="button button-with-image" v-on:click="addPage"><img src="~/img/plus.svg" width="15"/>&nbsp;New page</button> 
+</div>
+<div class="new-survey-main-pages-wrapper">
+    <survey-page-tab v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
+</div>
+<survey-page v-if="survey.pages.length > 0" v-bind:page="survey.pages[survey.currentPage]" v-bind:survey="survey" v-on:remove-page="removePage"></survey-page>
+<div class="new-survey-main__progress-bar" v-if="survey.hasProgressBar">
+    <span>{{questionsCount}}/{{questionsCount}}</span>
+    <progress value="100" max="100"></progress>
+    <span>100%</span>
+</div>

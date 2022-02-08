@@ -43,8 +43,10 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
         public async Task DeleteSurveyAsync(Guid id)
         {
-            _unitOfWork.GetRepository<Survey, Guid, Repository<Survey, Guid>>().Delete(id);
+            var survey = await GetSurveyAsync(id);
+            survey.IsDeleted = true;
             await _unitOfWork.SaveAsync();
         }
+
     }
 }
