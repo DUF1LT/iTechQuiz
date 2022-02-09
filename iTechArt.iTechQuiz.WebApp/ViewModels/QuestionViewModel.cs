@@ -22,5 +22,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public List<string> Options { get; set; }
 
+        public AnswerViewModel Answer { get; set; }
+
     }
 }

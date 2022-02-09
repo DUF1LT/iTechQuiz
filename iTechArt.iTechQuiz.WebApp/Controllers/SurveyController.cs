@@ -69,6 +69,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
         [Route("MySurveys")]
         public async Task<IActionResult> MySurveys(int pageIndex = 1, string filter = null)
         {
@@ -128,7 +129,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        public IActionResult Pass([FromBody] SurveyViewModel survey)
         {
             await _surveyService.DeleteSurveyAsync(survey.Id);
 
