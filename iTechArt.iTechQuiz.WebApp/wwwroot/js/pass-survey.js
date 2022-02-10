@@ -4,13 +4,15 @@
             page: Object,
             survey: Object
         },
-        created: function() {
-            this.page.randomQuestions = JSON.parse(JSON.stringify(this.page.questions)).sort(() => Math.random() - 0.5);
+        created: function () {
+            if (this.survey.hasRandomSequence) {
+                this.page.questions.sort(() => Math.random() - 0.5);
+            }
         },
         template:
             '<div class="pass-survey__page">' +
                 '<span>{{page.name}}</span>' +
-                '<page-question-random v-if="survey.hasRandomSequence" v-for="(randomQuestion, index) in page.randomQuestions" v-bind:question="randomQuestion" :survey="survey" :index="index"></page-question-random>' +
+                '<page-question-random v-if="survey.hasRandomSequence" v-for="(randomQuestion, index) in page.questions" v-bind:question="randomQuestion" :survey="survey" :index="index"></page-question-random>' +
                 '<page-question v-if="!survey.hasRandomSequence" v-for="question in page.questions" v-bind:question="question" :survey="survey"></page-question>' +
             '</div>'
     });
@@ -118,17 +120,17 @@ Vue.component('File',
         methods: {
             inputFile: function() {
                 const reader = new FileReader();
-                const fileByteArray = [];
 
-                reader.readAsDataURL(this.$refs.file.files[0]);
+                reader.readAsDataURL(this.$refs[`${this.question.id}__file`].files[0]);
                 reader.onload = (evt) => {
                     this.question.answer.file.byteArray = reader.result.split(",")[1];
-                    this.question.answer.file.name = this.$refs.file.files[0].name;
-                    this.question.answer.file.type = this.$refs.file.files[0].type;
+                    this.question.answer.file.name = this.$refs[`${this.question.id}__file`].files[0].name;
+                    this.question.answer.file.type = this.$refs[`${this.question.id}__file`].files[0].type;
                 }
             }
         },
-        template: '<input width="50px" type="file" v-on:change="inputFile()" ref="file"/>'
+        template:
+            '<input width="50px" type="file" v-on:change="inputFile()" v-bind:ref="question.id + `__file`"/>'
         });
 
 Vue.component('Rating',

@@ -18,11 +18,18 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         private readonly UserService _userService;
         private readonly SurveyService _surveyService;
+        private readonly AnswerService _answerService;
+        private readonly QuestionService _questionService;
 
-        public SurveyController(UserService userService, SurveyService surveyService)
+        public SurveyController(UserService userService, 
+            SurveyService surveyService, 
+            QuestionService questionService, 
+            AnswerService answerService)
         {
             _userService = userService;
             _surveyService = surveyService;
+            _questionService = questionService;
+            _answerService = answerService;
         }
 
 
@@ -129,15 +136,39 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Pass([FromBody] SurveyViewModel survey)
+        [AllowAnonymous]
+        public async Task<IActionResult> Pass([FromBody] SurveyViewModel model)
         {
-            await _surveyService.DeleteSurveyAsync(survey.Id);
+            var survey = await _surveyService.GetSurveyAsync(model.Id);
 
-            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
-            var surveyToSave = SurveyExtensions.CreateFromViewModel(survey);
-            surveyToSave.CreatedBy = user;
+            var questions = model.Pages.SelectMany(p => p.Questions);
 
-            await _surveyService.SaveSurveyAsync(surveyToSave);
+            var user = !User.Identity.IsAuthenticated && survey.IsAnonymous
+                ? await _userService.GetUserWithRolesAndSurveysAsync(default)
+                : await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
+
+            foreach (var question in questions)
+            {
+                var answer = new Answer
+                {
+                    MultipleAnswer = JsonSerializer.Serialize(question.Answer.MultipleAnswer),
+                    Numeric = question.Answer.Numeric,
+                    Text = question.Answer.Text,
+                    Question = await _questionService.GetQuestionAsync(question.Id),
+                    User = user
+                };
+
+                await _answerService.SaveAnswerAsync(answer);
+            }
+
+            survey.UsersPassed.Add(new UsersPassSurveys
+            {
+                Survey = survey,
+                User = user,
+                PassedAt = DateTime.Now
+            });
+
+            await _surveyService.UpdateSurveyAsync(survey);
 
             return Ok();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Domain.Models
@@ -10,8 +11,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
         public Question Question { get; set; }
 
         public User User { get; set; }
-
-        public Guid FileId { get; set; }
 
         public File File { get; set; }
 

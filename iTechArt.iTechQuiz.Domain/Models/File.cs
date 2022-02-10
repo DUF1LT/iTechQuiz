@@ -11,6 +11,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 
         public byte[] Bytes { get; set; }
 
+        public string Type { get; set; }
+
         public Guid AnswerId { get; set; }
 
         public Answer Answer { get; set; }

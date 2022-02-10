@@ -22,7 +22,7 @@
                 },
                 progressPercentage: function() {
                     return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
-                } 
+                }
             },
             methods: {
                 previousPage: function() {
@@ -34,6 +34,10 @@
                     for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
                         if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
                             let question = this.survey.pages[this.survey.currentPage].questions[i];
+                            console.log(question.answer.file.byteArray
+                                , question.answer.multipleAnswer.length
+                                , question.answer.numeric
+                                , question.answer.text);
 
                             if (question.answer.file.byteArray == null
                                 && question.answer.multipleAnswer.length === 0
@@ -43,14 +47,39 @@
                             }
                         }
                     }
+                    console.log(required);
+
                     if (required === 0) {
                         this.survey.currentPage++;
                     } else {
                         alert("You have required questions without answers!!");
                     }
                 },
-                passSurvey: function() {
-                    fetch("@Url.Action("Pass")",
+                passSurvey: function () {
+
+                    let required = 0;
+
+                    for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
+                        if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
+                            let question = this.survey.pages[this.survey.currentPage].questions[i];
+                            console.log(question.answer.file.byteArray
+                                , question.answer.multipleAnswer.length
+                                , question.answer.numeric
+                                , question.answer.text);
+
+                            if (question.answer.file.byteArray == null
+                                && question.answer.multipleAnswer.length === 0
+                                && question.answer.numeric === 0
+                                && question.answer.text == null) {
+                                required++;
+                            }
+                        }
+                    }
+                    console.log(required);
+
+                    if (required === 0) {
+
+                        fetch("@Url.Action("Pass")",
                         {
                             method: "POST",
                             body: JSON.stringify(this.survey),
@@ -59,9 +88,15 @@
                             },
                             redirect: "follow"
                         }
-                    ).then(response => {
-                        console.log(response);
-                    });
+                        ).then(response => {
+                            if (response.ok) {
+                                window.location.href = "@Url.Action("Index", "Home")";
+                            }
+                        });
+                    }
+                    else {
+                        alert("You have required questions without answers!!");
+                    }
                 }
             }
         });

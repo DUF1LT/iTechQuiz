@@ -11,9 +11,6 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
             builder.HasMany(e => e.Answers)
                 .WithOne(e => e.Question);
 
-            builder.HasOne(e => e.Survey)
-                .WithMany(e => e.Questions);
-
             builder.HasOne<QuestionTypeLookup>()
                 .WithMany()
                 .HasForeignKey(e => e.Type);
