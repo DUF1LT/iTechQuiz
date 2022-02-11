@@ -6,14 +6,14 @@
         },
         created: function () {
             if (this.survey.hasRandomSequence) {
-                this.page.questions.sort(() => Math.random() - 0.5);
+                this.page.questions.sort(() => Math.random() - Math.random());
             }
         },
         template:
             '<div class="pass-survey__page">' +
                 '<span>{{page.name}}</span>' +
-                '<page-question-random v-if="survey.hasRandomSequence" v-for="(randomQuestion, index) in page.questions" v-bind:question="randomQuestion" :survey="survey" :index="index"></page-question-random>' +
-                '<page-question v-if="!survey.hasRandomSequence" v-for="question in page.questions" v-bind:question="question" :survey="survey"></page-question>' +
+                '<page-question-random v-if="survey.hasRandomSequence" v-for="(randomQuestion, index) in page.questions" v-bind:question="randomQuestion" :survey="survey" :index="index" v-bind:ref="randomQuestion.id"></page-question-random>' +
+                '<page-question v-if="!survey.hasRandomSequence" v-for="question in page.questions" v-bind:question="question" :survey="survey" v-bind:ref="question.id"></page-question>' +
             '</div>'
     });
 
@@ -21,10 +21,19 @@ Vue.component('page-question',
     {
         props: {
             question: Object,
-            survey: Object
+            survey: Object,
+            alert: false
+        },
+        methods: {
+            alertRequired: function () {
+                this.alert = true;
+            },
+            alertDisable: function () {
+                this.alert = false;
+            }
         },
         template:
-            '<div class="pass-survey__question">' +
+            '<div class="pass-survey__question" v-on:click="alertDisable()">' +
                 '<hr v-if="question.number != 1"/>' +
                 '<div class="pass-survey__question-title">' +
                     '<span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>' +
@@ -32,6 +41,7 @@ Vue.component('page-question',
                     '<img v-if="question.isRequired && survey.renderStarsAtRequiredFields" src="/img/star.svg" width="15"/>' +
                 '</div>' +
                 '<component v-bind:is="question.type" v-bind:question="question"></component>' +
+                '<span class="pass-survey__alert-question" v-if="alert">You should answer this question!</span>' +
             '</div >'
     });
 
@@ -40,17 +50,27 @@ Vue.component('page-question-random',
         props: {
             question: Object,
             survey: Object,
-            index: Number
+            index: Number,
+            alert: false
+        },
+        methods: {
+            alertRequired: function () {
+                this.alert = true;
+            },
+            alertDisable: function() {
+                this.alert = false;
+            }
         },
         template:
-            '<div class="pass-survey__question">' +
+            '<div class="pass-survey__question" v-on:click="alertDisable()">'+
                 '<hr v-if="(index + 1) != 1"/>' +
-                    '<div class="pass-survey__question-title">' +
+                '<div class="pass-survey__question-title">' +
                     '<span v-if="survey.hasQuestionNumeration">{{index + 1}}.</span>' +
                     '<span>{{question.content}}</span>' +
                     '<img v-if="question.isRequired" src="/img/star.svg" width="15"/>' +
                 '</div>' +
                 '<component v-bind:is="question.type" v-bind:question="question"></component>' +
+                '<span class="pass-survey__alert-question" v-if="alert">You should answer this question!</span>' +
             '</div >'
     });
 
