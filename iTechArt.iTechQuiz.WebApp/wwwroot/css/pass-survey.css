@@ -127,3 +127,9 @@
     width: 7px;
     background: #d33722;
 }
+
+.pass-survey__alert-question {
+    color: #d33722;
+    font-size: 15px;
+    font-weight: 600;
+}
