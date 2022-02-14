@@ -108,7 +108,10 @@
     transition: 0.25s;
 }
 
-
 .hidden {
     visibility: hidden;
+}
+
+.visible{
+    visibility: visible;
 }

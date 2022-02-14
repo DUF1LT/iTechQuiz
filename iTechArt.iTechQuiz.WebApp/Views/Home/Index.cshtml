@@ -1,15 +1,15 @@
 ﻿@using iTechArt.iTechQuiz.Repositories.Constants
 @section Styles {
-    <link rel="stylesheet" href="~/css/sidebar.css" />
+  <link rel="stylesheet" href="~/css/sidebar.css" />
 }
 
 @if (User.IsInRole(Roles.Admin))
 {
-    <partial name="_SidebarPartial" />
+  <partial name="_SidebarPartial" />
 }
 
 <div class="@(User.IsInRole(Roles.Admin) ? "main-wrapper" : "main-wrapper-centered")">
-    <h2 class="h2">
-        Welcome to iTechQuiz!!!
-    </h2>
+  <h2 class="h2">
+    Welcome to iTechQuiz!!!
+  </h2>
 </div>

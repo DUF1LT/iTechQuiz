@@ -74,7 +74,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            var user = await _userService.GetUserAsync(id);
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(id);
 
             if (user is null)
             {

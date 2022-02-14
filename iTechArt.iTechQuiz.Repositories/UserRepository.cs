@@ -17,11 +17,12 @@ namespace iTechArt.iTechQuiz.Repositories
 
         public override async Task<PagedData<User>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<User, bool>> filter = null)
         {
-            IQueryable<User> includedUsers = DbSet
+            var includedUsers = DbSet
                 .Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)
                 .Include(p => p.PassedSurveys)
-                .Include(p => p.Surveys);
+                .Include(p => p.Surveys)
+                .AsQueryable();
 
             if (filter is not null)
             {
@@ -37,7 +38,7 @@ namespace iTechArt.iTechQuiz.Repositories
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
 
-        public override Task<User> GetByIdAsync(Guid id)
+        public override Task<User> GetUserWithRolesAndSurveysAsync(Guid id)
         {
             return DbSet.Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)

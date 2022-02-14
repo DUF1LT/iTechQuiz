@@ -3,104 +3,104 @@
 @model iTechArt.Common.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.UserViewModel>
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/sidebar.css" />
-    <link rel="stylesheet" href="~/css/admin.css" />
+  <link rel="stylesheet" href="~/css/sidebar.css" />
+  <link rel="stylesheet" href="~/css/admin.css" />
 }
 
 @section Scripts
 {
-    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 }
 
 <partial name="_SidebarPartial" />
 <div class="main-wrapper">
-    <div class="admin-users">
-        <div class="admin-users__header">
-            <h2>Users</h2>
-            <form asp-action="Users" method="get" class="admin-users__search">
-                <button class="admin-users__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
-                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="admin-users__header-input" />
-            </form>
-        </div>
-        <table class="admin-users__table sortable">
-            <thead>
-                <tr>
-                    <th width="30%">
-                        Username
-                    </th>
-                    <th width="15%">
-                        Role
-                    </th>
-                    <th width="20%">
-                        Registered
-                    </th>
-                    <th width="15%">
-                        Surveys
-                    </th>
-                    <th width="20%">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <th>
-                            @Html.DisplayFor(modelItem => item.UserName)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(modelItem => item.CurrentRole)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(modelItem => item.RegisteredAt)
-                        </th>
-                        <th>
-                            @Html.DisplayFor(modelItem => item.SurveysAmount)
-                        </th>
-                        <th>
-                            <div class="admin-users__icons">
-                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/edit.svg" /></a>
-                                @if (User.GetId() != item.Id.ToString())
-                                {
-                                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/delete.svg" /></a>
-                                }
-                            </div>
-                        </th>
-                    </tr>
-                }
-                @if (!Model.Items.Any())
-                {
-                    <tr>
-                        <th colspan="5">There are no users according to your filter</th>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="5">
-                        <div class="admin-users__table-footer">
-                            <div class="admin-users__total-users">
-                                <div>Total Users:</div>&nbsp;&nbsp;
-                                <div class="admin-users__total-users-count">@Model.TotalCount</div>
-                            </div>
-                            <div class="admin-users__arrows">
-
-                                <a asp-action="Users" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
-                                
-                                @if (Model.TotalCount != 0)
-                                {
-                                    <p>@Model.PageIndex / @Model.TotalPages</p>
-                                }
-                                
-                                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
-                                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages"  asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-            </tfoot>
-        </table>
+  <div class="admin-users">
+    <div class="admin-users__header">
+      <h2>Users</h2>
+      <form asp-action="Users" method="get" class="admin-users__search">
+        <button class="admin-users__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
+        <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="admin-users__header-input" />
+      </form>
     </div>
+    <table class="admin-users__table sortable">
+      <thead>
+        <tr>
+          <th width="30%">
+            Username
+          </th>
+          <th width="15%">
+            Role
+          </th>
+          <th width="20%">
+            Registered
+          </th>
+          <th width="15%">
+            Surveys
+          </th>
+          <th width="20%">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.Items)
+        {
+          <tr>
+            <th>
+              @Html.DisplayFor(modelItem => item.UserName)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.CurrentRole)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.RegisteredAt)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.SurveysAmount)
+            </th>
+            <th>
+              <div class="admin-users__icons">
+                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/edit.svg" /></a>
+                @if (User.GetId() != item.Id.ToString())
+                {
+                  <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="admin-users__icon"><img width="25" src="~/img/delete.svg" /></a>
+                }
+              </div>
+            </th>
+          </tr>
+        }
+        @if (!Model.Items.Any())
+        {
+          <tr>
+            <th colspan="5">There are no users according to your filter</th>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5">
+            <div class="admin-users__table-footer">
+              <div class="admin-users__total-users">
+                <div>Total Users:</div>&nbsp;&nbsp;
+                <div class="admin-users__total-users-count">@Model.TotalCount</div>
+              </div>
+              <div class="admin-users__arrows">
+
+                <a asp-action="Users" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
+
+                @if (Model.TotalCount != 0)
+                {
+                  <p>@Model.PageIndex / @Model.TotalPages</p>
+                }
+
+                <a asp-action="Users" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                <a asp-action="Users" asp-route-pageIndex="@Model.TotalPages" asp-route-filter="@ViewData["NameFilter"]" class="admin-users__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>  

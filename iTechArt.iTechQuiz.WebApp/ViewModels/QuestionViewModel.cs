@@ -14,7 +14,6 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public int Number { get; set; }
 
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public QuestionType Type { get; set; }
 
         public int NumericOption { get; set; }

@@ -29,7 +29,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> New()
         {
-            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
             var newSurveyNumber = user.Surveys.Count + 1;
 
             return View(newSurveyNumber);
@@ -46,7 +46,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Save([FromBody] SurveyViewModel survey)
         {
-            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
             var surveyToSave = new Survey
             {

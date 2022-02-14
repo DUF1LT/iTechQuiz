@@ -315,7 +315,6 @@
 
 #new-survey-modal {
     display: flex;
-    visibility: hidden;
     align-items: center;
     column-gap: 15px;
     position: fixed;

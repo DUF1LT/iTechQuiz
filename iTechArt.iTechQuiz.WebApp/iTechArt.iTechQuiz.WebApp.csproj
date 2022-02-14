@@ -29,8 +29,4 @@
 		<ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="ViewModels\Constructor\" />
-	</ItemGroup>
-
 </Project>

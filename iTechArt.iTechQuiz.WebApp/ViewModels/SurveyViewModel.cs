@@ -14,8 +14,6 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public bool HasQuestionNumeration { get; set; }
 
-        public bool HasPagesNumeration { get; set; }
-
         public bool HasRandomSequence { get; set; }
 
         public bool RenderStarsAtRequiredFields { get; set; }

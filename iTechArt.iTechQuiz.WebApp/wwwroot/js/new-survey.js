@@ -25,32 +25,14 @@ Vue.component('survey-page',
 
                 this.page.questions.splice(questionIndex, 1);
             },
-            upQuestion: function (question) {
+            moveQuestion: function (question, direction) {
                 let questionIndex = this.page.questions.indexOf(question);
 
-                let newNumber = this.page.questions[questionIndex - 1].number;
-                this.page.questions[questionIndex - 1].number = question.number;
+                let newNumber = this.page.questions[questionIndex + direction].number;
+                this.page.questions[questionIndex + direction].number = question.number;
                 question.number = newNumber;
 
                 this.page.questions.sort(function(a, b) {
-                    if (a.number > b.number) {
-                        return 1;
-                    }
-                    if (a.number < b.number) {
-                        return -1;
-                    }
-
-                    return 0;
-                });
-            },
-            downQuestion: function (question) {
-                let questionIndex = this.page.questions.indexOf(question);
-
-                let newNumber = this.page.questions[questionIndex + 1].number;
-                this.page.questions[questionIndex + 1].number = question.number;
-                question.number = newNumber;
-
-                this.page.questions.sort(function (a, b) {
                     if (a.number > b.number) {
                         return 1;
                     }
@@ -72,7 +54,7 @@ Vue.component('survey-page',
                     '<span v-if="page.questions.length == 0">There are no questions at this page. You can add question at "Question type" tab.</span>' +
                     '<page-question v-for="question in page.questions" v-bind:question="question" v-bind:questionsAmount="page.questions.length"' +
                     'v-bind:survey="survey" v-on:remove-question="removeQuestion(question)"' +
-                    'v-on:up-question="upQuestion(question)" v-on:down-question="downQuestion(question)">' +
+                    'v-on:up-question="moveQuestion(question, -1)" v-on:down-question="moveQuestion(question, 1)">' +
                     '</page-question>' +
                 '</div >' +
             '</div>'
@@ -280,3 +262,18 @@ Vue.component('Scale',
             '</div>'
     });
 
+function startPopup() {
+    let modal = document.getElementById("new-survey-modal");
+    modal.style.visibility = "visible";
+    modal.classList.add("animate__animated");
+    modal.classList.add("animate__fadeInRightBig");
+
+    setTimeout(function () {
+            modal.classList.remove("animate__fadeInRightBig");
+            modal.classList.add("animate__fadeOutRightBig");
+        },
+        5000
+    );
+
+    modal.classList.remove("animate__fadeOutRightBig");
+}

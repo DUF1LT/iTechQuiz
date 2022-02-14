@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using iTechArt.Common.Services.EmailService;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Interfaces;
@@ -30,14 +31,19 @@ namespace iTechArt.iTechQuiz.WebApp
             Configuration = configuration;
             Environment = environment;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<iTechQuizContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            var mvcBuilder = services.AddControllersWithViews();
+            var mvcBuilder = services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
             if (Environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation();
