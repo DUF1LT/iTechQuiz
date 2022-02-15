@@ -155,7 +155,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
         {
-            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
             var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
             previousSurvey.IsDeleted = true;
@@ -183,7 +183,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         public async Task<Survey> CreateSurveyFromViewModelAsync(SurveyViewModel model)
         {
-            var user = await _userService.GetUserAsync(Guid.Parse(User.GetId()));
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
             var surveyToSave = new Survey
             {
