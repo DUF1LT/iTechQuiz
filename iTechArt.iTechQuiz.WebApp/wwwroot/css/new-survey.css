@@ -26,6 +26,7 @@
 
 .new-survey-main__title input{
     width: 50%;
+    padding-left: 10px; 
 }
 
 .new-survey-main__title span {

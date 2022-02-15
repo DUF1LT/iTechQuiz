@@ -112,6 +112,10 @@
     visibility: hidden;
 }
 
-.visible{
+.visible {
     visibility: visible;
+}
+
+.alert-border {
+    border: 2px solid #d33722;
 }

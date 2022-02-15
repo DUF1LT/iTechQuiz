@@ -1,168 +1,4 @@
-﻿let defaultSurvey = {
-    title: "Survey",
-    currentPage: 0,
-    pages: [
-        {
-            name: "Page 1",
-            questions: []
-        }
-    ],
-    isAnonymous: false,
-    hasQuestionNumeration: false,
-    hasRandomSequence: false,
-    renderStarsAtRequiredFields: false,
-    hasProgressBar: false
-}
-
-let sv = new Vue({
-    el: '#survey-vue',
-    data: {
-        survey: {},
-        showModal: false,
-        fadeModal: false
-    },
-    created: function () {
-        this.survey = JSON.parse(JSON.stringify(defaultSurvey));
-    },
-    computed: {
-        questionsCount: function () {
-            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
-        }
-    },
-    methods: {
-        saveSurvey: function () {
-            fetch("Survey/Save",
-                {
-                    method: "POST",
-                    body: JSON.stringify(this.survey),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    redirect: "follow"
-                }
-            ).then(response => {
-                if (response.ok) {
-                    this.survey = JSON.parse(JSON.stringify(defaultSurvey));
-                    this.showModal = true;
-                    this.fadeModal = true;
-                    setTimeout(() => this.fadeModal = false, 5000);
-                }
-            });
-        },
-        cancelSurvey: function (event) {
-            if (confirm("Are you sure you want to leave without saving?")) {
-                history.back();
-            }
-        },
-
-        addPage: function (event) {
-            this.survey.pages.push(
-                {
-                    name: 'Page ' + (this.survey.pages.length + 1),
-                    questions: []
-                });
-        },
-
-        changePage: function (page) {
-            this.survey.currentPage = this.survey.pages.indexOf(page);
-        },
-
-        removePage: function (page) {
-            let removePage = this.survey.currentPage;
-
-            if ((this.survey.pages.length - 1) == this.survey.currentPage) {
-                this.survey.currentPage--;
-            }
-
-            if (this.survey.pages.length - 1 == 0) {
-                this.survey.currentPage = 0;
-            }
-
-            this.survey.pages.splice(removePage, 1);
-        },
-
-        addSingleAnswerQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "Single answer question",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "SingleAnswer",
-                numericOption: 0,
-                options: ['Answer 1', 'Answer 2', 'Answer 3'],
-                textOption: "",
-                copy: {}
-            });
-        },
-
-        addMultipleAnswerQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "Multiple answer question",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "MultipleAnswer",
-                numericOption: 0,
-                options: ['Answer 1', 'Answer 2', 'Answer 3'],
-                textOption: "",
-                copy: {}
-            });
-        },
-        addTextQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "Text question",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "TextAnswer",
-                numericOption: 0,
-                options: [],
-                textOption: "",
-                copy: {}
-            });
-        },
-        addFileQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "File question",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "File",
-                numericOption: 0,
-                options: [],
-                textOption: "",
-                copy: {}
-            });
-        },
-        addStarQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "Star rating",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "Rating",
-                numericOption: 0,
-                options: [],
-                textOption: "",
-                copy: {}
-            });
-        },
-        addScaleQuestion: function () {
-            this.survey.pages[this.survey.currentPage].questions.push({
-                isEditable: false,
-                isRequired: false,
-                content: "Scale question",
-                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
-                type: "Scale",
-                numericOption: 0,
-                options: [],
-                textOption: "",
-                copy: {}
-            });
-        }
-    }
-});
-
+﻿
 Vue.component('survey-page-tab',
     {
         props: {
@@ -426,3 +262,173 @@ Vue.component('Scale',
                 '<span style="align-self: end;">100</span>' +
             '</div>'
     });
+
+let defaultSurvey = {
+    title: "Survey",
+    currentPage: 0,
+    pages: [
+        {
+            name: "Page 1",
+            questions: []
+        }
+    ],
+    isAnonymous: false,
+    hasQuestionNumeration: false,
+    hasRandomSequence: false,
+    renderStarsAtRequiredFields: false,
+    hasProgressBar: false
+}
+
+let sv = new Vue({
+    el: '#survey-vue',
+    data: {
+        survey: {},
+        showModal: false,
+        fadeModal: false
+    },
+    created: function () {
+        this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+    },
+    computed: {
+        questionsCount: function () {
+            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
+        }
+    },
+    methods: {
+        saveSurvey: function () {
+            if (isNullOrWhitespace(this.survey.title)) {
+                alert("Survey title can't be empty or whitespace");
+                return;
+            }
+
+            fetch("Survey/Save",
+                {
+                    method: "POST",
+                    body: JSON.stringify(this.survey),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: "follow"
+                }
+            ).then(response => {
+                if (response.ok) {
+                    this.survey = JSON.parse(JSON.stringify(defaultSurvey));
+                    this.showModal = true;
+                    this.fadeModal = true;
+                    setTimeout(() => this.fadeModal = false, 5000);
+                }
+            });
+        },
+        cancelSurvey: function (event) {
+            if (confirm("Are you sure you want to leave without saving?")) {
+                history.back();
+            }
+        },
+
+        addPage: function (event) {
+            this.survey.pages.push(
+                {
+                    name: 'Page ' + (this.survey.pages.length + 1),
+                    questions: []
+                });
+        },
+
+        changePage: function (page) {
+            this.survey.currentPage = this.survey.pages.indexOf(page);
+        },
+
+        removePage: function (page) {
+            let removePage = this.survey.currentPage;
+
+            if ((this.survey.pages.length - 1) == this.survey.currentPage) {
+                this.survey.currentPage--;
+            }
+
+            if (this.survey.pages.length - 1 == 0) {
+                this.survey.currentPage = 0;
+            }
+
+            this.survey.pages.splice(removePage, 1);
+        },
+
+        addSingleAnswerQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "Single answer question",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "SingleAnswer",
+                numericOption: 0,
+                options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                textOption: "",
+                copy: {}
+            });
+        },
+
+        addMultipleAnswerQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "Multiple answer question",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "MultipleAnswer",
+                numericOption: 0,
+                options: ['Answer 1', 'Answer 2', 'Answer 3'],
+                textOption: "",
+                copy: {}
+            });
+        },
+        addTextQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "Text question",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "TextAnswer",
+                numericOption: 0,
+                options: [],
+                textOption: "",
+                copy: {}
+            });
+        },
+        addFileQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "File question",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "File",
+                numericOption: 0,
+                options: [],
+                textOption: "",
+                copy: {}
+            });
+        },
+        addStarQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "Star rating",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "Rating",
+                numericOption: 0,
+                options: [],
+                textOption: "",
+                copy: {}
+            });
+        },
+        addScaleQuestion: function () {
+            this.survey.pages[this.survey.currentPage].questions.push({
+                isEditable: false,
+                isRequired: false,
+                content: "Scale question",
+                number: this.survey.pages[this.survey.currentPage].questions.length + 1,
+                type: "Scale",
+                numericOption: 0,
+                options: [],
+                textOption: "",
+                copy: {}
+            });
+        }
+    }
+});
