@@ -30,7 +30,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
         public async Task<User> GetUserWithRolesAndSurveysAsync(Guid id)
         {
-            return await _unitOfWork.GetRepository<User, Guid, UserRepository>().GetUserWithRolesAndSurveysAsync(id);
+            return await _unitOfWork.GetRepository<User, Guid, UserRepository>().GetByIdAsync(id);
         }
     }
 }
