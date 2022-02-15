@@ -1,14 +1,36 @@
 ﻿.main-wrapper {
     display: flex;
-    margin-left: 260px; 
+    padding-left: 275px;
+    padding-top: 80px;
+    position: relative;
 }
 
 .main-wrapper-centered {
     display: flex;
+    padding-top: 80px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 260px;
+}
+
+.lg-button {
+    width: 170px;
+    padding: 6px 0;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    border: 2px solid #272727;
+    background-color: transparent;
+    font-weight: 500;
+    color: #272727;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.lg-button:hover {
+    background-color: #272727;
+    color: #fff;
+    border: 2px solid #272727;
 }
 
 .button {
@@ -31,6 +53,69 @@
     border: 2px solid #272727;
 }
 
+.button-with-image {
+    display: flex;
+    width: 130px;
+    align-items: center;
+    justify-content: center;
+    column-gap: 6px;
+    padding: 6px 6px;
+}
+
+.button-with-image:hover > img {
+    filter: invert(100%) sepia(6%) saturate(0%) hue-rotate(299deg) brightness(104%) contrast(107%);
+} 
+
+.red-button {
+    width: 110px;
+    height: 40px;
+    border: 2px solid #d33722;
+    background-color: transparent;
+    font-weight: 500;
+    color: #d33722;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.red-solid-button {
+    width: auto;
+    outline: none;
+    box-sizing: border-box;
+    padding: 0 28px;
+    height: 40px;
+    border: 2px solid #d33722;
+    background-color: #d33722;
+    font-weight: 500;
+    color: #fff;
+    transition: 0.25s;
+}
+
+.red-button:hover {
+    background-color: #d33722;
+    color: #fff;
+    border: 2px solid #d33722;
+}
+
+.transparent-button {
+    width: auto;
+    outline: none;
+    padding: 0 28px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    color: #272727;
+    transition: 0.25s;
+}
+
 .hidden {
     visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.alert-border {
+    border: 2px solid #d33722;
 }

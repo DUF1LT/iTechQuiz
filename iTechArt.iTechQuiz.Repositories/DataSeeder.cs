@@ -31,8 +31,8 @@ namespace iTechArt.iTechQuiz.Repositories
                 User admin = new User
                 {
                     Id = Guid.NewGuid(),
-                    Email = adminEmail, 
-                    UserName = Roles.Admin, 
+                    Email = adminEmail,
+                    UserName = Roles.Admin,
                     RegisteredAt = DateTime.Now
                 };
 
@@ -48,9 +48,9 @@ namespace iTechArt.iTechQuiz.Repositories
                 User anonymous = new User
                 {
                     Id = default,
-                    Email = "anonymous@itechart.com", 
-                    UserName = "anonymous", 
-                    IsSystemUser = true, 
+                    Email = "anonymous@itechart.com",
+                    UserName = "anonymous",
+                    IsSystemUser = true,
                     RegisteredAt = DateTime.Now
                 };
 
@@ -63,7 +63,7 @@ namespace iTechArt.iTechQuiz.Repositories
                 {
                     new() {Id = QuestionType.SingleAnswer, Name = "Single answer" },
                     new() {Id = QuestionType.MultipleAnswer, Name = "Multiple answer" },
-                    new() {Id = QuestionType.Text, Name = "Text" },
+                    new() {Id = QuestionType.TextAnswer, Name = "Text answer" },
                     new() {Id = QuestionType.File, Name = "File" },
                     new() {Id = QuestionType.Rating, Name = "Rating" },
                     new() {Id = QuestionType.Scale, Name = "Scale" }

@@ -1,12 +1,12 @@
 ﻿.aside-wrapper {
-    width: 250px;
+    width: 275px;
     height: 100%;
     position: fixed;
-    z-index: 1;
+    top: 80px;
+    z-index: 10;
     background-color: #101010;
     overflow-x: hidden;
     text-align: center;
-    padding-top: 25px;
     box-sizing: border-box;
 }
 
@@ -31,14 +31,14 @@
 }
 
 .aside-wrapper a:last-child:hover {
-    border-bottom: 1px solid #EB3D26;
+    border-bottom: 1px solid #d33722;
 }
 
 .aside-wrapper a:hover {
-    background-color: #EB3D26;
-    border-top: 1px solid #EB3D26;
+    background-color: #d33722;
+    border-top: 1px solid #d33722;
 }
 
 .aside-wrapper a:hover+a {
-    border-top: 1px solid #EB3D26;
+    border-top: 1px solid #d33722;
 }

@@ -1,10 +1,15 @@
-﻿@section Styles {
-    <link rel="stylesheet" href="~/css/sidebar.css" />
+﻿@using iTechArt.iTechQuiz.Repositories.Constants
+@section Styles {
+  <link rel="stylesheet" href="~/css/sidebar.css" />
 }
 
-<partial name="_SidebarPartial" />
-<div class="main-wrapper">
-    <h2 class="h2">
-        Welcome to iTechQuiz!!!
-    </h2>
+@if (User.IsInRole(Roles.Admin))
+{
+  <partial name="_SidebarPartial" />
+}
+
+<div class="@(User.IsInRole(Roles.Admin) ? "main-wrapper" : "main-wrapper-centered")">
+  <h2 class="h2">
+    Welcome to iTechQuiz!!!
+  </h2>
 </div>

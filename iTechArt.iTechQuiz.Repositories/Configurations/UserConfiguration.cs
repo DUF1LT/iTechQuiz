@@ -25,7 +25,7 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
                 .WithOne(e => e.User);
 
             builder.HasMany(e => e.UserRoles)
-                .WithOne(e => e.User)
+                .WithOne()
                 .HasForeignKey(e => e.UserId)
                 .IsRequired();
         }

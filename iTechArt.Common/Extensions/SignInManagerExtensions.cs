@@ -6,8 +6,8 @@ namespace iTechArt.Common.Extensions
 {
     public static class SignInManagerExtensions
     {
-        public static async Task<SignInResult> PasswordEmailSignInAsync<TUser>(this SignInManager<TUser> signInManager, 
-            string email, 
+        public static async Task<SignInResult> PasswordEmailSignInAsync<TUser>(this SignInManager<TUser> signInManager,
+            string email,
             string password,
             bool isPersistent,
             bool shouldLockout) where TUser : IdentityUser<Guid>

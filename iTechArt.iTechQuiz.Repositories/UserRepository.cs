@@ -20,20 +20,30 @@ namespace iTechArt.iTechQuiz.Repositories
             var includedUsers = DbSet
                 .Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)
-                .Include(p => p.Surveys);
+                .Include(p => p.PassedSurveys)
+                .Include(p => p.Surveys)
+                .AsQueryable();
+
+            if (filter is not null)
+            {
+                includedUsers = includedUsers.Where(filter);
+            }
 
             var count = await includedUsers.CountAsync();
 
-            var pagedItems = includedUsers.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            if (filter is not null)
-            {
-                pagedItems = pagedItems.Where(filter);
-            }
-
-            var items = await pagedItems.ToListAsync();
+            var items = await includedUsers.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
 
+        public override Task<User> GetUserWithRolesAndSurveysAsync(Guid id)
+        {
+            return DbSet.Include(p => p.UserRoles)
+                .ThenInclude(p => p.Role)
+                .Include(p => p.Surveys)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

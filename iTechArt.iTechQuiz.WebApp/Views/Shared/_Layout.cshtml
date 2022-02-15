@@ -2,55 +2,54 @@
 
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - iTechQuiz</title>
-    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/main.css" />
-    <link rel="stylesheet" href="~/css/nav.css" />
-    @await RenderSectionAsync("Styles", false)
-    <link rel="icon" href="~/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>@ViewBag.Title</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - iTechQuiz</title>
+  <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/css/site.css" />
+  <link rel="stylesheet" href="~/css/main.css" />
+  <link rel="stylesheet" href="~/css/nav.css" />
+  @await RenderSectionAsync("Styles", false)
+  <link rel="icon" href="~/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>@ViewBag.Title</title>
 </head>
 <body>
-    <header>
-        <nav class="navigation">
-            <a class="" asp-controller="Home" asp-action="Index">
-                <img src="~/img/logo.svg" height="32" />
-            </a>
-            <div class="navigation-options">
-                <a asp-controller="Home" asp-action="About">About</a>
-                @if (@User.Identity.IsAuthenticated)
-                {
-                    <div class="navigation-dropdown">
-                        <div id="dropdown-button" class="navigation-dropdown-button">
-                            <img src="~/img/user.png" height="16" />
-                            <span>Hello, @User.Identity.Name!</span>
-                            <img class="navigation-dropdown-arrow" src="~/img/downward-arrow.png" height="16" />
-                        </div>
-                        <div id="dropdown" class="navigation-dropdown-menu">
-                            <form asp-controller="Account" asp-action="Logout">
-                                <button class="navigation-logout" type="submit">Logout</button>
-                            </form>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login">Login</a>
-                }
+  <header>
+    <nav class="navigation">
+      <a class="" asp-controller="Home" asp-action="Index">
+        <img src="~/img/logo.svg" height="32" />
+      </a>
+      <div class="navigation-options">
+        <a asp-controller="Home" asp-action="About">About</a>
+        @if (@User.Identity.IsAuthenticated)
+        {
+          <div class="navigation-dropdown">
+            <div id="dropdown-button" class="navigation-dropdown-button">
+              <img src="~/img/user.png" height="16" />
+              <span>Hello, @User.Identity.Name!</span>
+              <img class="navigation-dropdown-arrow" src="~/img/downward-arrow.png" height="16" />
             </div>
-        </nav>
-    </header>
-    <div>
-        @RenderBody()
-    </div>
-    <footer class="footer">Copyright &copy; 2021 iTechArt</footer>
-    <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+            <div id="dropdown" class="navigation-dropdown-menu">
+              <form asp-controller="Account" asp-action="Logout">
+                <button class="navigation-logout" type="submit">Logout</button>
+              </form>
+            </div>
+          </div>
+        }
+        else
+        {
+          <a asp-controller="Account" asp-action="Login">Login</a>
+        }
+      </div>
+    </nav>
+  </header>
+  @RenderBody()
+  <footer class="footer">Copyright &copy; 2021 iTechArt</footer>
+  <script src="~/lib/jquery/jquery.min.js"></script>
+  <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -15,3 +15,7 @@ window.onclick = function (event) {
         }
     }
 }
+
+function isNullOrWhitespace(string) {
+    return !string || !string.trim();
+}

@@ -38,7 +38,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Users(int pageIndex = 1, string filter = "")
+        public async Task<IActionResult> Users(int pageIndex = 1, string filter = null)
         {
             ViewData["NameFilter"] = filter;
 
@@ -54,7 +54,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 UserName = e.UserName,
                 RegisteredAt = e.RegisteredAt.ToShortDateString(),
                 CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name,
-                SurveysAmount = e.Surveys.Count
+                SurveysAmount = e.PassedSurveys.Count
             });
 
             var userViewModels = new PagedData<UserViewModel>(users,
@@ -74,23 +74,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            var user = await _userManager.Users
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(id);
 
             if (user is null)
             {
                 return NotFound();
             }
 
-            var role = (await _userManager.GetFirstUserRoleAsync(user))
-                .CapitalizeFirstLetter();
 
             return View(new UserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                CurrentRole = role
+                CurrentRole = user.UserRoles.FirstOrDefault()?.Role.Name.CapitalizeFirstLetter()
             });
         }
 
@@ -102,10 +99,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return RedirectToAction("Users");
             }
 
-            await _userManager.DeleteAsync(new User
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user is null)
             {
-                Id = id
-            });
+                return NotFound();
+            }
+
+            await _userManager.DeleteAsync(user);
 
             return RedirectToAction("Users");
         }

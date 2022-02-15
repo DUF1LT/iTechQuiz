@@ -16,28 +16,29 @@ namespace iTechArt.Repositories
 
         public Repository(DbContext context)
         {
-            this.Context = context;
-            DbSet = this.Context.Set<TEntity>();
+            Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
 
         public virtual async Task<PagedData<TEntity>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> filter = null)
         {
-
             var count = await DbSet.CountAsync();
 
-            var pagedItems =  DbSet.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            IQueryable<TEntity> pagedItems = DbSet;
             if (filter is not null)
             {
                 pagedItems = pagedItems.Where(filter);
             }
+
+            pagedItems = pagedItems.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             var items = await pagedItems.ToListAsync();
 
             return new PagedData<TEntity>(items, count, pageIndex, pageSize);
         }
 
-        public async Task<TEntity> GetByIdAsync(TId id)
+        public virtual async Task<TEntity> GetUserWithRolesAndSurveysAsync(TId id)
         {
             return await DbSet.FindAsync(id);
         }
