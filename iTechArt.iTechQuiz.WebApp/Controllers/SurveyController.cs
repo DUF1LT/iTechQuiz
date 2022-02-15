@@ -137,7 +137,34 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
         [Route("Survey/{id}/Edit")]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
+            var surveyViewModel = CreateViewModelFromSurvey(survey);
+
+            return View(surveyViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        {
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
+
+            var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
+            previousSurvey.IsDeleted = true;
+
+            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
+
+            await _surveyService.SaveSurveyAsync(surveyToSave);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Survey/{id}")]
+        public async Task<IActionResult> Survey(Guid id)
         {
             return View(id);
         }
