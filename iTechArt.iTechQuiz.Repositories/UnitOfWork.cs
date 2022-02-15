@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTechArt.iTechQuiz.Repositories.Context;
-using iTechArt.iTechQuiz.Repositories.Repositories;
-using iTechArt.Repositories.Entity;
-using iTechArt.Repositories.Repositories;
-using iTechArt.Repositories.UnitOfWork;
+using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Repositories
 {

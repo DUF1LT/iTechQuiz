@@ -21,9 +21,9 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly AnswerService _answerService;
         private readonly QuestionService _questionService;
 
-        public SurveyController(UserService userService, 
-            SurveyService surveyService, 
-            QuestionService questionService, 
+        public SurveyController(UserService userService,
+            SurveyService surveyService,
+            QuestionService questionService,
             AnswerService answerService)
         {
             _userService = userService;
@@ -88,6 +88,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             var paginatedSurveys = await _surveyService.GetPageWithCreatedSurveysAsync(pageIndex, PageSize, Guid.Parse(User.GetId()), filter);
+
             var surveys = paginatedSurveys.Items.Select(e => new SurveyViewModel
             {
                 Id = e.Id,
@@ -129,8 +130,36 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/Edit/{id}")]
-        public IActionResult Edit(Guid id)
+        [Authorize(Roles = Roles.Admin)]
+        [Route("Survey/{id}/Edit")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
+            var surveyViewModel = CreateViewModelFromSurvey(survey);
+
+            return View(surveyViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        {
+            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
+
+            var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
+            previousSurvey.IsDeleted = true;
+
+            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
+
+            await _surveyService.SaveSurveyAsync(surveyToSave);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Survey/{id}")]
+        public async Task<IActionResult> Survey(Guid id)
         {
             return View(id);
         }
