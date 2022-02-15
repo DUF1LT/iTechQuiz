@@ -1,0 +1,26 @@
+﻿<script type="text/javascript" id="multiple-answer-option">
+  Vue.component('multiple-answer-option',
+    {
+      props: {
+        index: Number,
+        option: String,
+        question: Object
+      },
+      methods: {
+        removeQuestionOption: function() {
+          this.question.options.splice(this.index, 1);
+        }
+      },
+      template: "#multiple-answer-option-template"
+    });
+</script>
+<script type="text/template" id="multiple-answer-option-template">
+  <div class="new-survey-main__question__option">
+    <div class="new-survey-main__question__option-input">
+      <input type="checkbox" />
+      <input class="new-survey-main__question__option__text-input" type="text" v-if="question.isEditable" v-model="question.options[index]" />
+      <span class="new-survey-main__question__option__text-input" v-else>{{ option }}</span>
+    </div>
+    <img src="/img/remove.svg" width="10" v-if="question.isEditable" v-on:click="removeQuestionOption()" />
+  </div>
+</script>

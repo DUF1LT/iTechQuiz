@@ -38,7 +38,7 @@ namespace iTechArt.iTechQuiz.Repositories
             return new PagedData<User>(items, count, pageIndex, pageSize);
         }
 
-        public override Task<User> GetUserWithRolesAndSurveysAsync(Guid id)
+        public Task<User> GetUserWithRolesAndSurveysAsync(Guid id)
         {
             return DbSet.Include(p => p.UserRoles)
                 .ThenInclude(p => p.Role)

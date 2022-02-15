@@ -1,4 +1,4 @@
-﻿@model int
+﻿@model Guid
 
 @section Styles
 {
@@ -9,19 +9,23 @@
 }
 
 @section Scripts
-{
+{                                         
+
+  <partial name="Constructor/_Components" />
+  <partial name="Constructor/_SurveyRoot" model="@Model" />
+
   <script src="~/js/new-survey.js"></script>
 }
 
 <partial name="_SidebarPartial" />
 <div id="survey-vue" class="main-wrapper">
   <section class="new-survey-section">
-    <partial name="_NewSurveyMainPartial" />
-    <partial name="_NewSurveySidePartial" />
+    <partial name="_NewSurveyPartial" />
+    <partial name="_SurveySidePartial" />
   </section>
   <div id="new-survey-modal" v-if="showModal" v-bind:class="{'animate__animated animate__fadeInRightBig': fadeModal, 'animate__animated animate__fadeOutRightBig': !fadeModal }">
-    <img src="img/tick.svg" width="30" />
+    <img src="~/img/tick.svg" width="30" />
     <span>Your survey was saved!</span>
-  </div>'
+  </div>
 </div>
 

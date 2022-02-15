@@ -37,7 +37,7 @@ namespace iTechArt.Repositories
             return new PagedData<TEntity>(items, count, pageIndex, pageSize);
         }
 
-        public virtual async Task<TEntity> GetUserWithRolesAndSurveysAsync(TId id)
+        public virtual async Task<TEntity> GetByIdAsync(TId id)
         {
             return await DbSet.FindAsync(id);
         }

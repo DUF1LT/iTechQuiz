@@ -31,12 +31,19 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         [Route("NewSurvey")]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> New()
+        public IActionResult New()
         {
-            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
-            var newSurveyNumber = user.Surveys.Count + 1;
+            return View();
+        }
 
-            return View(newSurveyNumber);
+        [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<IActionResult> GetSurvey(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyAsync(id);
+            var surveyViewModel = CreateSurveyViewModelFromSurvey(survey);
+
+            return Json(surveyViewModel);
         }
 
         [HttpGet]
@@ -120,35 +127,9 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Route("Survey/{id}/Edit")]
-        public async Task<IActionResult> Edit(Guid id)
+        public IActionResult Edit(Guid id)
         {
-            var survey = await _surveyService.GetSurveyAsync(id);
-
-            SurveyViewModel surveyViewModel = new SurveyViewModel
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                CurrentPage = 0,
-                Pages = survey.Pages.Select(p => new PageViewModel
-                {
-                    Name = p.Name,
-                    Questions = p.Questions.Select(q => new QuestionViewModel
-                    {
-                        Content = q.Content,
-                        IsRequired = q.IsRequired,
-                        Number = q.Number,
-                        Type = q.Type,
-                        Options = JsonSerializer.Deserialize<List<string>>(q.Options)
-                    }).ToList()
-                }).ToList(),
-                IsAnonymous = survey.IsAnonymous,
-                HasQuestionNumeration = survey.HasQuestionNumeration,
-                HasRandomSequence = survey.HasRandomSequence,
-                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
-                HasProgressBar = survey.HasProgressBar
-            };
-
-            return View(surveyViewModel);
+            return View(id);
         }
 
 
@@ -231,6 +212,35 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             return surveyToSave;
+        }
+
+        public SurveyViewModel CreateSurveyViewModelFromSurvey(Survey survey)
+        {
+            SurveyViewModel surveyViewModel = new SurveyViewModel
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                CurrentPage = 0,
+                Pages = survey.Pages.Select(p => new PageViewModel
+                {
+                    Name = p.Name,
+                    Questions = p.Questions.Select(q => new QuestionViewModel
+                    {
+                        Content = q.Content,
+                        IsRequired = q.IsRequired,
+                        Number = q.Number,
+                        Type = q.Type,
+                        Options = JsonSerializer.Deserialize<List<string>>(q.Options)
+                    }).ToList()
+                }).ToList(),
+                IsAnonymous = survey.IsAnonymous,
+                HasQuestionNumeration = survey.HasQuestionNumeration,
+                HasRandomSequence = survey.HasRandomSequence,
+                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
+                HasProgressBar = survey.HasProgressBar
+            };
+
+            return surveyViewModel;
         }
     }
 }

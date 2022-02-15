@@ -1,0 +1,20 @@
+﻿<script type="text/javascript" id="multiple-answer">
+  Vue.component('MultipleAnswer',
+    {
+      props: {
+        question: Object
+      },
+      methods: {
+        addOption: function () {
+          this.question.options.push("Answer " + (this.question.options.length + 1));
+        }
+      },
+      template: "#multiple-answer-template"
+    });
+</script>
+<script type="text/template" id="multiple-answer-template">
+  <div class="new-survey-main__question__answers">
+    <multiple-answer-option v-for="(option, index) in question.options" v-bind:option="option" :question="question" :index="index"></multiple-answer-option>
+    <input type="button" class="new-survey-main__question-add-option" value="Add option" v-if="question.isEditable" v-on:click="addOption()" />
+  </div>
+</script>
