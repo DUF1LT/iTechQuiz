@@ -10,7 +10,7 @@ using iTechArt.iTechQuiz.Repositories.Context;
 namespace iTechArt.iTechQuiz.Repositories.Migrations
 {
     [DbContext(typeof(iTechQuizContext))]
-    [Migration("20220210080444_pass survey")]
+    [Migration("20220216191049_pass survey")]
     partial class passsurvey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -390,18 +390,26 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.UsersPassSurveys", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SurveyId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PassedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserId", "SurveyId");
+                    b.Property<Guid>("SurveyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SurveyId");
+
+                    b.HasIndex("UserId", "SurveyId")
+                        .IsUnique()
+                        .HasFilter("[UserId] != '00000000-0000-0000-0000-000000000000'");
 
                     b.ToTable("UsersPassSurveys");
                 });
