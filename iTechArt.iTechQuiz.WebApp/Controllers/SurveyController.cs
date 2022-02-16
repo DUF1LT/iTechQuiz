@@ -50,8 +50,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return Json(surveyViewModel);
         }
 
+
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
         {
             var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
