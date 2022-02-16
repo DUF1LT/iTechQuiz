@@ -137,12 +137,9 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
         [Route("Survey/{id}/Edit")]
-        public async Task<IActionResult> Edit(Guid id)
+        public IActionResult Edit(Guid id)
         {
-            var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
-            var surveyViewModel = CreateViewModelFromSurvey(survey);
-
-            return View(surveyViewModel);
+            return View(id);
         }
 
 
@@ -164,7 +161,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("Survey/{id}")]
-        public async Task<IActionResult> Survey(Guid id)
+        public IActionResult Survey(Guid id)
         {
             return View(id);
         }
