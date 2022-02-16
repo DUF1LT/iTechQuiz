@@ -1,0 +1,94 @@
+﻿@model Guid
+
+<script type="text/javascript" id="survey-root">
+
+  Vue.config.devtools = true;
+
+  let sv = new Vue(
+    {
+      el: '#survey-vue',
+      data: {
+        survey: {}
+      },
+      beforeCreate: function () {
+        fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
+          .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+      },
+      computed:
+      {
+        questionsCount: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
+          }
+        },
+        progressPercentage: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
+          }
+        }
+      },
+      methods:
+      {
+        previousPage: function () {
+          this.survey.currentPage--;
+        },
+        nextPage: function () {
+          let required = this.countRequired();
+          if (required === 0) {
+            this.survey.currentPage++;
+          } else {
+            alert("You have required questions without answers!!");
+          }
+        },
+        passSurvey: function () {
+          let required = this.countRequired();
+          if (required === 0) {
+            fetch("@Url.Action("Pass")",
+              {
+                method: "POST",
+                body: JSON.stringify(this.survey),
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: "follow"
+              }
+            ).then(response => {
+              if (response.ok) {
+                window.location.href = "@Url.Action("Index", "Home")";
+              }
+            });
+          }
+          else {
+            alert("You have required questions without answers!!");
+          }
+        },
+        countRequired: function () {
+          let required = 0;
+          for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
+            if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
+              let question = this.survey.pages[this.survey.currentPage].questions[i];
+              if (question.answer.file.byteArray == null
+                && question.answer.multipleAnswer.length === 0
+                && question.answer.numeric === 0
+                && question.answer.text == null) {
+                required++;
+                this.$refs.currentPage.$refs[question.id][0].alertRequired();
+              }
+            }
+          }
+          return required;
+        }
+      }
+    });
+</script>

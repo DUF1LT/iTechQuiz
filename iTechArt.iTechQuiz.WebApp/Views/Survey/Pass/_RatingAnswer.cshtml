@@ -1,0 +1,14 @@
+﻿<script type="text/javascript" id="rating-answer">
+  Vue.component('Rating',
+    {
+      props: {
+        question: Object
+      },
+      template: "#rating-answer-template"
+    });
+</script>
+<script type="text/template" id="rating-answer-template">
+  <div class="pass-survey__question-rating">
+    <rating-answer-option v-for="index in [1,2,3,4,5]" v-bind:question="question" v-bind:index="index"></rating-answer-option>
+  </div>
+</script>

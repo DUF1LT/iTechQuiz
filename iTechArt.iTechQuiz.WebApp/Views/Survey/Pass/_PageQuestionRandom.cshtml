@@ -1,0 +1,32 @@
+﻿<script type="text/javascript" id="page-question-random">
+  Vue.component('page-question-random',
+    {
+      props: {
+        question: Object,
+        survey: Object,
+        index: Number,
+        alert: false
+      },
+      methods: {
+        alertRequired: function () {
+          this.alert = true;
+        },
+        alertDisable: function() {
+          this.alert = false;
+        }
+      },
+      template: "#page-question-random-template"
+    });
+</script>
+<script type="text/template" id="page-question-random-template">
+  <div class="pass-survey__question" v-on:click="alertDisable()">
+    <hr v-if="(index + 1) != 1" />
+    <div class="pass-survey__question-title">
+      <span v-if="survey.hasQuestionNumeration">{{index + 1}}.</span>
+      <span>{{question.content}}</span>
+      <img v-if="question.isRequired" src="/img/star.svg" width="15" />
+    </div>
+    <component v-bind:is="question.type" v-bind:question="question"></component>
+    <span class="pass-survey__alert-question" v-if="alert">You should answer this question!</span>
+  </div>
+</script>

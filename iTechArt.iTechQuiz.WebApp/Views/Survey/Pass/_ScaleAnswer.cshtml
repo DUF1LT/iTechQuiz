@@ -1,0 +1,19 @@
+﻿<script type="text/javascript" id="scale-answer">
+  Vue.component('Scale',
+    {
+      props: {
+        question: Object
+      },
+      template: "#scale-answer-template"
+    });
+</script>
+<script type="text/template" id="scale-answer-template">
+  <div class="pass-survey__question-scale">
+    <span style="align-self: end;">0</span>
+    <div class="pass-survey__question-scale-input">
+      <span>{{question.answer.numeric}}</span>
+      <input type="range" min="1" max="100" value="0" width="200" v-model="question.answer.numeric" />
+    </div>
+    <span style="align-self: end;">100</span>
+  </div>
+</script>

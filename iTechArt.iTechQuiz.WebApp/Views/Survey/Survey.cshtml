@@ -1,4 +1,4 @@
-﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.SurveyViewModel
+﻿@model Guid
 
 @section Styles {
     <link rel="stylesheet" href="~/css/pass-survey.css" />
@@ -6,94 +6,20 @@
 }
 
 @section Scripts {
-    <script src="~/js/pass-survey.js"></script>
-    <script>
-        let sv = new Vue({
-            el: '#survey-vue',
-            data: {
-                survey: {}
-            },
-            created: function() {
-                this.survey = @Html.Raw(Json.Serialize(Model));
-            },
-            computed: {
-                questionsCount: function() {
-                    return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
-                },
-                progressPercentage: function() {
-                    return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
-                }
-            },
-            methods: {
-                previousPage: function() {
-                    this.survey.currentPage--;
-                },
-                nextPage: function () {
-                    let required = this.countRequired();
-
-                    if (required === 0) {
-                        this.survey.currentPage++;
-                    } else {
-                        alert("You have required questions without answers!!");
-                    }
-                },
-                passSurvey: function () {
-
-                    let required = this.countRequired();
-
-                    if (required === 0) {
-                        fetch("@Url.Action("Pass")",
-                        {
-                            method: "POST",
-                            body: JSON.stringify(this.survey),
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            redirect: "follow"
-                        }
-                        ).then(response => {
-                            if (response.ok) {
-                                window.location.href = "@Url.Action("Index", "Home")";
-                            }
-                        });
-                    }
-                    else {
-                        alert("You have required questions without answers!!");
-                    }
-                },
-                countRequired: function () {
-                    let required = 0;
-                    for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
-                        if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
-                            let question = this.survey.pages[this.survey.currentPage].questions[i];
-
-                            if (question.answer.file.byteArray == null
-                                && question.answer.multipleAnswer.length === 0
-                                && question.answer.numeric === 0
-                                && question.answer.text == null) {
-                                required++;
-                                this.$refs.currentPage.$refs[question.id][0].alertRequired();
-                            }
-                        }
-                    }
-
-                    return required;
-                }
-            }
-        });
-    </script>
+  <partial name="Pass/_Components"/>
+  <partial name="Pass/_SurveyRoot" model="Model"/>
 }
 
 <div id="survey-vue" class="main-wrapper-centered">
     <div class="pass-survey-wrapper">
         <span>{{survey.title}}</span>
-        <survey-page v-bind:page="survey.pages[survey.currentPage]" :survey="survey" ref="currentPage"></survey-page>
+        <survey-page v-if="survey.pages" v-bind:page="survey.pages[survey.currentPage]" :survey="survey" ref="currentPage"></survey-page>
         <div class="pass-survey__progress-bar" v-if="survey.hasProgressBar">
             <span>{{survey.currentPage + 1}}/{{survey.pages.length}}</span>
             <progress v-bind:value="progressPercentage" max="100"></progress>
             <span>{{progressPercentage}}%</span>
         </div>
-        <div class="pass-survey__page-buttons">
+        <div class="pass-survey__page-buttons" v-if="survey.pages">
             <input v-bind:class="{hidden: (survey.currentPage == 0)}" type="button" class="button" value="Prev. page" v-on:click="previousPage()" />
             <input v-if="survey.currentPage != (survey.pages.length - 1)" type="button" class="button" value="Next page" v-on:click="nextPage()" />
             <input v-else type="button" class="red-button" value="Submit" v-on:click="passSurvey()" />

@@ -1,0 +1,17 @@
+﻿<script type="text/javascript" id="single-answer-option">
+  Vue.component('single-answer-option',
+    {
+      props: {
+        index: Number,
+        option: String,
+        question: Object
+      },
+      template: "#single-answer-option-template"
+    });
+</script>
+<script type="text/template" id="single-answer-option-template">
+  <div class="pass-survey__question-option">
+    <input type="radio" v-model="question.answer.text" v-bind:value="option" />
+    <span>{{option}}</span>
+  </div>
+</script>

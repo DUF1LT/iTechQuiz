@@ -1,0 +1,24 @@
+﻿<script type="text/javascript" id="file-answer">
+  Vue.component('File',
+    {
+      props: {
+        question: Object
+      },
+      methods: {
+        inputFile: function() {
+          const reader = new FileReader();
+
+          reader.readAsDataURL(this.$refs[`${this.question.id}__file`].files[0]);
+          reader.onload = (evt) => {
+            this.question.answer.file.byteArray = reader.result.split(",")[1];
+            this.question.answer.file.name = this.$refs[`${this.question.id}__file`].files[0].name;
+            this.question.answer.file.type = this.$refs[`${this.question.id}__file`].files[0].type;
+          }
+        }
+      },
+      template: "#file-answer-template"
+    });
+</script>
+<script type="text/template" id="file-answer-template">
+  <input width="50" type="file" v-on:change="inputFile()" v-bind:ref="question.id + `__file`" />
+</script>
