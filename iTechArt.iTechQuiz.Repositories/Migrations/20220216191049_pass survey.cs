@@ -15,6 +15,10 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 name: "FK_Questions_Surveys_SurveyId",
                 table: "Questions");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UsersPassSurveys",
+                table: "UsersPassSurveys");
+
             migrationBuilder.DropIndex(
                 name: "IX_Questions_SurveyId",
                 table: "Questions");
@@ -31,11 +35,30 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 name: "FileId",
                 table: "Answers");
 
+            migrationBuilder.AddColumn<Guid>(
+                name: "Id",
+                table: "UsersPassSurveys",
+                type: "uniqueidentifier",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
             migrationBuilder.AddColumn<string>(
                 name: "Type",
                 table: "Files",
                 type: "nvarchar(max)",
                 nullable: true);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UsersPassSurveys",
+                table: "UsersPassSurveys",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersPassSurveys_UserId_SurveyId",
+                table: "UsersPassSurveys",
+                columns: new[] { "UserId", "SurveyId" },
+                unique: true,
+                filter: "[UserId] != '00000000-0000-0000-0000-000000000000'");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_AnswerId",
@@ -58,9 +81,21 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 name: "FK_Files_Answers_AnswerId",
                 table: "Files");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UsersPassSurveys",
+                table: "UsersPassSurveys");
+
+            migrationBuilder.DropIndex(
+                name: "IX_UsersPassSurveys_UserId_SurveyId",
+                table: "UsersPassSurveys");
+
             migrationBuilder.DropIndex(
                 name: "IX_Files_AnswerId",
                 table: "Files");
+
+            migrationBuilder.DropColumn(
+                name: "Id",
+                table: "UsersPassSurveys");
 
             migrationBuilder.DropColumn(
                 name: "Type",
@@ -78,6 +113,11 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                 type: "uniqueidentifier",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UsersPassSurveys",
+                table: "UsersPassSurveys",
+                columns: new[] { "UserId", "SurveyId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_SurveyId",

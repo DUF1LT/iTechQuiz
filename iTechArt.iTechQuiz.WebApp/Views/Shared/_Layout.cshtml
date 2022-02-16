@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <title>@ViewBag.Title</title>
 </head>
+
 <body>
   <header>
     <nav class="navigation">
@@ -46,16 +48,17 @@
     </nav>
   </header>
   @RenderBody()
-  <partial name="_PopupsPartial"/>
+  <partial name="_PopupsPartial" />
   <footer class="footer">Copyright &copy; 2021 iTechArt</footer>
   <script src="~/lib/jquery/jquery.min.js"></script>
   <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
-  <partial name="_PopupsRoot"/>
+  <partial name="_PopupsRoot" />
   @if (User.Identity.IsAuthenticated)
   {
     <script src="~/js/site.js" asp-append-version="true"></script>
   }
   @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
