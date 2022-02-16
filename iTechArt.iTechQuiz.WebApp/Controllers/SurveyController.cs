@@ -47,22 +47,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return Json(surveyViewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
-        {
-            var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
-            var surveyViewModel = survey.GetViewModelWithQuestions();
-
-            return Json(surveyViewModel);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
-        public IActionResult MySurveys()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Save([FromBody] SurveyViewModel model)
@@ -88,7 +72,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 pageIndex = 1;
             }
 
-            var paginatedSurveys = await _surveyService.GetCreatedPageAsync(pageIndex, PageSize, Guid.Parse(User.GetId()) ,filter);
+            var paginatedSurveys = await _surveyService.GetPageWithCreatedSurveysAsync(pageIndex, PageSize, Guid.Parse(User.GetId()), filter);
             var surveys = paginatedSurveys.Items.Select(e => new SurveyViewModel
             {
                 Id = e.Id,

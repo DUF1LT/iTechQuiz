@@ -26,42 +26,6 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
             return surveyViewModel;
         }
 
-        public static SurveyViewModel GetViewModelWithQuestions(this Survey survey)
-        {
-            SurveyViewModel surveyViewModel = new SurveyViewModel
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                CurrentPage = 0,
-                Pages = survey.Pages.Select(p => new PageViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Questions = p.Questions.Select(q => new QuestionViewModel
-                    {
-                        Id = q.Id,
-                        Content = q.Content,
-                        IsRequired = q.IsRequired,
-                        Number = q.Number,
-                        Type = q.Type,
-                        Options = JsonSerializer.Deserialize<List<string>>(q.Options),
-                        Answer = new AnswerViewModel
-                        {
-                            MultipleAnswer = new List<string>(),
-                            File = new FileViewModel()
-                        }
-                    }).ToList()
-                }).ToList(),
-                IsAnonymous = survey.IsAnonymous,
-                HasQuestionNumeration = survey.HasQuestionNumeration,
-                HasRandomSequence = survey.HasRandomSequence,
-                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
-                HasProgressBar = survey.HasProgressBar
-            };
-
-            return surveyViewModel;
-        }
-
         public static Survey CreateFromViewModel(SurveyViewModel viewModel)
         {
             var survey = new Survey
@@ -81,7 +45,6 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
             {
                 var pageToSave = new Page
                 {
-                    Id = page.Id,
                     Name = page.Name,
                     Survey = survey,
                     Questions = new List<Question>()
@@ -91,7 +54,6 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                 {
                     var questionToSave = new Question
                     {
-                        Id = question.Id,
                         Number = question.Number,
                         Type = question.Type,
                         Content = question.Content,
