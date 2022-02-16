@@ -15,11 +15,11 @@
           this.$set(this, "alreadyPassed", true);
         } else {
           fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
-              {
-                headers: {
-                  'Accept': 'application/json'
-                }
-              }).then(response => response.json())
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
             .then(data => this.survey = JSON.parse(JSON.stringify(data)));
         }
       },
@@ -96,7 +96,7 @@
                 required++;
                 this.$refs.currentPage.$refs[question.id][0].alertRequired();
                 if (!isScrolled) {
-                  document.getElementById(question.id).scrollIntoView({block:"center", behavior:"smooth"});
+                  document.getElementById(question.id).scrollIntoView({ block: "center", behavior: "smooth" });
                   isScrolled = true;
                 }
               }
