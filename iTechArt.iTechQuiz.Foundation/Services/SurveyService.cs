@@ -18,16 +18,28 @@ namespace iTechArt.iTechQuiz.Foundation.Services
         }
 
 
-        public async Task<PagedData<Survey>> GetPageAsync(int pageIndex, int pageSize, string nameFilter = null)
+        public async Task<PagedData<Survey>> GetCreatedPageAsync(int pageIndex, int pageSize, Guid userId, string nameFilter = null)
         {
             if (!string.IsNullOrEmpty(nameFilter))
             {
                 return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
-                    .GetPageAsync(pageIndex, pageSize, survey => survey.Title.Contains(nameFilter));
+                    .GetCreatedPageAsync(pageIndex, pageSize, userId, survey => survey.Title.Contains(nameFilter));
             }
 
             return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
-                .GetPageAsync(pageIndex, pageSize);
+                .GetCreatedPageAsync(pageIndex, pageSize, userId);
+        }
+
+        public async Task<PagedData<Survey>> GetPassedPageAsync(int pageIndex, int pageSize, Guid userId, string nameFilter = null)
+        {
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                    .GetCreatedPageAsync(pageIndex, pageSize, userId, survey => survey.Title.Contains(nameFilter));
+            }
+
+            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                .GetCreatedPageAsync(pageIndex, pageSize, userId);
         }
 
         public async Task<Survey> GetSurveyAsync(Guid id)

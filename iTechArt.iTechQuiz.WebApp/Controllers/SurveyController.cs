@@ -8,6 +8,7 @@ using iTechArt.Common.Lists;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
+using iTechArt.iTechQuiz.WebApp.Extensions;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,16 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> GetSurvey(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
-            var surveyViewModel = CreateSurveyViewModelFromSurvey(survey);
+            var surveyViewModel = survey.GetViewModel();
+
+            return Json(surveyViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
+            var surveyViewModel = survey.GetViewModelWithQuestions();
 
             return Json(surveyViewModel);
         }
@@ -55,11 +65,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> Save([FromBody] SurveyViewModel survey)
+        public async Task<IActionResult> Save([FromBody] SurveyViewModel model)
         {
             var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
-            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
+            var surveyToSave = SurveyExtensions.CreateFromViewModel(model);
+            surveyToSave.CreatedBy = user;
 
             await _surveyService.SaveSurveyAsync(surveyToSave);
 
@@ -77,22 +88,21 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 pageIndex = 1;
             }
 
-            var paginatedSurveys = await _surveyService.GetPageAsync(pageIndex, PageSize, filter);
+            var paginatedSurveys = await _surveyService.GetCreatedPageAsync(pageIndex, PageSize, Guid.Parse(User.GetId()) ,filter);
             var surveys = paginatedSurveys.Items.Select(e => new SurveyViewModel
             {
                 Id = e.Id,
                 Title = e.Title,
                 LastModifiedAt = e.LastModifiedAt.ToShortDateString(),
                 AnswersAmount = e.UsersPassed.Count,
-
             });
 
-            var userViewModels = new PagedData<SurveyViewModel>(surveys,
+            var surveyViewModels = new PagedData<SurveyViewModel>(surveys,
                 paginatedSurveys.TotalCount,
                 pageIndex,
                 PageSize);
 
-            return View(userViewModels);
+            return View(surveyViewModels);
         }
 
         [HttpGet]
@@ -106,13 +116,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return NotFound();
             }
 
-            var surveyViewModel = new SurveyViewModel
-            {
-                Id = id,
-                Title = survey.Title,
-                AnswersAmount = survey.UsersPassed.Count,
-                LastModifiedAt = survey.LastModifiedAt.ToShortDateString()
-            };
+            var surveyViewModel = survey.GetViewModel();
 
             return View(surveyViewModel);
         }
@@ -132,17 +136,12 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return View(id);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
         {
-            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
+            await _surveyService.DeleteSurveyAsync(survey.Id);
 
-            var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
-            previousSurvey.IsDeleted = true;
-
-            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
-
+            var surveyToSave = SurveyExtensions.CreateFromViewModel(survey);
             await _surveyService.SaveSurveyAsync(surveyToSave);
 
             return Ok();
@@ -160,87 +159,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public IActionResult Results(Guid id)
         {
             return View();
-        }
-
-        public async Task<Survey> CreateSurveyFromViewModelAsync(SurveyViewModel model)
-        {
-            var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
-
-            var surveyToSave = new Survey
-            {
-                CreatedBy = user,
-                Title = model.Title,
-                HasProgressBar = model.HasProgressBar,
-                HasQuestionNumeration = model.HasQuestionNumeration,
-                HasRandomSequence = model.HasRandomSequence,
-                RenderStarsAtRequiredFields = model.RenderStarsAtRequiredFields,
-                IsAnonymous = model.IsAnonymous,
-                LastModifiedAt = DateTime.Now,
-                Pages = new List<Page>()
-            };
-
-            foreach (var page in model.Pages)
-            {
-                var pageToSave = new Page
-                {
-                    Name = page.Name,
-                    Survey = surveyToSave,
-                    Questions = new List<Question>()
-                };
-
-                foreach (var question in page.Questions)
-                {
-                    var questionToSave = new Question
-                    {
-                        Number = question.Number,
-                        Type = question.Type,
-                        Content = question.Content,
-                        Survey = surveyToSave,
-                        SurveyPage = pageToSave,
-                        IsRequired = question.IsRequired,
-                    };
-
-                    if (question.Options is not null)
-                    {
-                        questionToSave.Options = JsonSerializer.Serialize(question.Options);
-                    }
-
-                    pageToSave.Questions.Add(questionToSave);
-                }
-
-                surveyToSave.Pages.Add(pageToSave);
-            }
-
-            return surveyToSave;
-        }
-
-        public SurveyViewModel CreateSurveyViewModelFromSurvey(Survey survey)
-        {
-            SurveyViewModel surveyViewModel = new SurveyViewModel
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-                CurrentPage = 0,
-                Pages = survey.Pages.Select(p => new PageViewModel
-                {
-                    Name = p.Name,
-                    Questions = p.Questions.Select(q => new QuestionViewModel
-                    {
-                        Content = q.Content,
-                        IsRequired = q.IsRequired,
-                        Number = q.Number,
-                        Type = q.Type,
-                        Options = JsonSerializer.Deserialize<List<string>>(q.Options)
-                    }).ToList()
-                }).ToList(),
-                IsAnonymous = survey.IsAnonymous,
-                HasQuestionNumeration = survey.HasQuestionNumeration,
-                HasRandomSequence = survey.HasRandomSequence,
-                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
-                HasProgressBar = survey.HasProgressBar
-            };
-
-            return surveyViewModel;
         }
     }
 }
