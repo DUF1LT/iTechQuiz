@@ -133,3 +133,8 @@
     font-size: 15px;
     font-weight: 600;
 }
+
+.passed-survey-title {
+    font-size: 25px;
+    padding: 30px 20px;
+}

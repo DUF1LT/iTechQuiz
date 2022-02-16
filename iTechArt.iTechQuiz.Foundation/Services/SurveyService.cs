@@ -30,6 +30,18 @@ namespace iTechArt.iTechQuiz.Foundation.Services
                 .GetPageWithCreatedSurveysAsync(pageIndex, pageSize, userId);
         }
 
+        public async Task<PagedData<Survey>> GetPageWithPassedSurveysAsync(int pageIndex, int pageSize, Guid userId, string nameFilter = null)
+        {
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                    .GetPageWithPassedSurveysAsync(pageIndex, pageSize, userId, survey => survey.Title.Contains(nameFilter));
+            }
+
+            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>()
+                .GetPageWithPassedSurveysAsync(pageIndex, pageSize, userId);
+        }
+
         public async Task<Survey> GetSurveyAsync(Guid id)
         {
             return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>().GetSurveyAsync(id);

@@ -1,0 +1,140 @@
+﻿.passed-surveys {
+    display: flex;
+    padding: 55px 80px;
+    width: 100%;
+    row-gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.passed-surveys__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.passed-surveys__header-input {
+    height: 30px;
+}
+
+.passed-surveys__table {
+    width: 100%;
+}
+
+.passed-surveys__table thead {
+    background-color: #d33722;
+    color: #fff;
+}
+
+.passed-surveys__table thead th {
+    padding: 15px 0;
+}
+
+.passed-surveys__table thead th:hover {
+    cursor: pointer;
+}
+
+.passed-surveys__table th {
+     text-align: center;
+}
+
+.passed-surveys__table tbody tr {
+    height: 60px;
+}
+
+.passed-surveys__table tbody th {
+     font-weight: 400;
+}
+
+.passed-surveys__table-footer {
+    display: flex;
+    padding: 15px 35px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #d33722;
+    color: #fff;
+}
+
+.passed-surveys__table-footer p {
+    margin: 0;
+    text-align: center;
+}
+
+.passed-surveys__icon {
+    text-decoration: none;
+    color: black;
+}
+
+.passed-surveys__icons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    column-gap: 22px;
+    align-content: center;
+}
+
+.passed-surveys__icon:hover {
+    color: #333333;
+}
+
+.passed-surveys__arrows {
+    display: flex;
+    justify-content: center;
+    column-gap: 7px;
+}
+
+.passed-surveys__arrows p {
+    margin: 0 7px;
+}
+
+.passed-surveys__single-arrows {
+    font-size: 25px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -8px 0;
+    vertical-align: center;
+}
+
+.passed-surveys__single-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.passed-surveys__dbl-arrows {
+    font-size: 19px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: -2px 0;
+    align-items: center;
+}
+
+.passed-surveys__dbl-arrows:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.passed-surveys__total-users {
+    display: flex;
+    align-items: center;
+}
+
+.passed-surveys__total-users-count {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 9px;
+}
+
+.passed-surveys__search {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.passed-surveys__submit {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}

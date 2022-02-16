@@ -42,6 +42,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetSurvey(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
@@ -52,6 +53,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
         {
             var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
@@ -138,14 +140,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel model)
         {
             var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
-            var previousSurvey = await _surveyService.GetSurveyAsync(survey.Id);
+            var previousSurvey = await _surveyService.GetSurveyAsync(model.Id);
             previousSurvey.IsDeleted = true;
 
-            var surveyToSave = await CreateSurveyFromViewModelAsync(survey);
+            var surveyToSave = SurveyExtensions.CreateFromViewModel(model);
 
             await _surveyService.SaveSurveyAsync(surveyToSave);
 
@@ -155,8 +157,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("Survey/{id}")]
-        public IActionResult Survey(Guid id)
+        public async Task<IActionResult> Survey(Guid id)
         {
+            var survey = await _surveyService.GetSurveyAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return Forbid();
+            }
+
+            if (User.Identity.IsAuthenticated &&
+                survey.UsersPassed.Any(p => p.SurveyId == survey.Id && p.UserId == Guid.Parse(User.GetId())))
+            {
+                return View("SurveyPassed");
+            }
+
             return View(id);
         }
 

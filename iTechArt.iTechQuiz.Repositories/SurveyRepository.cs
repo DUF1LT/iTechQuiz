@@ -39,6 +39,28 @@ namespace iTechArt.iTechQuiz.Repositories
             return new PagedData<Survey>(items, count, pageIndex, pageSize);
         }
 
+        public async Task<PagedData<Survey>> GetPageWithPassedSurveysAsync(int pageIndex, int pageSize, Guid userId, Expression<Func<Survey, bool>> filter = null)
+        {
+            var surveyQuery = DbSet
+                .Include(p => p.UsersPassed.Where(u => u.UserId == userId))
+                .Include(e => e.CreatedBy)
+                .OrderByDescending(e => e.LastModifiedAt)
+                .AsQueryable();
+
+            if (filter is not null)
+            {
+                surveyQuery = surveyQuery.Where(filter);
+            }
+
+            var count = await surveyQuery.CountAsync();
+
+            var items = await surveyQuery.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedData<Survey>(items, count, pageIndex, pageSize);
+        }
+
         public Task<Survey> GetSurveyAsync(Guid id)
         {
             return DbSet
