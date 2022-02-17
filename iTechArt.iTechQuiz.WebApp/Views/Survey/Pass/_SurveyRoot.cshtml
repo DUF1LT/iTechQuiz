@@ -8,16 +8,22 @@
     {
       el: '#survey-vue',
       data: {
-        survey: {}
+        survey: {},
+        alreadyPassed: false
       },
-      beforeCreate: function () {
-        fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
+      created: function () {
+        const parsed = JSON.parse(window.localStorage.getItem("passedSurveys"));
+        if (parsed && parsed.includes("@Model")) {
+          this.$set(this, "alreadyPassed", true);
+        } else {
+          fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
             {
               headers: {
                 'Accept': 'application/json'
               }
             }).then(response => response.json())
-          .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+            .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+        }
       },
       computed:
       {
@@ -65,6 +71,15 @@
               }
             ).then(response => {
               if (response.ok) {
+                if (!window.localStorage.getItem("passedSurveys")) {
+                  console.log('not passed');
+                  let passedSurveys = ["@Model"];
+                  window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                } else {
+                  let passedSurveys = JSON.parse(window.localStorage.getItem("passedSurveys"));
+                  passedSurveys.push("@Model");
+                  window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                }
                 window.location.href = "@Url.Action("Index", "Home")";
               }
             });
