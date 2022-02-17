@@ -42,8 +42,9 @@ namespace iTechArt.iTechQuiz.Repositories
         public async Task<PagedData<Survey>> GetPageWithPassedSurveysAsync(int pageIndex, int pageSize, Guid userId, Expression<Func<Survey, bool>> filter = null)
         {
             var surveyQuery = DbSet
-                .Include(p => p.UsersPassed.Where(u => u.UserId == userId))
+                .Include(p => p.UsersPassed)
                 .Include(e => e.CreatedBy)
+                .Where(e => e.UsersPassed.Any(p => p.UserId == userId))
                 .OrderByDescending(e => e.LastModifiedAt)
                 .AsQueryable();
 
