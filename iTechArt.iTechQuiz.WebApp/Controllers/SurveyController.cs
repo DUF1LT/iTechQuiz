@@ -139,7 +139,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/{id}/Results")]
+        [Route("Survey/Results/{id}")]
         public IActionResult Results(Guid id)
         {
             return View();

@@ -65,6 +65,18 @@
           return;
         }
 
+        if (this.survey.pages.length == 0) {
+          alert("Survey can't exist without pages");
+          return;
+        }
+
+        for (let page of this.survey.pages) {
+          if (page.questions.length == 0) {
+            alert(`Page '${page.name}' can't exist without questions`);
+            return;
+          }
+        }
+
         fetch('@(Model == default ? Url.Action("Save") : Url.Action("SaveEdit") )',
           {
             method: "POST",
