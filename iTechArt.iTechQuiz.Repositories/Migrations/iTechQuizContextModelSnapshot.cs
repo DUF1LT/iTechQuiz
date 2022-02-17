@@ -111,6 +111,9 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("MultipleAnswer")
                         .HasColumnType("nvarchar(max)");
 
@@ -127,6 +130,9 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique();
 
                     b.HasIndex("QuestionId");
 
@@ -151,13 +157,7 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasMaxLength(260)
                         .HasColumnType("nvarchar(260)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("AnswerId")
-                        .IsUnique();
 
                     b.ToTable("Files");
                 });
@@ -202,6 +202,9 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid?>("SurveyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("SurveyPageId")
                         .HasColumnType("uniqueidentifier");
 
@@ -209,6 +212,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
 
                     b.HasIndex("SurveyPageId");
 
@@ -385,26 +390,18 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.UsersPassSurveys", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SurveyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PassedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SurveyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "SurveyId");
 
                     b.HasIndex("SurveyId");
-
-                    b.HasIndex("UserId", "SurveyId")
-                        .IsUnique()
-                        .HasFilter("[UserId] != '00000000-0000-0000-0000-000000000000'");
 
                     b.ToTable("UsersPassSurveys");
                 });
@@ -447,6 +444,12 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Answer", b =>
                 {
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.File", "File")
+                        .WithOne("Answer")
+                        .HasForeignKey("iTechArt.iTechQuiz.Domain.Models.Answer", "FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
@@ -455,18 +458,11 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .WithMany("Answers")
                         .HasForeignKey("UserId");
 
+                    b.Navigation("File");
+
                     b.Navigation("Question");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.File", b =>
-                {
-                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.Answer", "Answer")
-                        .WithOne("File")
-                        .HasForeignKey("iTechArt.iTechQuiz.Domain.Models.File", "AnswerId");
-
-                    b.Navigation("Answer");
                 });
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Page", b =>
@@ -480,6 +476,10 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Question", b =>
                 {
+                    b.HasOne("iTechArt.iTechQuiz.Domain.Models.Survey", "Survey")
+                        .WithMany("Questions")
+                        .HasForeignKey("SurveyId");
+
                     b.HasOne("iTechArt.iTechQuiz.Domain.Models.Page", "SurveyPage")
                         .WithMany("Questions")
                         .HasForeignKey("SurveyPageId");
@@ -489,6 +489,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                         .HasForeignKey("Type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Survey");
 
                     b.Navigation("SurveyPage");
                 });
@@ -540,9 +542,9 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Answer", b =>
+            modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.File", b =>
                 {
-                    b.Navigation("File");
+                    b.Navigation("Answer");
                 });
 
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Page", b =>
@@ -563,6 +565,8 @@ namespace iTechArt.iTechQuiz.Repositories.Migrations
             modelBuilder.Entity("iTechArt.iTechQuiz.Domain.Models.Survey", b =>
                 {
                     b.Navigation("Pages");
+
+                    b.Navigation("Questions");
 
                     b.Navigation("UsersPassed");
                 });
