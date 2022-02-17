@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using iTechArt.Common.Extensions;
 using iTechArt.Common.Lists;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.Extensions;
@@ -62,6 +64,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return Json(surveyViewModel);
         }
 
+
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Save([FromBody] SurveyViewModel model)
@@ -107,7 +110,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/Delete/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        [Route("Survey/{id}/Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
@@ -148,6 +152,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             previousSurvey.IsDeleted = true;
 
             var surveyToSave = SurveyExtensions.CreateFromViewModel(model);
+            surveyToSave.CreatedBy = user;
 
             await _surveyService.SaveSurveyAsync(surveyToSave);
 
@@ -213,14 +218,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/{id}")]
-        public IActionResult Survey(Guid id)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [Route("Survey/Results/{id}")]
+        [Route("Survey/{id}/Results")]
         public IActionResult Results(Guid id)
         {
             return View();
