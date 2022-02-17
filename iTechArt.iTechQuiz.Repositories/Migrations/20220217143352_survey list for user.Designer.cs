@@ -10,7 +10,7 @@ using iTechArt.iTechQuiz.Repositories.Context;
 namespace iTechArt.iTechQuiz.Repositories.Migrations
 {
     [DbContext(typeof(iTechQuizContext))]
-    [Migration("20220207171752_survey list for user")]
+    [Migration("20220217143352_survey list for user")]
     partial class surveylistforuser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
