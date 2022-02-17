@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
 using iTechArt.iTechQuiz.Domain.Models;
 
 namespace iTechArt.iTechQuiz.WebApp.ViewModels
 {
     public class QuestionViewModel
     {
+        public Guid Id { get; set; }
+        
         public bool IsEditable { get; set; }
 
         public bool IsRequired { get; set; }

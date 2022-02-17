@@ -45,5 +45,14 @@ namespace iTechArt.iTechQuiz.Repositories
                 .Include(p => p.UsersPassed)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        public Task<Survey> GetSurveyWithQuestionsAsync(Guid id)
+        {
+            return DbSet
+                .Include(p => p.UsersPassed)
+                .Include(p => p.Pages)
+                .ThenInclude(p => p.Questions)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

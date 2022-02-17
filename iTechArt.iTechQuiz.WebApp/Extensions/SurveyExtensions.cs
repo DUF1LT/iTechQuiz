@@ -26,11 +26,42 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
             return surveyViewModel;
         }
 
+        public static SurveyViewModel GetViewModelWithQuestions(this Survey survey)
+        {
+            SurveyViewModel surveyViewModel = new SurveyViewModel
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                CurrentPage = 0,
+                Pages = survey.Pages.Select(p => new PageViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Questions = p.Questions.Select(q => new QuestionViewModel
+                    {
+                        Id = q.Id,
+                        IsRequired = q.IsRequired,
+                        Content = q.Content,
+                        Number = q.Number,
+                        Type = q.Type,
+                        Options = JsonSerializer.Deserialize<List<string>>(q.Options),
+                    }).ToList()
+                }).ToList(),
+                IsAnonymous = survey.IsAnonymous,
+                HasQuestionNumeration = survey.HasQuestionNumeration,
+                HasRandomSequence = survey.HasRandomSequence,
+                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
+                HasProgressBar = survey.HasProgressBar
+            };
+
+            return surveyViewModel;
+        }
+
+
         public static Survey CreateFromViewModel(SurveyViewModel viewModel)
         {
             var survey = new Survey
             {
-                Id = viewModel.Id,
                 Title = viewModel.Title,
                 HasProgressBar = viewModel.HasProgressBar,
                 HasQuestionNumeration = viewModel.HasQuestionNumeration,

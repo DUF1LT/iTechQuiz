@@ -1,0 +1,10 @@
+﻿<div id="popups-vue">
+  <div id="survey-saved-modal" v-if="showSaveModal" class="animate__animated" v-bind:class="{'animate__fadeInRightBig visible': fadeSaveModal, 'animate__fadeOutRightBig': !fadeSaveModal }">
+    <img src="~/img/tick.svg" width="30" />
+    <span>Your survey was saved!</span>
+  </div>
+  <div id="error-modal" v-if="showErrorModal" class="animate__animated" v-bind:class="{'animate__fadeInRightBig visible': fadeErrorModal, 'animate__fadeOutRightBig': !fadeErrorModal }">
+    <img src="~/img/remove.svg" width="20" />
+    <span>Sorry. Something went wrong</span>
+  </div>
+</div>
