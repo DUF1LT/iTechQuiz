@@ -1,0 +1,60 @@
+﻿@model Guid
+
+<script type="text/javascript" id="survey-root">
+
+  let sv = new Vue(
+    {
+      el: '#survey-vue',
+      data: {
+        survey: {},
+        alreadyPassed: false
+      },
+      created: function () {
+        const parsed = JSON.parse(window.localStorage.getItem("passedSurveys"));
+        if (parsed && parsed.includes("@Model")) {
+          this.$set(this, "alreadyPassed", true);
+        } else {
+          fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
+            .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+        }
+      },
+      computed:
+      {
+        questionsCount: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
+          }
+        },
+        progressPercentage: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
+          }
+        }
+      },
+      methods:
+      {
+        previousPage: function () {
+          this.survey.currentPage--;
+        },
+        nextPage: function () {
+          let required = this.countRequired();
+          if (required === 0) {
+            this.survey.currentPage++;
+          } else {
+            alert("You have required questions without answers!!");
+          }
+        }
+      }
+    });
+</script>

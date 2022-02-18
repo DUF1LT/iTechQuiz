@@ -1,1 +1,24 @@
-﻿
+﻿@model Guid
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/pass-survey.css" />
+  <link rel="stylesheet" href="~/css/sidebar.css" />
+  <link rel="stylesheet" href="~/css/survey-results.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+}
+
+<partial name="_SidebarPartial" />
+<div id="survey-vue" class="main-wrapper">
+  <div class="survey-results-wrapper">
+    <span>Results: </span>
+    <span>Questions: , pages: </span>
+    <div class="survey-results-buttons">
+      <div class="survey-results-switch">
+        <input class="lg-red-button" value="Questions summary" />
+        <input class="lg-button" value="Separate answers" />
+      </div>
+      <span>Answers amount: </span>
+    </div>
+    <select></select>
+  </div>
+</div>

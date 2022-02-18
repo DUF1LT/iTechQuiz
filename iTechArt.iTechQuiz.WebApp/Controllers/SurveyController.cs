@@ -272,7 +272,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [Route("Survey/{id}/Results")]
         public IActionResult Results(Guid id)
         {
-            return View();
+            return View(id);
         }
     }
 }

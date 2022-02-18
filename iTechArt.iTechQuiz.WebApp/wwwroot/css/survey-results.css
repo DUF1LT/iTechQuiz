@@ -1,0 +1,19 @@
+﻿.survey-results-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+    row-gap: 15px;
+    width: 100%;
+}
+
+.survey-results-switch {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.survey-results-buttons {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
