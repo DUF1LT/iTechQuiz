@@ -74,6 +74,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return Json(surveyViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSurveyWithAnswers(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyWithAnswersAsync(id);
+            var surveyViewModel = survey.GetViewModelWithAnswers();
+
+            return Json(surveyViewModel);
+        }
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
@@ -121,7 +129,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        [Route("Survey/{id}/Delete")]
+        [Route("Survey/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
@@ -146,7 +154,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        [Route("Survey/{id}/Edit")]
+        [Route("Survey/Edit/{id}")]
         public IActionResult Edit(Guid id)
         {
             return View(id);
@@ -269,7 +277,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/{id}/Results")]
+        [Route("Survey/Results/{id}")]
         public IActionResult Results(Guid id)
         {
             return View(id);

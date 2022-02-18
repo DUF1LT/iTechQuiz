@@ -1,0 +1,16 @@
+﻿<script type="text/javascript" id="summary-page">
+  Vue.component('summary-page',
+    {
+      props: {
+        page: Object,
+        survey: Object
+      },
+      template: "#summary-page-template"
+    });
+</script>
+<script type="text/template" id="summary-page-template">
+  <div class="survey-results__summary-page">
+    <span>{{page.name}}</span>
+    <summary-question v-for="question in page.questions" v-bind:question="question" :survey="survey"></summary-question>
+  </div>
+</script>

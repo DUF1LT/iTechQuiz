@@ -1,0 +1,65 @@
+﻿<script type="text/javascript" id="single-answer-summary">
+  Vue.component('SingleAnswerSummary',
+    {
+      props: {
+        question: Object
+      },
+      mounted: function () {
+        const ctx = document.getElementById(this.question.id);
+        const chart = {
+          type: 'bar',
+          data: {
+            labels: this.question.options,
+            datasets: [
+              {
+                data: [],
+                backgroundColor: [],
+                borderWidth: 1,
+                barThickness: 40
+              }
+            ]
+          },
+          options: {
+            indexAxis: "y",
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              x: {
+                min: 0,
+                max: 100,
+                ticks: {
+                  stepSize: 20
+                }
+              }
+            }
+          }
+        };
+
+        for (let option of this.question.options) {
+          chart.data.datasets[0].backgroundColor.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+          let currentAmount = 0;
+          for (let answer of this.question.answers) {
+            if (answer.text === option) {
+              currentAmount++; 
+            }
+          }
+          chart.data.datasets[0].data.push((currentAmount / this.question.answers.length) * 100);
+        }
+
+        new Chart(ctx, chart);
+      },
+      template: "#single-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="single-answer-summary-template">
+  <div class="survey-results__single-answer-summary">
+    <canvas v-bind:id="question.id"></canvas>
+  </div>
+  <div class="pass-survey__question-answers">
+  </div>
+
+
+</script>

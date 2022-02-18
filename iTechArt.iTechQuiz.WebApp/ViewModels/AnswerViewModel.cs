@@ -10,6 +10,8 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public List<string> MultipleAnswer { get; set; }
 
+        public UserViewModel User { get; set; }
+
         public FileViewModel File { get; set; }
     }
 }

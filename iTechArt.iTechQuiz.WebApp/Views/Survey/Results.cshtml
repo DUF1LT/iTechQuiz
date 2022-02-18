@@ -7,18 +7,35 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 }
 
+@section Scripts {
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="~/js/answers-statistics.js"></script>
+  <partial name="Results/_SurveyRoot" />
+  <partial name="Results/_PageTab" />
+  <partial name="Results/_SummaryPage" />
+  <partial name="Results/_SummaryQuestion" />
+  <partial name="Results/_SingleAnswerSummary"/>
+} 
+
 <partial name="_SidebarPartial" />
 <div id="survey-vue" class="main-wrapper">
   <div class="survey-results-wrapper">
-    <span>Results: </span>
-    <span>Questions: , pages: </span>
+    <div class="survey-results__title">
+      <span class="survey-results__title__tag">Results: </span>
+      <span>{{survey.title}}</span>
+    </div>
+    <span>Questions: {{questionsAmount}}, pages: {{pagesAmount}} </span>
     <div class="survey-results-buttons">
       <div class="survey-results-switch">
-        <input class="lg-red-button" value="Questions summary" />
-        <input class="lg-button" value="Separate answers" />
+        <input type="button" v-bind:class="{'lg-red-solid-button': isSummaryTab, 'lg-button': !isSummaryTab }" value="Questions summary" v-on:click="openSummary()" />
+        <input type="button" v-bind:class="{'lg-red-solid-button': !isSummaryTab, 'lg-button': isSummaryTab }" value="Separate answers" v-on:click="openSeparate()" />
       </div>
-      <span>Answers amount: </span>
+      <span>Answers amount: {{answersAmount}} </span>
     </div>
     <select></select>
+    <div class="survey-results__pages-wrapper">
+      <survey-page-tab v-if="survey.pages" v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
+    </div>
+    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :survey="survey"></summary-page>
   </div>
 </div>

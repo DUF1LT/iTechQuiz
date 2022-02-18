@@ -1,0 +1,46 @@
+﻿<script type="text/javascript" id="summary-question">
+  Vue.component('summary-question',
+    {
+      props: {
+        question: Object,
+        survey: Object
+      },
+      computed: {
+        answeredQuestions: function () {
+          let amount = 0;
+          for (let answer of this.question.answers) {
+            if (answer.file != null || answer.multipleAnswer.length != 0 || answer.numeric != 0 || answer.text != null) {
+              amount++;
+            }
+          }
+
+          return amount;
+        },
+        skippedQuestions: function () {
+          let amount = 0;
+          for (let answer of this.question.answers) {
+            if (answer.file == null && answer.multipleAnswer.length === 0 && answer.numeric === 0 && answer.text == null) {
+              amount++;
+            }
+          }
+
+          return amount;
+        }
+      },
+      template: "#summary-question-template"
+    });
+</script>
+<script type="text/template" id="summary-question-template">
+  <div class="survey-results__summary-question">
+    <hr v-if="question.number != 1" />
+    <div class="survey-results__summary-question-title">
+      <span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>
+      <span>{{question.content}}</span>
+      <img v-if="question.isRequired && survey.renderStarsAtRequiredFields" src="/img/star.svg" width="15" />
+    </div>
+    <div class="survey-results__summary-question__statistic">
+      <span>Answered: {{answeredQuestions}}&nbsp Skipped: {{skippedQuestions}}</span>
+    </div>
+    <component v-bind:is="question.type + 'Summary'" :question="question"></component>
+  </div>
+</script>
