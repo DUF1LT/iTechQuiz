@@ -14,8 +14,11 @@
   <partial name="Results/_PageTab" />
   <partial name="Results/_SummaryPage" />
   <partial name="Results/_SummaryQuestion" />
-  <partial name="Results/_SingleAnswerSummary"/>
-} 
+  <partial name="Results/_SummaryAnswer" />
+  <partial name="Results/_SingleAnswerSummary" />
+  <partial name="Results/_MultipleAnswerSummary" />
+  <partial name="Results/_RatingAnswerSummary" />
+}
 
 <partial name="_SidebarPartial" />
 <div id="survey-vue" class="main-wrapper">
@@ -32,10 +35,15 @@
       </div>
       <span>Answers amount: {{answersAmount}} </span>
     </div>
-    <select></select>
+    <select v-if="survey.pages" v-model="selectedQuestion">
+      <option v-bind:value="-1">All questions</option>
+      <option v-for="(question, index) in survey.pages[survey.currentPage].questions" v-bind:value="index">
+        {{question.number}}) {{question.content}}
+      </option>
+    </select>
     <div class="survey-results__pages-wrapper">
       <survey-page-tab v-if="survey.pages" v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
     </div>
-    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :survey="survey"></summary-page>
+    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :survey="survey" :selected-question="selectedQuestion"></summary-page>
   </div>
 </div>

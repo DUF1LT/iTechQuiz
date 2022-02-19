@@ -8,7 +8,8 @@
       el: '#survey-vue',
       data: {
         survey: {},
-        isSummaryTab: true
+        isSummaryTab: true,
+        selectedQuestion: -1
       },
       beforeCreate: function () {
         fetch('@Url.Action("GetSurveyWithAnswers", new { id = Model })',
@@ -47,6 +48,7 @@
       {
         changePage: function (page) {
           this.survey.currentPage = this.survey.pages.indexOf(page);
+          this.selectedQuestion = -1;
         },
         openSummary: function() {
           this.isSummaryTab = true;

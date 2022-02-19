@@ -3,7 +3,8 @@
     {
       props: {
         question: Object,
-        survey: Object
+        survey: Object,
+        selectedQuestion: Number
       },
       computed: {
         answeredQuestions: function () {
@@ -32,7 +33,7 @@
 </script>
 <script type="text/template" id="summary-question-template">
   <div class="survey-results__summary-question">
-    <hr v-if="question.number != 1" />
+    <hr v-if="question.number != 1 && selectedQuestion == -1" />
     <div class="survey-results__summary-question-title">
       <span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>
       <span>{{question.content}}</span>

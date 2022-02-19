@@ -1,5 +1,5 @@
-﻿<script type="text/javascript" id="single-answer-summary">
-  Vue.component('SingleAnswerSummary',
+﻿<script type="text/javascript" id="rating-answer-summary">
+  Vue.component('RatingSummary',
     {
       props: {
         question: Object,
@@ -10,7 +10,7 @@
         const chart = {
           type: 'bar',
           data: {
-            labels: this.question.options,
+            labels: ["1 *", "2 *", "3 *", "4 *", "5 *"],
             datasets: [
               {
                 data: [],
@@ -40,21 +40,22 @@
         };
 
         this.summary = [];
-        for (let option of this.question.options) {
+        for (let i = 0; i < 5; i++) {
           let currentAmount = 0;
           for (let answer of this.question.answers) {
-            if (answer.text === option) {
+            if (answer.numeric === (i + 1)) {
               currentAmount++;
             }
-          }
+          };
+
           let summaryObject = {
-            title: option,
+            title: i + 1,
             percentage: Math.round((currentAmount / this.question.answers.length) * 100),
             amount: currentAmount
           };
           this.summary.push(summaryObject);
         }
-        
+
         for (let summaryObject of this.summary) {
           chart.data.datasets[0].backgroundColor.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
           chart.data.datasets[0].data.push(summaryObject.percentage);
@@ -62,10 +63,10 @@
 
         new Chart(ctx, chart);
       },
-      template: "#single-answer-summary-template"
+      template: "#rating-answer-summary-template"
     });
 </script>
-<script type="text/template" id="single-answer-summary-template">
+<script type="text/template" id="rating-answer-summary-template">
   <div class="survey-results__answer-summary">
     <canvas v-bind:id="question.id"></canvas>
     <div class="survey-results__question-answers">
