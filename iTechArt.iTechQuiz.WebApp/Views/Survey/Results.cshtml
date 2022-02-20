@@ -20,6 +20,8 @@
   <partial name="Results/_TextAnswerSummary" />
   <partial name="Results/_FileAnswerSummary" />
   <partial name="Results/_ScaleAnswerSummary" />
+  <partial name="Results/_SeparateAnswerPage" />
+  <partial name="Results/_SeparateAnswerQuestion" />
 }
 
 <partial name="_SidebarPartial" />
@@ -43,11 +45,18 @@
         {{question.number}}) {{question.content}}
       </option>
     </select>
-    <select v-if="survey.pages && !isSummaryTab">
-    </select>
+    <div v-if="survey.pages && !isSummaryTab" class="survey-results__separate-answers-select">
+      <img width="25" src="~/img/user.svg" />
+      <select v-model="selectedUser">
+        <option v-for="user in survey.passedUsers" v-bind:value="user.passId">
+          {{user.userName}}
+        </option>
+      </select>
+    </div>
     <div class="survey-results__pages-wrapper">
       <survey-page-tab v-if="survey.pages" v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
     </div>
-    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :survey="survey" :selected-question="selectedQuestion"></summary-page>
+    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :selected-question="selectedQuestion"></summary-page>
+    <separate-answer-page v-if="survey.pages && !isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :selected-user="selectedUser"></separate-answer-page>
   </div>
 </div>

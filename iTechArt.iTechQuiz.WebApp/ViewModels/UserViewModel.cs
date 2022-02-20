@@ -7,6 +7,8 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
     {
         public Guid Id { get; set; }
 
+        public Guid PassId { get; set; }
+
         [Required]
         [Display(Name = "Name")]
         public string UserName { get; set; }

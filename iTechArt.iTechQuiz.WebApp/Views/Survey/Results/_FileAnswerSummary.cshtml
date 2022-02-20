@@ -20,6 +20,14 @@
           }).catch(error => {
             popups.errorPopup();
           });
+        },
+        showRespondent: function (passId) {
+          sv._data.selectedUser = passId;
+          sv._data.isSummaryTab = false;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
         }
       },
       template: "#file-answer-summary-template"
@@ -40,7 +48,7 @@
             <a v-on:click="downloadFile(answer)">{{answer.file.name}}</a>
           </td>
           <td>
-            <a>show respondent answers</a>
+            <a v-on:click="showRespondent(answer.user.passId)">show respondent answers</a>
           </td>
         </tr>
       </tbody>

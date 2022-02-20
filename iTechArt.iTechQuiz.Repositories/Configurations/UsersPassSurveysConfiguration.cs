@@ -9,6 +9,9 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
     {
         public void Configure(EntityTypeBuilder<UsersPassSurveys> builder)
         {
+            builder.Property(e => e.Id)
+                .ValueGeneratedNever();
+
             builder.HasKey(e => e.Id);
 
             builder.HasIndex(e =>  new {e.UserId, e.SurveyId})

@@ -10,7 +10,7 @@
     });
 </script>
 <script type="text/template" id="summary-page-template">
-  <div class="survey-results__summary-page">
+  <div class="survey-results__page">
     <span>{{page.name}}</span>
     <summary-question v-if="selectedQuestion == -1" v-for="question in page.questions" v-bind:question="question" :survey="survey" :selected-question="selectedQuestion"></summary-question>
     <summary-question v-if="selectedQuestion != -1" v-bind:question="page.questions[selectedQuestion]" :survey="survey" :selected-question="selectedQuestion"></summary-question>

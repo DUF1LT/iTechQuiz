@@ -3,7 +3,6 @@
     {
       props: {
         question: Object,
-        survey: Object,
         selectedQuestion: Number
       },
       computed: {
@@ -35,9 +34,9 @@
   <div class="survey-results__summary-question">
     <hr v-if="question.number != 1 && selectedQuestion == -1" />
     <div class="survey-results__summary-question-title">
-      <span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>
+      <span>{{question.number}}.</span>
       <span>{{question.content}}</span>
-      <img v-if="question.isRequired && survey.renderStarsAtRequiredFields" src="/img/star.svg" width="15" />
+      <img v-if="question.isRequired" src="/img/star.svg" width="15" />
     </div>
     <div class="survey-results__summary-question__statistic">
       <span>Answered: {{answeredQuestions}}&nbsp Skipped: {{skippedQuestions}}</span>

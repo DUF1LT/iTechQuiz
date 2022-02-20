@@ -9,16 +9,29 @@
       data: {
         survey: {},
         isSummaryTab: true,
-        selectedQuestion: -1
+        selectedQuestion: -1,
+        selectedUser: String
       },
       beforeCreate: function () {
         fetch('@Url.Action("GetSurveyWithAnswers", new { id = Model })',
-          {
-            headers: {
-              'Accept': 'application/json'
-            }
-          }).then(response => response.json())
-          .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
+          .then((data) => {
+            this.survey = JSON.parse(JSON.stringify(data));
+            this.survey.passedUsers = this.survey.passedUsers.sort((a,b) => {
+              if(a.userName > b.userName) {
+                return -1;
+              }
+              if(a.userName < b.userName) {
+                return 1;
+              }
+              return 0;
+            });
+            this.selectedUser = this.survey.passedUsers[0].passId;
+          });
       },
       computed:
       {

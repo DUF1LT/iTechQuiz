@@ -1,0 +1,66 @@
+﻿<script type="text/javascript" id="separate-answer-question">
+  Vue.component('separate-answer-question',
+    {
+      props: {
+        question: Object,
+        selectedUser: String
+      },
+      computed: {
+        userAnswer: function () {
+          return this.question.answers.filter(answer => answer.user.passId == this.selectedUser)[0];
+        }
+      },
+      methods: {
+        downloadFile: function(answer) {
+          fetch(`@Url.Action("GetFile")/${answer.file.id}`,
+              {
+                method: 'GET'
+              }).then(result => result.blob())
+            .then((data) => {
+              let a = document.createElement("a");
+              a.href = window.URL.createObjectURL(data);
+              a.download = answer.file.name;
+              a.click();
+              a.remove();
+            }).catch(error => {
+              popups.errorPopup();
+            });
+        }
+      },
+      template: "#separate-answer-question-template"
+    });
+</script>
+<script type="text/template" id="separate-answer-question-template">
+  <div class="survey-results__summary-question">
+    <hr v-if="question.number != 1" />
+    <div class="survey-results__summary-question-title">
+      <span>{{question.number}}.</span>
+      <span>{{question.content}}</span>
+      <img v-if="question.isRequired" src="/img/star.svg" width="15" />
+    </div>
+    <span v-if="question.type == 'SingleAnswer'">
+      {{userAnswer.text}}
+    </span>
+    <span v-if="question.type == 'MultipleAnswer'">
+      {{userAnswer.multipleAnswer.join(',  ')}}
+    </span>
+    <span v-if="question.type == 'TextAnswer'">
+      {{userAnswer.text}}
+    </span>
+    <div v-if="question.type == 'Scale'" class="survey-result__question-scale">
+      <span style="align-self: end;">0</span>
+      <div class="survey-result__question-scale-input">
+        <span>{{userAnswer.numeric}}</span>
+        <input type="range" min="0" max="100" value="0" width="200" v-bind:value="userAnswer.numeric" disabled />
+      </div>
+      <span style="align-self: end;">100</span>
+    </div>
+    <div v-if="question.type == 'File'" class="survey-result__separate-file-answer">
+      <img width="30" src="/img/file.svg"/>
+      <a v-on:click="downloadFile(userAnswer)">{{userAnswer.file.name}}</a>
+    </div>
+    <div v-if="question.type == 'Rating'" class="survey-result__separate-rating-answer">
+      <i class="fa-star fa-lg" v-for="index in [1,2,3,4,5]" v-bind:class="{far: index > userAnswer.numeric, fas: index <= userAnswer.numeric}" ></i>
+    </div>
+  </div>
+</script>

@@ -8,6 +8,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
     {
         public Guid Id { get; set; }
 
+        public Guid PassId { get; set; }
+
         public Question Question { get; set; }
 
         public User User { get; set; }

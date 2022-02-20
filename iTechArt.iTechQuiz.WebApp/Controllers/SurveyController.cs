@@ -256,10 +256,22 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 ? await _userService.GetUserWithRolesAndSurveysAsync(default)
                 : await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
+            var userPassed = new UsersPassSurveys
+            {
+                Id = Guid.NewGuid(),
+                Survey = survey,
+                User = user,
+                PassedAt = DateTime.Now
+            };
+
+            survey.UsersPassed.Add(userPassed);
+            await _surveyService.UpdateSurveyAsync(survey);
+
             foreach (var question in questions)
             {
                 var answer = new Answer
                 {
+                    PassId = userPassed.Id,
                     MultipleAnswer = JsonSerializer.Serialize(question.Answer.MultipleAnswer),
                     Numeric = question.Answer.Numeric,
                     Text = question.Answer.Text,
@@ -275,15 +287,6 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
                 await _answerService.SaveAnswerAsync(answer);
             }
-
-            survey.UsersPassed.Add(new UsersPassSurveys
-            {
-                Survey = survey,
-                User = user,
-                PassedAt = DateTime.Now
-            });
-
-            await _surveyService.UpdateSurveyAsync(survey);
 
             return Ok();
         }

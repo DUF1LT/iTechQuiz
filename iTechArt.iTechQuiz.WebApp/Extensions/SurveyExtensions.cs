@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace iTechArt.iTechQuiz.WebApp.Extensions
 {
@@ -69,6 +70,17 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                 Id = survey.Id,
                 Title = survey.Title,
                 CurrentPage = 0,
+                PassedUsers = survey.UsersPassed.Select(p => p.User == null ? new UserViewModel
+                {
+                    Id = default,
+                    PassId = p.Id,
+                    UserName = "Anonymous",
+                } : new UserViewModel
+                {
+                    Id = p.User.Id,
+                    PassId = p.Id,
+                    UserName = p.User.UserName
+                }).ToList(),
                 Pages = survey.Pages.Select(p => new PageViewModel
                 {
                     Id = p.Id,
@@ -86,10 +98,12 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                             User = a.User == null ? new UserViewModel
                             {
                                 Id = default,
-                                UserName = "Anonymous"
+                                PassId = a.PassId,
+                                UserName = "Anonymous",
                             } : new UserViewModel
                             {
                                 Id = a.User.Id,
+                                PassId = a.PassId,
                                 UserName = a.User.UserName
                             },
                             File = a.File is null ? null : new FileViewModel
