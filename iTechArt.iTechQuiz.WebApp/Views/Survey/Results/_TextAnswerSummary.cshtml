@@ -1,0 +1,32 @@
+﻿<script type="text/javascript" id="text-answer-summary">
+  Vue.component('TextAnswerSummary',
+    {
+      props: {
+        question: Object,
+        summary: Array
+      },
+      template: "#text-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="text-answer-summary-template">
+  <div class="survey-results__answer-summary">
+    <table class="survey-results__table-summary">
+      <thead>
+        <tr>
+          <th width="60%">Answers</th>
+          <th width="40%">Respondent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="answer in question.answers.filter(answer => answer.text != null)">
+          <td>
+            {{answer.text}}
+          </td>
+          <td>
+            <a>show respondent answers</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</script>

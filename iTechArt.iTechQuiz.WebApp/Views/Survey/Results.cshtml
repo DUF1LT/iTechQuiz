@@ -9,7 +9,6 @@
 
 @section Scripts {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
-  <script src="~/js/answers-statistics.js"></script>
   <partial name="Results/_SurveyRoot" />
   <partial name="Results/_PageTab" />
   <partial name="Results/_SummaryPage" />
@@ -18,6 +17,9 @@
   <partial name="Results/_SingleAnswerSummary" />
   <partial name="Results/_MultipleAnswerSummary" />
   <partial name="Results/_RatingAnswerSummary" />
+  <partial name="Results/_TextAnswerSummary" />
+  <partial name="Results/_FileAnswerSummary" />
+  <partial name="Results/_ScaleAnswerSummary" />
 }
 
 <partial name="_SidebarPartial" />
@@ -35,11 +37,13 @@
       </div>
       <span>Answers amount: {{answersAmount}} </span>
     </div>
-    <select v-if="survey.pages" v-model="selectedQuestion">
+    <select v-if="survey.pages && isSummaryTab" v-model="selectedQuestion">
       <option v-bind:value="-1">All questions</option>
       <option v-for="(question, index) in survey.pages[survey.currentPage].questions" v-bind:value="index">
         {{question.number}}) {{question.content}}
       </option>
+    </select>
+    <select v-if="survey.pages && !isSummaryTab">
     </select>
     <div class="survey-results__pages-wrapper">
       <survey-page-tab v-if="survey.pages" v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>

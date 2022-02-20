@@ -90,13 +90,12 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                             } : new UserViewModel
                             {
                                 Id = a.User.Id,
-                                UserName = a.User.UserName,
+                                UserName = a.User.UserName
                             },
                             File = a.File is null ? null : new FileViewModel
                             {
-                                Name = a.File.Name,
-                                ByteArray = a.File.Bytes,
-                                Type = a.File.Type
+                                Id = a.File.Id,
+                                Name = a.File.Name
                             },
                             MultipleAnswer = JsonSerializer.Deserialize<List<string>>(a.MultipleAnswer),
                             Numeric = a.Numeric,

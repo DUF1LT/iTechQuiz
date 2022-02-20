@@ -91,3 +91,39 @@
     row-gap: 15px;
     padding: 10px 0 10px 10px;
 }
+
+.survey-results__table-summary {
+    width: 100%;
+}
+
+.survey-results__table-summary thead {
+    background-color: #d33722;
+    color: #fff;
+}
+
+.survey-results__table-summary thead th {
+    padding: 5px 0;
+}
+
+.survey-results__table-summary thead th:hover {
+    cursor: pointer;
+}
+
+.survey-results__table-summary th {
+    text-align: center;
+}
+
+.survey-results__table-summary tbody tr {
+    height: 60px;
+     text-align: center;
+}
+
+.survey-results__table-summary tbody th {
+    font-weight: 400;
+}
+
+.survey-results__table-summary tbody a {
+    color: #0d6efd !important;
+    text-decoration: underline !important;
+    cursor: pointer;
+}

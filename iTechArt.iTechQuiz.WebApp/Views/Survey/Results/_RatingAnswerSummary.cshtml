@@ -25,6 +25,31 @@
             plugins: {
               legend: {
                 display: false
+              },
+              labels: {
+                render: 'image',
+                images: [
+                  {
+                    src: "/img/star.svg",
+                    width: 10
+                  },
+                  {
+                    src: "/img/star.svg",
+                    width: 10
+                  },
+                  {
+                    src: "/img/star.svg",
+                    width: 10
+                  },
+                  {
+                    src: "/img/star.svg",
+                    width: 10
+                  },
+                  {
+                    src: "/img/star.svg",
+                    width: 10
+                  }
+                ]
               }
             },
             scales: {
@@ -50,13 +75,10 @@
 
           let summaryObject = {
             title: i + 1,
-            percentage: Math.round((currentAmount / this.question.answers.length) * 100),
+            percentage: this.question.answers.length !== 0 ? Math.round((currentAmount / this.question.answers.length) * 100) : 0,
             amount: currentAmount
           };
           this.summary.push(summaryObject);
-        }
-
-        for (let summaryObject of this.summary) {
           chart.data.datasets[0].backgroundColor.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
           chart.data.datasets[0].data.push(summaryObject.percentage);
         }

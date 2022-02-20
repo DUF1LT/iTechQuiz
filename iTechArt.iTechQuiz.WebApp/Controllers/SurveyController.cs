@@ -22,16 +22,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly SurveyService _surveyService;
         private readonly AnswerService _answerService;
         private readonly QuestionService _questionService;
+        private readonly FileService _fileService;
+
 
         public SurveyController(UserService userService,
             SurveyService surveyService,
             QuestionService questionService,
-            AnswerService answerService)
+            AnswerService answerService, 
+            FileService fileService)
         {
             _userService = userService;
             _surveyService = surveyService;
             _questionService = questionService;
             _answerService = answerService;
+            _fileService = fileService;
         }
 
 
@@ -81,6 +85,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             var surveyViewModel = survey.GetViewModelWithAnswers();
 
             return Json(surveyViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFile(Guid id)
+        {
+            var file = await _fileService.GetFile(id);
+
+            return File(file.Bytes, file.Type, file.Name);
         }
 
         [HttpPost]
