@@ -11,7 +11,7 @@
         alreadyPassed: false
       },
       created: function () {
-        const parsed = JSON.parse(window.localStorage.getItem("passedSurveys"));
+        const parsed = isAuthenticated ? null : JSON.parse(window.localStorage.getItem('passedSurveys'));
         if (parsed && parsed.includes("@Model")) {
           this.$set(this, "alreadyPassed", true);
         } else {
