@@ -235,7 +235,13 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                     Numeric = question.Answer.Numeric,
                     Text = question.Answer.Text,
                     Question = await _questionService.GetQuestionAsync(question.Id),
-                    User = user
+                    User = user,
+                    File = question.Answer.File.ByteArray is null ? null : new File
+                    {
+                        Bytes = question.Answer.File.ByteArray,
+                        Name = question.Answer.File.Name,
+                        Type = question.Answer.File.Type
+                    }
                 };
 
                 await _answerService.SaveAnswerAsync(answer);

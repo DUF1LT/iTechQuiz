@@ -1,6 +1,8 @@
 ﻿@model Guid
 
 <script type="text/javascript" id="survey-root">
+
+  let isAuthenticated = @Html.Raw(User.Identity.IsAuthenticated ? "true" : "false");
   let sv = new Vue(
     {
       el: '#survey-vue',
@@ -14,11 +16,11 @@
           this.$set(this, "alreadyPassed", true);
         } else {
           fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
-            {
-              headers: {
-                'Accept': 'application/json'
-              }
-            }).then(response => response.json())
+              {
+                headers: {
+                  'Accept': 'application/json'
+                }
+              }).then(response => response.json())
             .then(data => this.survey = JSON.parse(JSON.stringify(data)));
         }
       },
@@ -68,13 +70,16 @@
               }
             ).then(response => {
               if (response.ok) {
-                if (!window.localStorage.getItem("passedSurveys")) {
-                  let passedSurveys = ["@Model"];
-                  window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
-                } else {
-                  let passedSurveys = JSON.parse(window.localStorage.getItem("passedSurveys"));
-                  passedSurveys.push("@Model");
-                  window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                if (!isAuthenticated) {
+                  if (!window.localStorage.getItem("passedSurveys")) {
+                    console.log('not passed');
+                    let passedSurveys = ["@Model"];
+                    window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                  } else {
+                    let passedSurveys = JSON.parse(window.localStorage.getItem("passedSurveys"));
+                    passedSurveys.push("@Model");
+                    window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                  }
                 }
                 window.location.href = "@Url.Action("Index", "Home")";
               }
