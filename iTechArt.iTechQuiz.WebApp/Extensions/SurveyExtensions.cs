@@ -74,7 +74,7 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                 {
                     Id = default,
                     PassId = p.Id,
-                    UserName = "Anonymous",
+                    UserName = $"Anonymous ({p.Id.ToString().Substring(0, 5).ToUpper()})",
                 } : new UserViewModel
                 {
                     Id = p.User.Id,
