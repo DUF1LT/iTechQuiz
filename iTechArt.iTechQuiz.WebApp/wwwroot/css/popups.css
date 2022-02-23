@@ -1,0 +1,31 @@
+﻿#popups-vue {
+}
+
+#survey-saved-modal {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    position: fixed;
+    top: 85%;
+    left: 76%;
+    z-index: 99999;
+    height: 80px;
+    padding: 0 40px;
+    background-color: #ffffff;
+    border: 2px solid #247719;
+}
+
+#error-modal {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    position: fixed;
+    top: 85%;
+    left: 76%;
+    z-index: 99999;
+    height: 80px;
+    padding: 0 40px;
+    background-color: #ffffff;
+    border: 2px solid #d33722;
+}
+

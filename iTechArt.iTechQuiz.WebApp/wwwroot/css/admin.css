@@ -1,6 +1,5 @@
 ﻿/*General*/
 
-
 .admin__buttons {
     display: flex;
     width: 65%;
@@ -8,7 +7,6 @@
     align-items: center;
     column-gap: 20px;
 }
-
 
 .admin__submit {
     width: 110px;
@@ -58,7 +56,7 @@
 }
 
 .admin-users__table thead th {
-     padding: 15px 0;
+    padding: 15px 0;
 }
 
 .admin-users__table thead th:hover {
@@ -70,7 +68,7 @@
 }
 
 .admin-users__table tbody tr {
-     height: 60px;
+    height: 60px;
 }
 
 .admin-users__table tbody th {

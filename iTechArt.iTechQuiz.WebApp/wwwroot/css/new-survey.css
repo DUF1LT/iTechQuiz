@@ -60,7 +60,6 @@
     row-gap: 25px;
 }
 
-
 .new-survey-main-constructor__insert {
     border: 2px dashed black;
     padding: 30px 10px;
@@ -314,21 +313,6 @@
     border: 1px solid #d33722;
 }
 
-#new-survey-modal {
-    display: flex;
-    align-items: center;
-    column-gap: 15px;
-    position: fixed;
-    top: 85%;
-    left: 76%;
-    z-index: 99999;
-    height: 80px;
-    padding: 0 40px;
-    background-color: #ffffff;
-    border: 2px solid #247719;
-}
-
-
 /*Side*/
 .new-survey-side {
     display: flex;
@@ -365,7 +349,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 10px 10px;
+    padding: 15px 10px;
     row-gap: 8px;
 }
 
@@ -401,7 +385,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 5px 10px;
+    padding: 15px 10px;
     row-gap: 8px;
 }
 

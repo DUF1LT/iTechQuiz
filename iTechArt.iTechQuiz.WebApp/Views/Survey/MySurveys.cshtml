@@ -1,1 +1,107 @@
-﻿<div>MySurveys</div>
+﻿@model iTechArt.Common.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.SurveyViewModel>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/my-surveys.css" />
+}
+
+@section Scripts
+{
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+}
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper">
+    <div class="my-surveys">
+        <div class="my-surveys__header">
+            <h2>My Surveys</h2>
+            <form asp-action="MySurveys" method="get" class="admin-users__search">
+                <button class="my-surveys__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
+                <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="my-surveys__header-input" />
+            </form>
+        </div>
+        <table class="my-surveys__table sortable">
+            <thead>
+                <tr>
+                    <th width="30%">
+                        Title
+                    </th>
+                    <th width="12%">
+                        Last update
+                    </th>
+                    <th width="10%">
+                        Answers
+                    </th>
+                    <th width="15%">
+                        Link
+                    </th>
+                    <th width="15%">
+                        Results
+                    </th>
+                    <th width="18%">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.LastModifiedAt)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.AnswersAmount)
+                        </th>
+                        <th>
+                            <a asp-action="Survey" asp-route-id="@item.Id">link to the survey</a>
+                        </th>
+                        <th>
+                            <a asp-action="Results" asp-route-id="@item.Id">results</a>
+                        </th>
+                        <th>
+                            <div class="my-surveys__icons">
+                                <a asp-controller="Survey" asp-action="Edit" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/edit.svg" /></a>
+                                <a asp-controller="Survey" asp-action="Delete" asp-route-id="@item.Id" class="my-surveys__icon"><img width="25" src="~/img/delete.svg" /></a>
+                            </div>
+                        </th>
+                    </tr>
+                }
+                @if (!Model.Items.Any())
+                {
+                    <tr>
+                        <th colspan="6">There are no surveys according to your filter</th>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="6">
+                        <div class="my-surveys__table-footer">
+                            <div class="my-surveys__total-users">
+                                <div>Total Surveys:</div>&nbsp;&nbsp;
+                                <div class="my-surveys__total-users-count">@Model.TotalCount</div>
+                            </div>
+                            <div class="my-surveys__arrows">
+
+                                <a asp-action="MySurveys" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
+
+                                @if (Model.TotalCount != 0)
+                                {
+                                    <p>@Model.PageIndex / @Model.TotalPages</p>
+                                }
+
+                                <a asp-action="MySurveys" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                                <a asp-action="MySurveys" asp-route-pageIndex="@Model.TotalPages" asp-route-filter="@ViewData["NameFilter"]" class="my-surveys__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>  

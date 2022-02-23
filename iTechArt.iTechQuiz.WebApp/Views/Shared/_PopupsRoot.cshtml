@@ -1,0 +1,29 @@
+﻿<script type="text/javascript" id="popups-root">
+  const popups = new Vue({
+    el: '#popups-vue',
+    data: {
+      showSaveModal: false,
+      fadeSaveModal: false,
+      showErrorModal: false,
+      fadeErrorModal: false
+    },
+    created: function(){
+      var anchor = window.location.href.split('#')[1];
+      if (anchor) {
+        this.savePopup();
+      }
+    },
+    methods: {
+      savePopup: function() {
+        this.showSaveModal = true;
+        this.fadeSaveModal = true;
+        setTimeout(() => this.fadeSaveModal = false, 5000);
+      },
+      errorPopup: function () {
+        this.showErrorModal = true;
+        this.fadeErrorModal = true;
+        setTimeout(() => this.fadeErrorModal = false, 5000);
+      }
+    }
+  });
+</script>

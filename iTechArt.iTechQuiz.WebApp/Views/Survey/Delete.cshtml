@@ -1,0 +1,32 @@
+﻿@model iTechArt.iTechQuiz.WebApp.ViewModels.SurveyViewModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/my-surveys.css" />
+}
+
+<partial name="_SidebarPartial" />
+<div class="main-wrapper-centered">
+    <div class="my-surveys-delete">
+        <h2>Are you sure you want to <span class="text-bold">delete</span> this survey?</h2>
+
+        <div>
+            <div class="my-surveys-delete__info">
+                <span>@Html.DisplayNameFor(model => model.Title):</span> @Model.Title
+            </div>
+            <div class="my-surveys-delete__info">
+                <span>@Html.DisplayNameFor(model => model.LastModifiedAt):</span> @Model.LastModifiedAt
+            </div>
+            <div class="my-surveys-delete__info">
+                <span>Answers:</span> @Model.AnswersAmount
+            </div>
+        </div>
+
+        <div class="my-surveys-delete__buttons">
+            <a asp-action="MySurveys" class="button">Back to list</a>
+            <form asp-action="ConfirmDelete" asp-route-id="@Model.Id" method="post">
+                <input type="submit" value="Delete" class="my-surveys-delete__submit" />
+            </form>
+        </div>
+    </div>
+</div>

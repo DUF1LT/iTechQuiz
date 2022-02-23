@@ -6,6 +6,7 @@ using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.Repositories.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 
 namespace iTechArt.iTechQuiz.Repositories
 {
@@ -43,7 +44,7 @@ namespace iTechArt.iTechQuiz.Repositories
                 }
             }
 
-            if (await userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == default) is null)
+            if (await userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == default) is null)
             {
                 User anonymous = new User
                 {

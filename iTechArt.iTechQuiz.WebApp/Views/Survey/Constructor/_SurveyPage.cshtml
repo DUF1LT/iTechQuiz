@@ -1,0 +1,54 @@
+﻿<script type="text/javascript" id="survey-page">
+  Vue.component('survey-page',
+    {
+      props: {
+        page: Object,
+        survey: Object
+      },
+      methods: {
+        removeQuestion: function (question) {
+          let questionIndex = this.page.questions.indexOf(question);
+
+          for (let i = questionIndex; i < this.page.questions.length; i++) {
+            this.page.questions[i].number--;
+          }
+
+          this.page.questions.splice(questionIndex, 1);
+        },
+        moveQuestion: function (question, direction) {
+          let questionIndex = this.page.questions.indexOf(question);
+
+          let newNumber = this.page.questions[questionIndex + direction].number;
+          this.page.questions[questionIndex + direction].number = question.number;
+          question.number = newNumber;
+
+          this.page.questions.sort(function (a, b) {
+            if (a.number > b.number) {
+              return 1;
+            }
+            if (a.number < b.number) {
+              return -1;
+            }
+
+            return 0;
+          });
+        }
+      },
+      template: '#survey-page-template'
+    });
+</script>
+<script type="text/template" id="survey-page-template">
+  <div class=new-survey-main-constructor-wrapper>
+    <div id="surveyConstructor" class="new-survey-main-constructor">
+      <div class=new-survey-main__page-title>
+        <input v-model="page.name" type="text" />
+        <img src="/img/remove.svg" width="16" v-on:click="$emit(`remove-page`, page)">
+      </div>
+      <span v-if="page.questions.length == 0">There are no questions at this page. You can add question at "Question type" tab.</span>
+      <page-question v-for="question in page.questions" v-bind:question="question" v-bind:questionsAmount="page.questions.length"
+                     v-bind:survey="survey" v-on:remove-question="removeQuestion(question)"
+                     v-on:up-question="moveQuestion(question, -1)" v-on:down-question="moveQuestion(question, 1)">
+      </page-question>
+    </div>
+  </div>
+</script>

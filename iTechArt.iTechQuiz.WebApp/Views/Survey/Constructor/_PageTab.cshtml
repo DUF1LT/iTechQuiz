@@ -1,0 +1,12 @@
+﻿<script type="text/javascript" id="text-answer">
+  Vue.component('TextAnswer',
+    {
+      props: {
+        question: Object
+      },
+      template: "#text-answer-template"
+    });
+</script>
+<script type="text/template" id="text-answer-template">
+  <textarea v-model="question.option" />
+</script>

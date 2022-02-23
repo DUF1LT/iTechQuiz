@@ -1,0 +1,67 @@
+﻿<script type="text/javascript" id="page-question">
+  Vue.component('page-question',
+    {
+      props: {
+        question: Object,
+        questionsAmount: Number,
+        survey: Object
+      },
+      methods: {
+        editQuestion: function () {
+          this.question.isEditable = true;
+          this.question.copy = JSON.parse(JSON.stringify(this.question));
+        },
+        saveQuestion: function () {
+          this.question.isEditable = false;
+          this.question.copy = null;
+        },
+        cancelQuestion: function () {
+          this.question.content = this.question.copy.content;
+          this.question.isRequired = this.question.copy.isRequired;
+          this.question.numericOption = this.question.copy.numericOption;
+          this.question.options = JSON.parse(JSON.stringify(this.question.copy.options));
+          this.question.textOption = this.question.copy.textOption;
+          this.question.numericOption = this.question.copy.numericOption;
+          this.question.isEditable = false;
+          this.question.copy = null;
+        }
+      },
+      template: "#page-question-template"
+    });
+</script>
+<script type="text/template" id="page-question-template">
+  <div class="new-survey-main__question" v-bind:class="{ 'editable-question': question.isEditable }">
+    <div class="new-survey-main__editable-question__settings" v-if="question.isEditable">
+      <div class="new-survey-main__editable-question__settings__move" v-if="questionsAmount != 1 ">
+        <div class="new-survey-main__editable-question__settings__move-arrows">
+          <img src="/img/up.svg" width="15" v-if="question.number != 1" v-on:click="$emit(`up-question`, question)" />
+          <img src="/img/down.svg" width="15" v-if="question.number != questionsAmount" v-on:click="$emit(`down-question`, question)" />
+        </div>
+        <label>Move</label>
+      </div>
+      <div class="new-survey-main__editable-question__settings__delete-and-require">
+        <div class="new-survey-main__editable-question__settings__require">
+          <input type="checkbox" v-model="question.isRequired" />
+          <span>Is required</span>
+        </div>
+        <img src="/img/remove.svg" width="15" v-on:click="$emit(`remove-question`, question)" />
+      </div>
+    </div>
+    <div class="new-survey-main__question__body">
+      <div class="new-survey-main__question__header">
+        <div class="new-survey-main__question__title" v-bind:class="{width100: question.isEditable}">
+          <span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>
+          <input type="text" v-model="question.content" v-if="question.isEditable" />
+          <span v-else>{{question.content}}</span>
+          <img v-if="survey.renderStarsAtRequiredFields && question.isRequired && !question.isEditable" width="15" src="/img/star.svg" />
+        </div>
+        <span class="new-survey-main__question-edit" v-if="!question.isEditable" v-on:click="editQuestion(question)">Edit</span>
+      </div>
+      <component v-bind:is="question.type" :question="question"></component>
+    </div>
+    <div class="new-survey-main__editable-question__buttons" v-if="question.isEditable">
+      <input type="button" class="button" value="Save" v-on:click="saveQuestion()" />
+      <input type="button" class="red-button" value="Cancel" v-on:click="cancelQuestion()" />
+    </div>
+  </div>
+</script>

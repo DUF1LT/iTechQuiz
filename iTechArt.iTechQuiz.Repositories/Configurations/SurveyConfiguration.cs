@@ -8,6 +8,8 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
     {
         public void Configure(EntityTypeBuilder<Survey> builder)
         {
+            builder.HasQueryFilter(p => !p.IsDeleted);
+
             builder.HasMany(e => e.UsersPassed)
                 .WithOne(e => e.Survey);
 
