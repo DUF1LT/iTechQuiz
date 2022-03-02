@@ -5,14 +5,9 @@
         question: Object,
         index: Number
       },
-      methods: {
-        rateStar: function (index) {
-          this.question.numericOption = index;
-        }
-      },
       template: '#rating-answer-option-template'
     });
 </script>
 <script type="text/template" id="rating-answer-option-template">
-  <i class="fa-star fa-lg" v-bind:class="{far: index > question.numericOption, fas: index <= question.numericOption}" v-on:click="rateStar(index)"></i>
+  <i class="fa-star fa-lg far"></i>
 </script>

@@ -46,6 +46,7 @@
       </div>
       <span v-if="page.questions.length == 0">There are no questions at this page. You can add question at "Question type" tab.</span>
       <page-question v-for="question in page.questions" v-bind:question="question" v-bind:questionsAmount="page.questions.length"
+                     v-bind:duplicateOptions="0"
                      v-bind:survey="survey" v-on:remove-question="removeQuestion(question)"
                      v-on:up-question="moveQuestion(question, -1)" v-on:down-question="moveQuestion(question, 1)">
       </page-question>

@@ -48,6 +48,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> GetSurvey(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            
             var surveyViewModel = survey.GetViewModel();
 
             return Json(surveyViewModel);
@@ -59,6 +64,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
         {
             var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            
             var surveyViewModel = survey.GetViewModelWithQuestions();
 
             return Json(surveyViewModel);
@@ -166,7 +176,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             var survey = await _surveyService.GetSurveyAsync(id);
             if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
             {
-                return Forbid();
+                return RedirectToAction("Login", "Account");
             }
 
             if (User.Identity.IsAuthenticated &&

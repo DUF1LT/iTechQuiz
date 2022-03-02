@@ -18,7 +18,7 @@
     });
 </script>
 <script type="text/template" id="page-question-template">
-  <div class="pass-survey__question" v-on:click="alertDisable()">
+  <div v-bind:id="question.id" class="pass-survey__question" v-on:click="alertDisable()">
     <hr v-if="question.number != 1" />
     <div class="pass-survey__question-title">
       <span v-if="survey.hasQuestionNumeration">{{question.number}}.</span>

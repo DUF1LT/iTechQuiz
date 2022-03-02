@@ -1,7 +1,8 @@
 ﻿@model Guid
 
 <script type="text/javascript" id="survey-root">
-
+  Vue.config.devtools = true;
+  
   let isAuthenticated = @Html.Raw(User.Identity.IsAuthenticated ? "true" : "false");
   let sv = new Vue(
     {
@@ -52,8 +53,6 @@
           let required = this.countRequired();
           if (required === 0) {
             this.survey.currentPage++;
-          } else {
-            alert("You have required questions without answers!!");
           }
         },
         passSurvey: function () {
@@ -85,21 +84,23 @@
               }
             });
           }
-          else {
-            alert("You have required questions without answers!!");
-          }
         },
         countRequired: function () {
           let required = 0;
+          let isScrolled = false;
           for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
             if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
               let question = this.survey.pages[this.survey.currentPage].questions[i];
               if (question.answer.file.byteArray == null
                 && question.answer.multipleAnswer.length === 0
                 && question.answer.numeric === 0
-                && question.answer.text == null) {
+                && (question.answer.text == null || question.answer.text == "")) {
                 required++;
                 this.$refs.currentPage.$refs[question.id][0].alertRequired();
+                if (!isScrolled) {
+                  document.getElementById(question.id).scrollIntoView({block:"center", behavior:"smooth"});
+                  isScrolled = true;
+                }
               }
             }
           }

@@ -88,6 +88,12 @@
   column-gap: 8px;
   align-items: center;
 }
+
+.pass-survey__question-file {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
 .pass-survey__question-rating {
   display: flex;
   column-gap: 5px;
@@ -130,7 +136,7 @@
 
 .pass-survey__alert-question {
   color: #d33722;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
 }
 
