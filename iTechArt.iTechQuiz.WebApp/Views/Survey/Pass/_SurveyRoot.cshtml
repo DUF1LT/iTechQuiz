@@ -1,8 +1,6 @@
 ﻿@model Guid
 
 <script type="text/javascript" id="survey-root">
-  Vue.config.devtools = true;
-  
   let isAuthenticated = @Html.Raw(User.Identity.IsAuthenticated ? "true" : "false");
   let sv = new Vue(
     {

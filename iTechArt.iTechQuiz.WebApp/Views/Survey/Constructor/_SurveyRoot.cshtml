@@ -1,8 +1,6 @@
 ﻿@model Guid
 
 <script type="text/javascript" id="survey-root">
-  Vue.config.devtools = true;
-  
   let id = '@(Model == default ? "" : $"{Model}")';
 
   let defaultSurvey = {
