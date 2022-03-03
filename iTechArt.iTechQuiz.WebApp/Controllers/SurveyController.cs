@@ -176,7 +176,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             var survey = await _surveyService.GetSurveyAsync(id);
             if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account", new {ReturnUrl = Url.Action("Survey", new {id})});
             }
 
             if (User.Identity.IsAuthenticated &&
