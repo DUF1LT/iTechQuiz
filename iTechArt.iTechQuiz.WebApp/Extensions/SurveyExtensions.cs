@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.Json;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.WebApp.ViewModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace iTechArt.iTechQuiz.WebApp.Extensions
 {

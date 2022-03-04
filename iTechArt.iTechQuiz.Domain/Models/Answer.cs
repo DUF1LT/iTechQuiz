@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using iTechArt.Repositories;
 
 namespace iTechArt.iTechQuiz.Domain.Models
