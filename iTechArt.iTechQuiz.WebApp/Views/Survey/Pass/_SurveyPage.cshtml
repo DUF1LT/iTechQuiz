@@ -1,0 +1,22 @@
+﻿<script type="text/javascript" id="survey-page">
+  Vue.component('survey-page',
+    {
+      props: {
+        page: Object,
+        survey: Object
+      },
+      created: function () {
+        if (this.survey.hasRandomSequence) {
+          this.page.questions.sort(() => Math.random() - Math.random());
+        }
+      },
+      template: "#survey-page-template"
+    });
+</script>
+<script type="text/template" id="survey-page-template">
+  <div class="pass-survey__page">
+    <span>{{page.name}}</span>
+    <page-question-random v-if="survey.hasRandomSequence" v-for="(randomQuestion, index) in page.questions" v-bind:question="randomQuestion" :key="question.id" :survey="survey" :index="index" v-bind:ref="randomQuestion.id"></page-question-random>
+    <page-question v-if="!survey.hasRandomSequence" v-for="question in page.questions" v-bind:question="question" :key="question.id" :survey="survey" v-bind:ref="question.id"></page-question>
+  </div>
+</script>

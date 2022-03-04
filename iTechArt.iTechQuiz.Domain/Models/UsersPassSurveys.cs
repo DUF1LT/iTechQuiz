@@ -4,6 +4,8 @@ namespace iTechArt.iTechQuiz.Domain.Models
 {
     public class UsersPassSurveys
     {
+        public Guid Id;
+
         public Guid UserId { get; set; }
 
         public User User { get; set; }

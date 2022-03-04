@@ -44,7 +44,12 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                         Content = q.Content,
                         Number = q.Number,
                         Type = q.Type,
-                        Options = JsonSerializer.Deserialize<List<string>>(q.Options),
+                        Options =JsonSerializer.Deserialize<List<string>>(q.Options),
+                        Answer = new AnswerViewModel
+                        {
+                            File = new FileViewModel(),
+                            MultipleAnswer = new List<string>()
+                        }
                     }).ToList()
                 }).ToList(),
                 IsAnonymous = survey.IsAnonymous,
@@ -56,7 +61,6 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
 
             return surveyViewModel;
         }
-
 
         public static Survey CreateFromViewModel(SurveyViewModel viewModel)
         {

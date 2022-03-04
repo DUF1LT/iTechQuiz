@@ -1,0 +1,109 @@
+﻿@model Guid
+
+<script type="text/javascript" id="survey-root">
+  let isAuthenticated = @Html.Raw(User.Identity.IsAuthenticated ? "true" : "false");
+  let sv = new Vue(
+    {
+      el: '#survey-vue',
+      data: {
+        survey: {},
+        alreadyPassed: false
+      },
+      created: function () {
+        const parsed = isAuthenticated ? null : JSON.parse(window.localStorage.getItem('passedSurveys'));
+        if (parsed && parsed.includes("@Model")) {
+          this.$set(this, "alreadyPassed", true);
+        } else {
+          fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
+              {
+                headers: {
+                  'Accept': 'application/json'
+                }
+              }).then(response => response.json())
+            .then(data => this.survey = JSON.parse(JSON.stringify(data)));
+        }
+      },
+      computed:
+      {
+        questionsCount: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
+          }
+        },
+        progressPercentage: function () {
+          if (this.survey.pages == undefined) {
+            return null;
+          }
+          else {
+            return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
+          }
+        }
+      },
+      methods:
+      {
+        previousPage: function () {
+          this.survey.currentPage--;
+        },
+        nextPage: function () {
+          let required = this.countRequired();
+          if (required === 0) {
+            this.survey.currentPage++;
+          }
+        },
+        passSurvey: function () {
+          let required = this.countRequired();
+          if (required === 0) {
+            fetch("@Url.Action("Pass")",
+              {
+                method: "POST",
+                body: JSON.stringify(this.survey),
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: "follow"
+              }
+            ).then(response => {
+              if (response.ok) {
+                if (!isAuthenticated) {
+                  if (!window.localStorage.getItem("passedSurveys")) {
+                    console.log('not passed');
+                    let passedSurveys = ["@Model"];
+                    window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                  } else {
+                    let passedSurveys = JSON.parse(window.localStorage.getItem("passedSurveys"));
+                    passedSurveys.push("@Model");
+                    window.localStorage.setItem("passedSurveys", JSON.stringify(passedSurveys));
+                  }
+                }
+                window.location.href = "@Url.Action("Index", "Home")";
+              }
+            });
+          }
+        },
+        countRequired: function () {
+          let required = 0;
+          let isScrolled = false;
+          for (let i = 0; i < this.survey.pages[this.survey.currentPage].questions.length; i++) {
+            if (this.survey.pages[this.survey.currentPage].questions[i].isRequired) {
+              let question = this.survey.pages[this.survey.currentPage].questions[i];
+              if (question.answer.file.byteArray == null
+                && question.answer.multipleAnswer.length === 0
+                && question.answer.numeric === 0
+                && (question.answer.text == null || question.answer.text == "")) {
+                required++;
+                this.$refs.currentPage.$refs[question.id][0].alertRequired();
+                if (!isScrolled) {
+                  document.getElementById(question.id).scrollIntoView({block:"center", behavior:"smooth"});
+                  isScrolled = true;
+                }
+              }
+            }
+          }
+          return required;
+        }
+      }
+    });
+</script>

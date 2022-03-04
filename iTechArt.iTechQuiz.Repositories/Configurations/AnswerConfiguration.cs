@@ -13,7 +13,8 @@ namespace iTechArt.iTechQuiz.Repositories.Configurations
 
             builder.HasOne(e => e.File)
                 .WithOne(e => e.Answer)
-                .HasForeignKey<File>(e => e.AnswerId);
+                .HasForeignKey<File>(e => e.AnswerId)
+                .IsRequired(false);
 
             builder.HasOne(e => e.Question)
                 .WithMany(e => e.Answers);

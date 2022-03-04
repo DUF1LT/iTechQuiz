@@ -8,8 +8,6 @@ namespace iTechArt.iTechQuiz.Domain.Models
     {
         public Guid Id { get; set; }
 
-        public Survey Survey { get; set; }
-
         public Page SurveyPage { get; set; }
 
         public QuestionType Type { get; set; }

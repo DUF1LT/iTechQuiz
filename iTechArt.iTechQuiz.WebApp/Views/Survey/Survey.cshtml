@@ -1,3 +1,31 @@
-﻿<div class="main-wrapper-centered">
+﻿@model Guid
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/pass-survey.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+}
+
+@section Scripts {
+  <partial name="Pass/_Components"/>
+  <partial name="Pass/_SurveyRoot" model="Model"/>
+}
+
+<div id="survey-vue" class="main-wrapper-centered">
+  <div class="pass-survey-wrapper" v-if="!alreadyPassed">
+    <span>{{survey.title}}</span>
+    <survey-page v-if="survey.pages" v-bind:page="survey.pages[survey.currentPage]" :survey="survey" ref="currentPage"></survey-page>
+    <div class="pass-survey__progress-bar" v-if="survey.hasProgressBar">
+      <span>{{survey.currentPage + 1}}/{{survey.pages.length}}</span>
+      <progress v-bind:value="progressPercentage" max="100"></progress>
+      <span>{{progressPercentage}}%</span>
+    </div>
+    <div class="pass-survey__page-buttons" v-if="survey.pages">
+      <input v-bind:class="{hidden: (survey.currentPage == 0)}" type="button" class="button" value="Prev. page" v-on:click="previousPage()" />
+      <input v-if="survey.currentPage != (survey.pages.length - 1)" type="button" class="button" value="Next page" v-on:click="nextPage()" />
+      <input v-else type="button" class="red-button" value="Submit" v-on:click="passSurvey()" />
+    </div>
+  </div>
+  <div class="main-wrapper-centered" v-else>
+    <span class="passed-survey-title">You have already passed this survey</span>
+  </div>
 </div>

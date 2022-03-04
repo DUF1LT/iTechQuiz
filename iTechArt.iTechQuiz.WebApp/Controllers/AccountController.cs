@@ -32,12 +32,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = "")
         {
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            ViewData["ReturnUrl"] = returnUrl;
 
             return View(new LoginViewModel());
         }
@@ -45,13 +47,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = "")
+        {    
+            ViewData["ReturnUrl"] = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
+            
             var result = await _signInManager.PasswordEmailSignInAsync(model.Login, model.Password, false, false);
             if (!result.Succeeded)
             {
@@ -60,6 +63,11 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 return View(model);
             }
 
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            
             return RedirectToAction("Index", "Home");
         }
 

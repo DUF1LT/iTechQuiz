@@ -1,0 +1,14 @@
+﻿<script type="text/javascript" id="multiple-answer">
+  Vue.component('MultipleAnswer',
+    {
+      props: {
+        question: Object
+      },
+      template: "#multiple-answer-template"
+    });
+</script>
+<script type="text/template" id="multiple-answer-template">
+  <div class="pass-survey__question-answers">
+    <multiple-answer-option v-for="(option, index) in question.options" v-bind:option="option" :question="question" :index="index"></multiple-answer-option>
+  </div>
+</script>

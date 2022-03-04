@@ -1,7 +1,6 @@
 ﻿@model Guid
 
 <script type="text/javascript" id="survey-root">
-
   let id = '@(Model == default ? "" : $"{Model}")';
 
   let defaultSurvey = {
@@ -72,12 +71,18 @@
           return;
         }
 
-        for (let page of this.survey.pages) {
-          if (page.questions.length == 0) {
-            alert(`Page '${page.name}' can't exist without questions`);
-            return;
-          }
-        }
+        let hasEditable = false;
+        this.survey.pages.map((page) => {
+          page.questions.map((question) => {
+            if (question.isEditable) hasEditable = true;
+          });  
+        });
+        
+        if (hasEditable) {
+          alert("You have unsaved questions!");
+          return;
+        }  
+        
 
         fetch('@(Model == default ? Url.Action("Save") : Url.Action("SaveEdit"))',
           {
@@ -110,6 +115,8 @@
             name: 'Page ' + (this.survey.pages.length + 1),
             questions: []
           });
+        
+        this.survey.currentPage = this.survey.pages.length - 1;
       },
 
       changePage: function (page) {

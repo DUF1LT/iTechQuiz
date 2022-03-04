@@ -9,6 +9,8 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
         
         public string Title { get; set; }
 
+        public string CreatedBy { get; set; }
+
         public int CurrentPage { get; set; }
 
         public List<PageViewModel> Pages { get; set; }

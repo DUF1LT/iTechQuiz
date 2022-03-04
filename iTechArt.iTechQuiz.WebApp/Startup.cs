@@ -79,7 +79,8 @@ namespace iTechArt.iTechQuiz.WebApp
 
             services.AddTransient<UserService>();
             services.AddTransient<SurveyService>();
-
+            services.AddTransient<AnswerService>();
+            services.AddTransient<QuestionService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

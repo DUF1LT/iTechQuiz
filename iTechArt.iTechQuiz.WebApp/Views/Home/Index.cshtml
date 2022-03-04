@@ -1,6 +1,9 @@
 ﻿@using iTechArt.iTechQuiz.Repositories.Constants
+@model iTechArt.Common.Lists.PagedData<iTechArt.iTechQuiz.WebApp.ViewModels.SurveyViewModel>
+
 @section Styles {
   <link rel="stylesheet" href="~/css/sidebar.css" />
+  <link rel="stylesheet" href="~/css/passed-surveys.css" />
 }
 
 @if (User.IsInRole(Roles.Admin))
@@ -9,7 +12,81 @@
 }
 
 <div class="@(User.IsInRole(Roles.Admin) ? "main-wrapper" : "main-wrapper-centered")">
-  <h2 class="h2">
-    Welcome to iTechQuiz!!!
-  </h2>
+  <div class="passed-surveys">
+    <div class="passed-surveys__header">
+      <h2>Passed surveys</h2>
+      <form asp-action="Index" method="get" class="passed-surveys__search">
+        <button class="passed-surveys__submit" type="submit"><img width="20" src="~/img/search.svg"></button>
+        <input value="@ViewData["NameFilter"]" type="text" name="Filter" placeholder="search" class="passed-surveys__header-input" />
+      </form>
+    </div>
+    <table class="passed-surveys__table sortable">
+      <thead>
+        <tr>
+          <th width="30%">
+            Survey
+          </th>
+          <th width="15%">
+            Created by
+          </th>
+          <th width="20%">
+            Last modified at
+          </th>
+          <th width="15%">
+            Answers
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.Items)
+        {
+          <tr>
+            <th>
+              @Html.DisplayFor(modelItem => item.Title)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.CreatedBy)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.LastModifiedAt)
+            </th>
+            <th>
+              @Html.DisplayFor(modelItem => item.AnswersAmount)
+            </th>
+          </tr>
+        }
+        @if (!Model.Items.Any())
+        {
+          <tr>
+            <th colspan="4">There are no passed surveys according to your filter</th>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5">
+            <div class="passed-surveys__table-footer">
+              <div class="passed-surveys__total-users">
+                <div>Total passed surveys:</div>&nbsp;&nbsp;
+                <div class="passed-surveys__total-users-count">@Model.TotalCount</div>
+              </div>
+              <div class="passed-surveys__arrows">
+
+                <a asp-action="Index" asp-route-pageIndex="1" asp-route-filter="@ViewData["NameFilter"]" class="passed-surveys__dbl-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&laquo;</a>
+                <a asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-filter="@ViewData["NameFilter"]" class="passed-surveys__single-arrows @(Model.PageIndex == 1 ? "hidden" : "")">&lsaquo;</a>
+
+                @if (Model.TotalCount != 0)
+                {
+                  <p>@Model.PageIndex / @Model.TotalPages</p>
+                }
+
+                <a asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-filter="@ViewData["NameFilter"]" class="passed-surveys__single-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&rsaquo;</a>
+                <a asp-action="Index" asp-route-pageIndex="@Model.TotalPages" asp-route-filter="@ViewData["NameFilter"]" class="passed-surveys__dbl-arrows @(Model.PageIndex >= Model.TotalPages ? "hidden" : "")">&raquo;</a>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>

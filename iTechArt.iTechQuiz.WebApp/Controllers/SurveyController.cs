@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using iTechArt.Common.Extensions;
 using iTechArt.Common.Lists;
+using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Foundation.Services;
 using iTechArt.iTechQuiz.Repositories.Constants;
 using iTechArt.iTechQuiz.WebApp.Extensions;
@@ -18,11 +20,18 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         private readonly UserService _userService;
         private readonly SurveyService _surveyService;
+        private readonly AnswerService _answerService;
+        private readonly QuestionService _questionService;
 
-        public SurveyController(UserService userService, SurveyService surveyService)
+        public SurveyController(UserService userService,
+            SurveyService surveyService,
+            QuestionService questionService,
+            AnswerService answerService)
         {
             _userService = userService;
             _surveyService = surveyService;
+            _questionService = questionService;
+            _answerService = answerService;
         }
 
 
@@ -35,24 +44,36 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetSurvey(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            
             var surveyViewModel = survey.GetViewModel();
 
             return Json(surveyViewModel);
         }
 
+
         [HttpGet]
-        [Authorize(Roles = Roles.Admin)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetSurveyWithQuestions(Guid id)
         {
             var survey = await _surveyService.GetSurveyWithQuestionsAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            
             var surveyViewModel = survey.GetViewModelWithQuestions();
 
             return Json(surveyViewModel);
         }
+
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
@@ -69,6 +90,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
         [Route("MySurveys")]
         public async Task<IActionResult> MySurveys(int pageIndex = 1, string filter = null)
         {
@@ -80,6 +102,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             }
 
             var paginatedSurveys = await _surveyService.GetPageWithCreatedSurveysAsync(pageIndex, PageSize, Guid.Parse(User.GetId()), filter);
+
             var surveys = paginatedSurveys.Items.Select(e => new SurveyViewModel
             {
                 Id = e.Id,
@@ -97,7 +120,8 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/Delete/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        [Route("Survey/{id}/Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
@@ -121,19 +145,22 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("Survey/Edit/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        [Route("Survey/{id}/Edit")]
         public IActionResult Edit(Guid id)
         {
             return View(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel survey)
+        public async Task<IActionResult> SaveEdit([FromBody] SurveyViewModel model)
         {
-            await _surveyService.DeleteSurveyAsync(survey.Id);
-
             var user = await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
-            var surveyToSave = SurveyExtensions.CreateFromViewModel(survey);
+
+            var previousSurvey = await _surveyService.GetSurveyAsync(model.Id);
+            previousSurvey.IsDeleted = true;
+
+            var surveyToSave = SurveyExtensions.CreateFromViewModel(model);
             surveyToSave.CreatedBy = user;
 
             await _surveyService.SaveSurveyAsync(surveyToSave);
@@ -142,14 +169,71 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("Survey/{id}")]
-        public IActionResult Survey(Guid id)
+        public async Task<IActionResult> Survey(Guid id)
         {
-            return View();
+            var survey = await _surveyService.GetSurveyAsync(id);
+            if (!survey.IsAnonymous && !User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new {ReturnUrl = Url.Action("Survey", new {id})});
+            }
+
+            if (User.Identity.IsAuthenticated &&
+                survey.UsersPassed.Any(p => p.SurveyId == survey.Id && p.UserId == Guid.Parse(User.GetId())))
+            {
+                return View("SurveyPassed");
+            }
+
+            return View(id);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Pass([FromBody] SurveyViewModel model)
+        {
+            var survey = await _surveyService.GetSurveyAsync(model.Id);
+
+            var questions = model.Pages.SelectMany(p => p.Questions);
+
+            var user = !User.Identity.IsAuthenticated && survey.IsAnonymous
+                ? await _userService.GetUserWithRolesAndSurveysAsync(default)
+                : await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
+
+            foreach (var question in questions)
+            {
+                var answer = new Answer
+                {
+                    MultipleAnswer = JsonSerializer.Serialize(question.Answer.MultipleAnswer),
+                    Numeric = question.Answer.Numeric,
+                    Text = question.Answer.Text,
+                    Question = await _questionService.GetQuestionAsync(question.Id),
+                    User = user,
+                    File = question.Answer.File.ByteArray is null ? null : new File
+                    {
+                        Bytes = question.Answer.File.ByteArray,
+                        Name = question.Answer.File.Name,
+                        Type = question.Answer.File.Type
+                    }
+                };
+
+                await _answerService.SaveAnswerAsync(answer);
+            }
+
+            survey.UsersPassed.Add(new UsersPassSurveys
+            {
+                Survey = survey,
+                User = user,
+                PassedAt = DateTime.Now
+            });
+
+            await _surveyService.UpdateSurveyAsync(survey);
+
+            return Ok();
         }
 
         [HttpGet]
-        [Route("Survey/Results/{id}")]
+        [Route("Survey/{id}/Results")]
         public IActionResult Results(Guid id)
         {
             return View();

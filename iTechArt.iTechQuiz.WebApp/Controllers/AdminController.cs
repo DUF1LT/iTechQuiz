@@ -54,7 +54,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 UserName = e.UserName,
                 RegisteredAt = e.RegisteredAt.ToShortDateString(),
                 CurrentRole = e.UserRoles.FirstOrDefault()?.Role.Name,
-                SurveysAmount = e.PassedSurveys.Count
+                SurveysAmount = e.Surveys.Count
             });
 
             var userViewModels = new PagedData<UserViewModel>(users,

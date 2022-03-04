@@ -351,3 +351,6 @@ MigrationBackup/
 
 # 3-rd party libs
 lib/
+
+# Idea
+.idea/*

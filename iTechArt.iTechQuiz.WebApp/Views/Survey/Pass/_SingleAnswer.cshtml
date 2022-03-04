@@ -4,17 +4,11 @@
       props: {
         question: Object
       },
-      methods: {
-        addOption: function () {
-          this.question.options.push("Answer " + (this.question.options.length + 1));
-        }
-      }, 
       template: "#single-answer-template"
     });
 </script>
 <script type="text/template" id="single-answer-template">
-  <div class="new-survey-main__question__answers">
+  <div class="pass-survey__question-answers">
     <single-answer-option v-for="(option, index) in question.options" v-bind:option="option" :question="question" :index="index"></single-answer-option>
-    <input type="button" class="new-survey-main__question-add-option" value="Add option" v-if="question.isEditable" v-on:click="addOption()" />
-  </div>
+  </div>'
 </script>

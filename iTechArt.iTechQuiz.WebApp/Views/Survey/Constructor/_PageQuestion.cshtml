@@ -4,14 +4,27 @@
       props: {
         question: Object,
         questionsAmount: Number,
-        survey: Object
+        survey: Object,
+        duplicateOptions: Number
       },
+      created: function () {
+        this.duplicateOptions = 0;
+      },
+      computed: {
+        hasDuplicate: function () {
+          return new Set(this.question.options).size !== this.question.options.length;
+        } 
+      }, 
       methods: {
         editQuestion: function () {
           this.question.isEditable = true;
           this.question.copy = JSON.parse(JSON.stringify(this.question));
         },
         saveQuestion: function () {
+          if (this.hasDuplicate) {
+            alert("Question options should be unique!");
+            return;
+          }  
           this.question.isEditable = false;
           this.question.copy = null;
         },
@@ -60,7 +73,7 @@
       <component v-bind:is="question.type" :question="question"></component>
     </div>
     <div class="new-survey-main__editable-question__buttons" v-if="question.isEditable">
-      <input type="button" class="button" value="Save" v-on:click="saveQuestion()" />
+      <input v-if="duplicateOptions == 0" type="button" class="button" value="Save" v-on:click="saveQuestion()" />
       <input type="button" class="red-button" value="Cancel" v-on:click="cancelQuestion()" />
     </div>
   </div>
