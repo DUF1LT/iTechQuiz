@@ -26,20 +26,10 @@
       computed:
       {
         questionsCount: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
-          }
+          return this.survey.pages?.reduce((count, pages) => count + pages.questions.length, 0) ?? 0;
         },
         progressPercentage: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
-          }
+          return Math.floor((this.survey?.currentPage + 1) / (this.survey.pages?.length) * 100);
         }
       },
       methods:

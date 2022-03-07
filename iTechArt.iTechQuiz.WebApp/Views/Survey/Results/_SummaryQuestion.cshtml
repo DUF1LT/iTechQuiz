@@ -9,7 +9,7 @@
         answeredQuestions: function () {
           let amount = 0;
           for (let answer of this.question.answers) {
-            if (answer.file != null || answer.multipleAnswer.length != 0 || answer.numeric != 0 || answer.text != null) {
+            if (answer.file != null || answer.multipleAnswer.length !== 0 || answer.numeric !== 0 || answer.text != null) {
               amount++;
             }
           }

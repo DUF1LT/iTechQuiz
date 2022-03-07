@@ -36,25 +36,13 @@
       computed:
       {
         questionsAmount: function() {
-          if (!this.survey.pages) {
-            return null;
-          } else {
-            return this.survey.pages.reduce((count, page) => count + page.questions.length, 0);
-          }
+          return this.survey.pages?.reduce((count, page) => count + page.questions.length, 0) ?? 0;
         },
         pagesAmount: function () {
-          if (!this.survey.pages) {
-            return null;
-          } else {
-            return this.survey.pages.length;
-          }
+          return this.survey.pages?.length ?? 0;
         },
         answersAmount: function () {
-          if (!this.survey.pages) {
-            return null;
-          } else {
-            return this.survey.pages.reduce((count, page) => count + page.questions.reduce((count, question) => count + question.answers.length, 0), 0);
-          }
+          return this.survey.pages?.reduce((count, page) => count + page.questions.reduce((count, question) => count + question.answers.length, 0), 0) ?? 0;
         }
       },
       methods:

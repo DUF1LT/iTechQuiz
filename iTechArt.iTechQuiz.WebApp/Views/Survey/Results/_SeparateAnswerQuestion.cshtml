@@ -7,7 +7,7 @@
       },
       computed: {
         userAnswer: function () {
-          return this.question.answers.filter(answer => answer.user.passId == this.selectedUser)[0];
+          return this.question.answers.filter(answer => answer.user.passId === this.selectedUser)[0];
         }
       },
       methods: {
