@@ -1,0 +1,14 @@
+﻿<script type="text/javascript" id="survey-page-tab">
+  Vue.component('survey-page-tab',
+    {
+      props: {
+        page : Object,
+        currentPage: Object
+      },
+      template: '#survey-page-tab-template'
+    });
+</script>
+<script type="text/template" id="survey-page-tab-template">
+  <input type="button" v-if="page == currentPage" class="red-solid-button" v-model="page.name" />
+  <input type="button" v-else class="transparent-button" v-model="page.name" v-on:click="$emit(`change-page`, page)" />
+</script>

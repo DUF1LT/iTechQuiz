@@ -1,0 +1,56 @@
+﻿<script type="text/javascript" id="scale-answer-summary">
+  Vue.component('ScaleSummary',
+    {
+      props: {
+        question: Object,
+        summary: Array
+      },
+      mounted: function () {
+        const ctx = document.getElementById(this.question.id);
+        const chart = {
+          type: 'line',
+          data: {
+            labels: Array.from(Array(100).keys()),
+            datasets: [
+              {
+                data: [],
+                borderColor: '#d33722',
+                borderWidth: 2
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            elements: {
+              point:{
+                radius: 0
+              }
+            }
+          }
+        };
+
+        this.summary = [];
+        for (let i = 0; i < 100; i++) {
+          const currentAmount = this.question.answers.filter(answer => answer.numeric === (i + 1)).length;
+          const summaryObject = {
+            title: i + 1,
+            amount: currentAmount
+          };
+          
+          chart.data.datasets[0].data.push(summaryObject.amount);
+        }
+
+        new Chart(ctx, chart);
+      },
+      template: "#scale-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="scale-answer-summary-template">
+  <div class="survey-results__answer-summary">
+    <canvas v-bind:id="question.id"></canvas>
+  </div>
+</script>

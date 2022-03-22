@@ -1,0 +1,68 @@
+﻿<script type="text/javascript" id="single-answer-summary">
+  Vue.component('SingleAnswerSummary',
+    {
+      props: {
+        question: Object,
+        summary: Array
+      },
+      mounted: function () {
+        const ctx = document.getElementById(this.question.id);
+        const chart = {
+          type: 'bar',
+          data: {
+            labels: this.question.options,
+            datasets: [
+              {
+                data: [],
+                backgroundColor: [],
+                borderWidth: 1,
+                barThickness: 30
+              }
+            ]
+          },
+          options: {
+            indexAxis: "y",
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              x: {
+                min: 0,
+                max: 100,
+                ticks: {
+                  stepSize: 20
+                }
+              }
+            }
+          }
+        };
+
+        this.summary = [];
+        for (let option of this.question.options) {
+          const currentAmount = this.question.answers.filter(answer => answer.text === option).length;
+          const summaryObject = {
+            title: option,
+            percentage: this.question.answers.length !== 0 ? Math.round((currentAmount / this.question.answers.length) * 100) : 0,
+            amount: currentAmount
+          };
+          
+          this.summary.push(summaryObject);
+          chart.data.datasets[0].backgroundColor.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+          chart.data.datasets[0].data.push(summaryObject.percentage);
+        }
+        
+        new Chart(ctx, chart);
+      },
+      template: "#single-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="single-answer-summary-template">
+  <div class="survey-results__answer-summary">
+    <canvas v-bind:id="question.id"></canvas>
+    <div class="survey-results__question-answers">
+      <summary-answer v-for="answer in summary" v-bind:option="answer"></summary-answer>
+    </div>
+  </div>
+</script>

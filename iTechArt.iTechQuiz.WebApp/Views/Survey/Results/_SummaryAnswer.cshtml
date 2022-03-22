@@ -1,0 +1,12 @@
+﻿<script type="text/javascript" id="summary-answer">
+  Vue.component('summary-answer',
+    {
+      props: {
+        option: Object
+      },
+      template: "#summary-answer-template"
+    });
+</script>
+<script type="text/template" id="summary-answer-template">
+  <span>{{option.title}}: {{option.percentage}}% ({{option.amount}} answers)</span>
+</script>

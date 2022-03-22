@@ -5,7 +5,7 @@
         question: Object
       },
       methods: {
-        inputFile: function() {
+        inputFile: function () {
           const reader = new FileReader();
 
           reader.readAsDataURL(this.$refs[`${this.question.id}__file`].files[0]);

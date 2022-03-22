@@ -44,12 +44,76 @@ namespace iTechArt.iTechQuiz.WebApp.Extensions
                         Content = q.Content,
                         Number = q.Number,
                         Type = q.Type,
-                        Options =JsonSerializer.Deserialize<List<string>>(q.Options),
+                        Options = JsonSerializer.Deserialize<List<string>>(q.Options),
                         Answer = new AnswerViewModel
                         {
                             File = new FileViewModel(),
                             MultipleAnswer = new List<string>()
                         }
+                    }).ToList()
+                }).ToList(),
+                IsAnonymous = survey.IsAnonymous,
+                HasQuestionNumeration = survey.HasQuestionNumeration,
+                HasRandomSequence = survey.HasRandomSequence,
+                RenderStarsAtRequiredFields = survey.RenderStarsAtRequiredFields,
+                HasProgressBar = survey.HasProgressBar
+            };
+
+            return surveyViewModel;
+        }
+
+        public static SurveyViewModel GetViewModelWithAnswers(this Survey survey)
+        {
+            SurveyViewModel surveyViewModel = new SurveyViewModel
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                CurrentPage = 0,
+                PassedUsers = survey.UsersPassed.Select(p => p.User == null ? new UserViewModel
+                {
+                    Id = default,
+                    PassId = p.Id,
+                    UserName = $"Anonymous ({p.Id.ToString().Substring(0, 5).ToUpper()})",
+                } : new UserViewModel
+                {
+                    Id = p.User.Id,
+                    PassId = p.Id,
+                    UserName = p.User.UserName
+                }).ToList(),
+                Pages = survey.Pages.Select(p => new PageViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Questions = p.Questions.Select(q => new QuestionViewModel
+                    {
+                        Id = q.Id,
+                        IsRequired = q.IsRequired,
+                        Content = q.Content,
+                        Number = q.Number,
+                        Type = q.Type,
+                        Options = JsonSerializer.Deserialize<List<string>>(q.Options),
+                        Answers = q.Answers.Select(a => new AnswerViewModel
+                        {
+                            User = a.User == null ? new UserViewModel
+                            {
+                                Id = default,
+                                PassId = a.PassId,
+                                UserName = "Anonymous",
+                            } : new UserViewModel
+                            {
+                                Id = a.User.Id,
+                                PassId = a.PassId,
+                                UserName = a.User.UserName
+                            },
+                            File = a.File is null ? null : new FileViewModel
+                            {
+                                Id = a.File.Id,
+                                Name = a.File.Name
+                            },
+                            MultipleAnswer = JsonSerializer.Deserialize<List<string>>(a.MultipleAnswer),
+                            Numeric = a.Numeric,
+                            Text = a.Text,
+                        }).ToList()
                     }).ToList()
                 }).ToList(),
                 IsAnonymous = survey.IsAnonymous,

@@ -15,31 +15,21 @@
           this.$set(this, "alreadyPassed", true);
         } else {
           fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
-              {
-                headers: {
-                  'Accept': 'application/json'
-                }
-              }).then(response => response.json())
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
             .then(data => this.survey = JSON.parse(JSON.stringify(data)));
         }
       },
       computed:
       {
         questionsCount: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
-          }
+          return this.survey.pages?.reduce((count, pages) => count + pages.questions.length, 0) ?? 0;
         },
         progressPercentage: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return Math.floor((this.survey.currentPage + 1) / (this.survey.pages.length) * 100);
-          }
+          return Math.floor((this.survey?.currentPage + 1) / (this.survey.pages?.length) * 100);
         }
       },
       methods:
@@ -80,6 +70,8 @@
                 }
                 window.location.href = "@Url.Action("Index", "Home")";
               }
+            }).catch(error => {
+              popups.errorPopup();
             });
           }
         },
@@ -96,7 +88,7 @@
                 required++;
                 this.$refs.currentPage.$refs[question.id][0].alertRequired();
                 if (!isScrolled) {
-                  document.getElementById(question.id).scrollIntoView({block:"center", behavior:"smooth"});
+                  document.getElementById(question.id).scrollIntoView({ block: "center", behavior: "smooth" });
                   isScrolled = true;
                 }
               }

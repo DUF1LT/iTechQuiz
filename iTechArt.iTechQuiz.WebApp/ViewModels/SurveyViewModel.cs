@@ -28,5 +28,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
         public bool RenderStarsAtRequiredFields { get; set; }
 
         public bool HasProgressBar { get; set; }
+
+        public List<UserViewModel> PassedUsers { get; set; } 
     }
 }

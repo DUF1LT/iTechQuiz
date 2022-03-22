@@ -1,1 +1,52 @@
-﻿
+﻿@model Guid
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/pass-survey.css" />
+  <link rel="stylesheet" href="~/css/sidebar.css" />
+  <link rel="stylesheet" href="~/css/survey-results.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+}
+
+@section Scripts {
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <partial name="Results/_Components" />
+  <partial name="Results/_SurveyRoot" />
+  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+}
+
+<partial name="_SidebarPartial" />
+<div id="survey-vue" class="main-wrapper">
+  <div class="survey-results-wrapper">
+    <div class="survey-results__title">
+      <span class="survey-results__title__tag">Results: </span>
+      <span>{{survey.title}}</span>
+    </div>
+    <span>Questions: {{questionsAmount}}, pages: {{pagesAmount}} </span>
+    <div class="survey-results-buttons">
+      <div class="survey-results-switch">
+        <input type="button" v-bind:class="{'lg-red-solid-button': isSummaryTab, 'lg-button': !isSummaryTab }" value="Questions summary" v-on:click="openSummary()" />
+        <input type="button" v-bind:class="{'lg-red-solid-button': !isSummaryTab, 'lg-button': isSummaryTab }" value="Separate answers" v-on:click="openSeparate()" />
+      </div>
+      <span>Answers amount: {{answersAmount}} </span>
+    </div>
+    <select v-if="survey.pages && isSummaryTab" v-model="selectedQuestion">
+      <option v-bind:value="-1">All questions</option>
+      <option v-for="(question, index) in survey.pages[survey.currentPage].questions" v-bind:value="index">
+        {{question.number}}) {{question.content}}
+      </option>
+    </select>
+    <div v-if="survey.pages && !isSummaryTab" class="survey-results__separate-answers-select">
+      <img width="25" src="~/img/user.svg" />
+      <select v-model="selectedUser">
+        <option v-for="user in survey.passedUsers" v-bind:value="user.passId">
+          {{user.userName}}
+        </option>
+      </select>
+    </div>
+    <div class="survey-results__pages-wrapper">
+      <survey-page-tab v-if="survey.pages" v-for="page in survey.pages" v-bind:page="page" :current-page="survey.pages[survey.currentPage]" v-on:change-page="changePage"></survey-page-tab>
+    </div>
+    <summary-page v-if="survey.pages && isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :selected-question="selectedQuestion"></summary-page>
+    <separate-answer-page v-if="survey.pages && !isSummaryTab" v-bind:page="survey.pages[survey.currentPage]" :selected-user="selectedUser"></separate-answer-page>
+  </div>
+</div>

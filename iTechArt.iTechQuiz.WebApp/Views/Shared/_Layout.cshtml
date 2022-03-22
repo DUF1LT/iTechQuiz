@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <title>@ViewBag.Title</title>
 </head>
+
 <body>
   <header>
     <nav class="navigation">
@@ -27,9 +29,9 @@
         {
           <div class="navigation-dropdown">
             <div id="dropdown-button" class="navigation-dropdown-button">
-              <img src="~/img/user.png" height="16" />
+              <img src="~/img/user.svg" height="16" />
               <span>Hello, @User.Identity.Name!</span>
-              <img class="navigation-dropdown-arrow" src="~/img/downward-arrow.png" height="16" />
+              <img class="navigation-dropdown-arrow" src="~/img/downward-arrow.svg" height="16" />
             </div>
             <div id="dropdown" class="navigation-dropdown-menu">
               <form asp-controller="Account" asp-action="Logout">
@@ -58,4 +60,5 @@
   }
   @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

@@ -22,18 +22,18 @@
   let sv = new Vue({
     el: '#survey-vue',
     data: {
-      survey: {},
+      survey: {}
     },
     created: function() {
       if (id === '') {
         this.survey = JSON.parse(JSON.stringify(defaultSurvey));
       } else {
         fetch('@Url.Action("GetSurveyWithQuestions", new { id = Model })',
-            {
-              headers: {
-                'Accept': 'application/json'
-              }
-            })
+          {
+            headers: {
+              'Accept': 'application/json'
+            }
+          })
           .then(response => response.json())
           .then(data => this.survey = JSON.parse(JSON.stringify(data)))
           .catch(error => {
@@ -41,23 +41,13 @@
           });
       }
     },
-      computed: {
-        questionsCount: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return this.survey.pages.reduce((count, pages) => count + pages.questions.length, 0);
-          }
-        },
-        pagesCount: function () {
-          if (this.survey.pages == undefined) {
-            return null;
-          }
-          else {
-            return this.survey.pages.length;
-          }
-        }
+    computed: {
+      questionsCount: function () {
+        return this.survey.pages?.reduce((count, pages) => count + pages.questions.length, 0) ?? 0;
+      },
+      pagesCount: function () {
+        return this.survey.pages?.length ?? 0;
+      }
     },
     methods: {
       saveSurvey: function () {
@@ -75,14 +65,14 @@
         this.survey.pages.map((page) => {
           page.questions.map((question) => {
             if (question.isEditable) hasEditable = true;
-          });  
+          });
         });
-        
+
         if (hasEditable) {
           alert("You have unsaved questions!");
           return;
-        }  
-        
+        }
+
 
         fetch('@(Model == default ? Url.Action("Save") : Url.Action("SaveEdit"))',
           {
@@ -115,7 +105,7 @@
             name: 'Page ' + (this.survey.pages.length + 1),
             questions: []
           });
-        
+
         this.survey.currentPage = this.survey.pages.length - 1;
       },
 

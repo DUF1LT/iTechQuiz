@@ -1,0 +1,62 @@
+﻿@model Guid
+
+<script type="text/javascript" id="survey-root">
+  Vue.config.devtools = true;
+
+  let sv = new Vue(
+    {
+      el: '#survey-vue',
+      data: {
+        survey: {},
+        isSummaryTab: true,
+        selectedQuestion: -1,
+        selectedUser: String
+      },
+      beforeCreate: function () {
+        fetch('@Url.Action("GetSurveyWithAnswers", new { id = Model })',
+            {
+              headers: {
+                'Accept': 'application/json'
+              }
+            }).then(response => response.json())
+          .then((data) => {
+            this.survey = JSON.parse(JSON.stringify(data));
+            this.survey.passedUsers = this.survey.passedUsers.sort((a,b) => {
+              if(a.userName > b.userName) {
+                return -1;
+              }
+              if(a.userName < b.userName) {
+                return 1;
+              }
+              return 0;
+            });
+            this.selectedUser = this.survey.passedUsers[0].passId;
+          });
+      },
+      computed:
+      {
+        questionsAmount: function() {
+          return this.survey.pages?.reduce((count, page) => count + page.questions.length, 0) ?? 0;
+        },
+        pagesAmount: function () {
+          return this.survey.pages?.length ?? 0;
+        },
+        answersAmount: function () {
+          return this.survey.pages?.reduce((count, page) => count + page.questions.reduce((count, question) => count + question.answers.length, 0), 0) ?? 0;
+        }
+      },
+      methods:
+      {
+        changePage: function (page) {
+          this.survey.currentPage = this.survey.pages.indexOf(page);
+          this.selectedQuestion = -1;
+        },
+        openSummary: function() {
+          this.isSummaryTab = true;
+        },
+        openSeparate: function() {
+          this.isSummaryTab = false;
+        }
+      }
+    });
+</script>

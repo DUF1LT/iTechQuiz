@@ -53,7 +53,7 @@ namespace iTechArt.iTechQuiz.Foundation.Services
 
         public async Task<Survey> GetSurveyWithAnswersAsync(Guid id)
         {
-            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>().GetByIdWithAnswersAsync(id);
+            return await _unitOfWork.GetRepository<Survey, Guid, SurveyRepository>().GetSurveyWithAnswersAsync(id);
         }
 
         public async Task SaveSurveyAsync(Survey survey)

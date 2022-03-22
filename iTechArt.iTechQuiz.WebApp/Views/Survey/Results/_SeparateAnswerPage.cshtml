@@ -1,0 +1,16 @@
+﻿<script type="text/javascript" id="separate-answer-page">
+  Vue.component('separate-answer-page',
+    {
+      props: {
+        page: Object,
+        selectedUser: String
+      },
+      template: "#separate-answer-page-template"
+    });
+</script>
+<script type="text/template" id="separate-answer-page-template">
+  <div class="survey-results__page">
+    <span>{{page.name}}</span>
+    <separate-answer-question v-for="question in page.questions" v-bind:question="question" :selected-user="selectedUser"></separate-answer-question>
+  </div>
+</script>

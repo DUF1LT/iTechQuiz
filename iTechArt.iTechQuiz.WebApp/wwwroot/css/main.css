@@ -33,6 +33,20 @@
     border: 2px solid #272727;
 }
 
+.lg-red-solid-button {
+    width: 170px;
+    padding: 6px 0;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    border: 2px solid #d33722;
+    background-color: #d33722;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
 .button {
     width: 110px;
     padding: 6px 0;

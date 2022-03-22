@@ -22,16 +22,20 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
         private readonly SurveyService _surveyService;
         private readonly AnswerService _answerService;
         private readonly QuestionService _questionService;
+        private readonly FileService _fileService;
+
 
         public SurveyController(UserService userService,
             SurveyService surveyService,
             QuestionService questionService,
-            AnswerService answerService)
+            AnswerService answerService, 
+            FileService fileService)
         {
             _userService = userService;
             _surveyService = surveyService;
             _questionService = questionService;
             _answerService = answerService;
+            _fileService = fileService;
         }
 
 
@@ -74,6 +78,22 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
             return Json(surveyViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSurveyWithAnswers(Guid id)
+        {
+            var survey = await _surveyService.GetSurveyWithAnswersAsync(id);
+            var surveyViewModel = survey.GetViewModelWithAnswers();
+
+            return Json(surveyViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFile(Guid id)
+        {
+            var file = await _fileService.GetFile(id);
+
+            return File(file.Bytes, file.Type, file.Name);
+        }
 
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
@@ -121,7 +141,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        [Route("Survey/{id}/Delete")]
+        [Route("Survey/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var survey = await _surveyService.GetSurveyAsync(id);
@@ -146,7 +166,7 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin)]
-        [Route("Survey/{id}/Edit")]
+        [Route("Survey/Edit/{id}")]
         public IActionResult Edit(Guid id)
         {
             return View(id);
@@ -200,10 +220,22 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 ? await _userService.GetUserWithRolesAndSurveysAsync(default)
                 : await _userService.GetUserWithRolesAndSurveysAsync(Guid.Parse(User.GetId()));
 
+            var userPassed = new UsersPassSurveys
+            {
+                Id = Guid.NewGuid(),
+                Survey = survey,
+                User = user,
+                PassedAt = DateTime.Now
+            };
+
+            survey.UsersPassed.Add(userPassed);
+            await _surveyService.UpdateSurveyAsync(survey);
+
             foreach (var question in questions)
             {
                 var answer = new Answer
                 {
+                    PassId = userPassed.Id,
                     MultipleAnswer = JsonSerializer.Serialize(question.Answer.MultipleAnswer),
                     Numeric = question.Answer.Numeric,
                     Text = question.Answer.Text,
@@ -220,23 +252,14 @@ namespace iTechArt.iTechQuiz.WebApp.Controllers
                 await _answerService.SaveAnswerAsync(answer);
             }
 
-            survey.UsersPassed.Add(new UsersPassSurveys
-            {
-                Survey = survey,
-                User = user,
-                PassedAt = DateTime.Now
-            });
-
-            await _surveyService.UpdateSurveyAsync(survey);
-
             return Ok();
         }
 
         [HttpGet]
-        [Route("Survey/{id}/Results")]
+        [Route("Survey/Results/{id}")]
         public IActionResult Results(Guid id)
         {
-            return View();
+            return View(id);
         }
     }
 }

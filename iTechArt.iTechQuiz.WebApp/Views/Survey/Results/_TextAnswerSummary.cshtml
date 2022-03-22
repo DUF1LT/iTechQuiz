@@ -1,0 +1,42 @@
+﻿<script type="text/javascript" id="text-answer-summary">
+  Vue.component('TextAnswerSummary',
+    {
+      props: {
+        question: Object,
+        summary: Array
+      },
+      methods: {
+        showRespondent: function (passId) {
+          sv._data.selectedUser = passId;
+          sv._data.isSummaryTab = false;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      },
+      template: "#text-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="text-answer-summary-template">
+  <div class="survey-results__answer-summary">
+    <table class="survey-results__table-summary sortable">
+      <thead>
+        <tr>
+          <th width="60%">Answers</th>
+          <th width="40%">Respondent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="answer in question.answers.filter(answer => answer.text != null)">
+          <td>
+            {{answer.text}}
+          </td>
+          <td>
+            <a v-on:click="showRespondent(answer.user.passId)">show respondent answers</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</script>

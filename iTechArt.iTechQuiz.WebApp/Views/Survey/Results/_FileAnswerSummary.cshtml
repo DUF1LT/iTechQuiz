@@ -1,0 +1,57 @@
+﻿<script type="text/javascript" id="file-answer-summary">
+  Vue.component('FileSummary',
+    {
+      props: {
+        question: Object,
+        summary: Array
+      },
+      methods: {
+        downloadFile: function(answer) {
+          fetch(`@Url.Action("GetFile")/${answer.file.id}`,
+            {
+              method: 'GET'
+            }).then(result => result.blob())
+          .then((data) => {
+            let a = document.createElement("a");
+            a.href = window.URL.createObjectURL(data);
+            a.download = answer.file.name;
+            a.click();
+            a.remove();
+          }).catch(error => {
+            popups.errorPopup();
+          });
+        },
+        showRespondent: function (passId) {
+          sv._data.selectedUser = passId;
+          sv._data.isSummaryTab = false;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      },
+      template: "#file-answer-summary-template"
+    });
+</script>
+<script type="text/template" id="file-answer-summary-template">
+  <div class="survey-results__answer-summary">
+    <table class="sortable survey-results__table-summary">
+      <thead>
+        <tr>
+          <th width="60%">Answers</th>
+          <th width="40%">Respondent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="answer in question.answers.filter(answer => answer.file != null)">
+          <td>
+            <a v-on:click="downloadFile(answer)">{{answer.file.name}}</a>
+          </td>
+          <td>
+            <a v-on:click="showRespondent(answer.user.passId)">show respondent answers</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</script>

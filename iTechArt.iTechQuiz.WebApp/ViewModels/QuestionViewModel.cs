@@ -24,5 +24,7 @@ namespace iTechArt.iTechQuiz.WebApp.ViewModels
 
         public AnswerViewModel Answer { get; set; }
 
+        public List<AnswerViewModel> Answers { get; set; }
+
     }
 }
