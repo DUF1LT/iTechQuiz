@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  web-app:
+      build: .
+      environment:
+        - ConnectionStrings__DefaultConnection=Server=database;Database=master;User=SA;Password=Pa11w0rd;
+        - WAIT_HOSTS=database
+        - WAIT_HOSTS_TIMEOUT=300
+        - WAIT_SLEEP_INTERVAL=30
+        - WAIT_HOST_CONNECT_TIMEOUT=30
+      depends_on:
+        - database
+      ports:
+        - "5000:80"
+      restart: unless-stopped
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'Pa11w0rd'
+    restart: "no"
+
+  
