@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using iTechArt.Common.Extensions;
 using iTechArt.iTechQuiz.Domain.Models;
 using iTechArt.iTechQuiz.Repositories;
 using iTechArt.iTechQuiz.Repositories.Context;
@@ -25,7 +26,7 @@ namespace iTechArt.iTechQuiz.WebApp
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build().Migrate<iTechQuizContext>();
 
             using (var scope = host.Services.CreateScope())
             {
